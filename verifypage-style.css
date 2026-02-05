@@ -1,4 +1,4 @@
-/* style.css */
+/* loginpage-style.css */
 
 * {
     font-family: 'JetBrains Mono';
@@ -35,7 +35,7 @@ body {
     margin-bottom: 6px;
 }
 
-#email {
+#code {
     width: 100%;
     padding: 12px 15px;
     font-size: 16px;
@@ -46,7 +46,7 @@ body {
     margin-bottom: 25px;
 }
 
-#email:focus {
+#code:focus {
     border-color: rgb(60, 120, 200);
     background-color: #ffffff;
 }
