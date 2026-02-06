@@ -54,7 +54,7 @@ try {
 </head>
 
 <body>
-    <form action="" method="post" onsubmit="disableButton()">
+    <form action="home.php" method="post" onsubmit="disableButton()">
         <div class="container">
             <div id="login">
                 <p>Verify</p>
