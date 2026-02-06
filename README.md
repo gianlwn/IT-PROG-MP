@@ -1,5 +1,5 @@
 <h1>IT-PROG MACHINE PROJECT</h1>
-<p>IT-PROG-S16-8 Machine Project for Term 2, 2025-2026</p>
+<p>IT-PROG-S16-08 Machine Project for Term 2, 2025-2026</p>
 <h1>The DLSU Marketplace: A Centralized Platform for Pre-Loved Items within the Lasallian Community</h1>
 <p>change later pls</p> <!--CHANGE THIS LATER>-->
 <hr>
