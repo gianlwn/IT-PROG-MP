@@ -18,7 +18,7 @@ if (!preg_match('/^[a-z._]+@dlsu\.edu\.ph$/', $email)) {
     die("Invalid DLSU email");
 }
 
-$verification_code = rand(100000, 999999);
+$verificationCode = rand(100000, 999999);
 $mail = new PHPMailer(true);
 
 try {
@@ -34,7 +34,7 @@ try {
     $mail->addAddress($email);
 
     $mail->Subject = 'DLSU Marketplace Authentication Code';
-    $mail->Body = "Your verification code is: $verification_code";
+    $mail->Body = "Your verification code is: $verificationCode";
 
     $mail->send();
 } catch (Exception $e) {
