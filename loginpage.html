@@ -41,6 +41,12 @@
         const btn = document.getElementById("submitbtn");
         btn.disabled = true;
         btn.value = "Loading...";
+
+        // re-enable the button after 60 seconds
+        setTimeout(() => {
+          btn.disabled = false;
+          btn.value = "Verify";
+        }, 60000);
       }
     </script>
   </body>
