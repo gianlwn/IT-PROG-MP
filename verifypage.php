@@ -14,7 +14,7 @@ if (!isset($_POST["semail"])) {
 
 $email = trim($_POST["semail"]);
 
-if (!preg_match('/^[a-z_]+@dlsu\.edu\.ph$/', $email)) {
+if (!preg_match('/^[a-z._]+@dlsu\.edu\.ph$/', $email)) {
     die("Invalid DLSU email");
 }
 
@@ -37,7 +37,6 @@ try {
     $mail->Body = "Your verification code is: $verification_code";
 
     $mail->send();
-    echo "Verification email sent"; // format later
 } catch (Exception $e) {
     die("Email failed: {$mail->ErrorInfo}");
 }
@@ -49,13 +48,13 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="verifypage-style.css">
+    <link rel="stylesheet" href="design/verifypage-style.css">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
     <title>Login</title>
 </head>
 
 <body>
-    <form action="" method="post">
+    <form action="" method="post" onsubmit="disableButton()">
         <div class="container">
             <div id="login">
                 <p>Verify</p>
@@ -67,6 +66,14 @@ try {
             </div>
         </div>
     </form>
+
+    <script>
+        function disableButton() {
+            const btn = document.getElementById("submitbtn");
+            btn.disabled = true;
+            btn.value = "Loading...";
+        }
+    </script>
 </body>
 
 </html>

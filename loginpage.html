@@ -5,7 +5,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="loginpage-style.css" />
+    <link rel="stylesheet" href="design/loginpage-style.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap"
       rel="stylesheet"
@@ -14,7 +14,7 @@
   </head>
 
   <body>
-    <form action="verifypage.php" method="post">
+    <form action="verifypage.php" method="post" onsubmit="disableButton()">
       <div class="container">
         <div id="login">
           <p>Login</p>
@@ -25,9 +25,9 @@
             type="email"
             name="semail"
             id="email"
-            pattern="^[a-z_]+@dlsu\.edu\.ph$"
+            pattern="^[a-z._]+@dlsu\.edu\.ph$"
             placeholder="email@dlsu.edu.ph"
-            title="Use lowercase letters and underscores only (example_name@dlsu.edu.ph)"
+            title="Use lowercase letters and underscores only (name_name@dlsu.edu.ph)"
             required
           />
 
@@ -35,5 +35,13 @@
         </div>
       </div>
     </form>
+
+    <script>
+      function disableButton() {
+        const btn = document.getElementById("submitbtn");
+        btn.disabled = true;
+        btn.value = "Loading...";
+      }
+    </script>
   </body>
 </html>
