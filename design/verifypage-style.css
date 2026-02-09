@@ -1,10 +1,11 @@
-/* loginpage-style.css */
+/* verifypage-style.css */
 
 * {
     font-family: 'JetBrains Mono'; /* might change the font-family */
 }
 
 body {
+    background: linear-gradient(to right, skyblue, lightgreen); /* might change */
     min-height: 100vh;
     display: flex;
     justify-content: center;
