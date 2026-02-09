@@ -1,4 +1,46 @@
-<?php // verifypage.php
+<!--verifypage.php-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="design/verifypage-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <title>Login</title>
+</head>
+
+<body>
+    <form action="verifypage.php" method="post" onsubmit="disableButton()">
+        <div id="container">
+
+            <div id="verify">Verify</div>
+            <div id="input">
+                <label for="code">Code:</label>
+                <input type="password" name="scode" id="code" minlength="6" maxlength="6" placeholder="Enter the code sent to your email." required />
+                <input type="submit" value="Verify" id="submitbtn" />
+                <?php if (!empty($error)): ?>
+                    <p id="error-msg">
+                        <?php echo $error; ?>
+                    </p>
+                <?php endif; ?>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        function disableButton() {
+            const btn = document.getElementById("submitbtn");
+            btn.disabled = true;
+            btn.value = "Please wait...";
+        }
+    </script>
+</body>
+
+</html>
+
+<?php
 session_start();
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -67,43 +109,3 @@ if (isset($_POST["semail"])) {
     }
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="design/verifypage-style.css">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
-    <title>Login</title>
-</head>
-
-<body>
-    <form action="verifypage.php" method="post" onsubmit="disableButton()">
-        <div id="container">
-
-            <div id="verify">Verify</div>
-            <div id="input">
-                <label for="code">Code:</label>
-                <input type="password" name="scode" id="code" minlength="6" maxlength="6" placeholder="Enter the code sent to your email." required />
-                <input type="submit" value="Verify" id="submitbtn" />
-                <?php if (!empty($error)): ?>
-                    <p id="error-msg">
-                        <?php echo $error; ?>
-                    </p>
-                <?php endif; ?>
-            </div>
-        </div>
-    </form>
-
-    <script>
-        function disableButton() {
-            const btn = document.getElementById("submitbtn");
-            btn.disabled = true;
-            btn.value = "Please wait...";
-        }
-    </script>
-</body>
-
-</html>
