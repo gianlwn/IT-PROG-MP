@@ -1,6 +1,4 @@
-<?php
-// verifypage.php
-
+<?php // verifypage.php
 session_start();
 
 use PHPMailer\PHPMailer\PHPMailer;
