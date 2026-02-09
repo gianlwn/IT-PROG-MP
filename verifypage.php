@@ -2,6 +2,7 @@
 // verifypage.php
 
 session_start();
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -11,10 +12,19 @@ require 'PHPMailer/src/SMTP.php';
 
 if (isset($_POST["scode"])) {
     if (!isset($_SESSION["verification_code"])) {
-        die("Session expired. Please request a new code by going back to the login page.");
+        echo "<p>Redirecting you back to login page...</p>";
+        echo "<script>
+        setTimeout(() => {
+            window.location.href = 'loginpage.html';
+        }, 5000);
+      </script>";
+        exit;
     }
 
-    if ($_POST["scode"] != $_SESSION["verification_code"]) {
+    if (time() - $_SESSION["verification_time"] > 120) {
+        unset($_SESSION["verification_code"], $_SESSION["verification_time"]);
+        $error = "Verification code expired. Please refresh to login again";
+    } else if ($_POST["scode"] != $_SESSION["verification_code"]) {
         $error = "Incorrect verification code.";
     } else {
         unset($_SESSION["verification_code"]);
@@ -32,8 +42,9 @@ if (isset($_POST["semail"])) {
 
     if (!isset($_SESSION["verification_code"])) {
         $verificationCode = rand(100000, 999999);
-        $_SESSION['verification_code'] = $verificationCode;
-        $_SESSION['verification_email'] = $email;
+        $_SESSION["verification_code"] = $verificationCode;
+        $_SESSION["verification_email"] = $email;
+        $_SESSION["verification_time"] = time();
         $mail = new PHPMailer(true);
 
         try {
@@ -73,14 +84,15 @@ if (isset($_POST["semail"])) {
 <body>
     <form action="verifypage.php" method="post" onsubmit="disableButton()">
         <div id="container">
+
             <div id="verify">Verify</div>
             <div id="input">
                 <label for="code">Code:</label>
-                <input type="password" name="scode" id="code" placeholder="Enter the code sent to your email." required />
+                <input type="password" name="scode" id="code" minlength="6" maxlength="6" placeholder="Enter the code sent to your email." required />
                 <input type="submit" value="Verify" id="submitbtn" />
                 <?php if (!empty($error)): ?>
                     <p id="error-msg">
-                        <?= htmlspecialchars($error) ?>
+                        <?php echo $error; ?>
                     </p>
                 <?php endif; ?>
             </div>
