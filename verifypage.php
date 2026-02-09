@@ -55,11 +55,9 @@ try {
 
 <body>
     <form action="home.php" method="post" onsubmit="disableButton()">
-        <div class="container">
-            <div id="login">
-                <p>Verify</p>
-            </div>
-            <div class="input">
+        <div id="container">
+            <div id="verify">Verify</div>
+            <div id="input">
                 <label for="code">Code:</label>
                 <input type="password" name="scode" id="code" placeholder="Enter the code sent to your email." required>
                 <input type="submit" value="Verify" id="submitbtn">

@@ -11,7 +11,7 @@ body {
     align-items: center;
 }
 
-.container {
+#container {
     background-color: rgb(236, 243, 250);
     height: 700px;
     width: 500px;
@@ -20,17 +20,17 @@ body {
     padding: 30px;
 }
 
-#login p {
+#verify {
     font-size: 60px;
     margin-top: 15px;
     text-align: center;
 }
 
-.input {
+#input {
     margin-top: 40px;
 }
 
-.input label {
+#input label {
     display: block;
     margin-bottom: 6px;
 }
