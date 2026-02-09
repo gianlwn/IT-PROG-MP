@@ -5,13 +5,14 @@
 }
 
 body {
+    background: linear-gradient(to right, skyblue, lightgreen); /* might change */
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.container {
+#container {
     background-color: rgb(236, 243, 250);
     height: 700px;
     width: 500px;
@@ -20,17 +21,17 @@ body {
     padding: 30px;
 }
 
-#login p {
+#login {
     font-size: 60px;
     margin-top: 15px;
     text-align: center;
 }
 
-.input {
+#input {
     margin-top: 40px;
 }
 
-.input label {
+#input label {
     display: block;
     margin-bottom: 6px;
 }
