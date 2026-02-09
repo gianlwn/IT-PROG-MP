@@ -59,8 +59,8 @@ try {
             <div id="verify">Verify</div>
             <div id="input">
                 <label for="code">Code:</label>
-                <input type="password" name="scode" id="code" placeholder="Enter the code sent to your email." required>
-                <input type="submit" value="Verify" id="submitbtn">
+                <input type="password" name="scode" id="code" placeholder="Enter the code sent to your email." required />
+                <input type="submit" value="Verify" id="submitbtn" />
             </div>
         </div>
     </form>
