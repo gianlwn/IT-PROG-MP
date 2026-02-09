@@ -11,7 +11,7 @@ require 'PHPMailer/src/SMTP.php';
 
 if (isset($_POST["scode"])) {
     if (!isset($_SESSION["verification_code"])) {
-        die("Session expired. Please request a new code.");
+        die("Session expired. Please request a new code by going back to the login page.");
     }
 
     if ($_POST["scode"] != $_SESSION["verification_code"]) {
@@ -79,7 +79,7 @@ if (isset($_POST["semail"])) {
                 <input type="password" name="scode" id="code" placeholder="Enter the code sent to your email." required />
                 <input type="submit" value="Verify" id="submitbtn" />
                 <?php if (!empty($error)): ?>
-                    <p style="color:red; text-align:center;">
+                    <p id="error-msg">
                         <?= htmlspecialchars($error) ?>
                     </p>
                 <?php endif; ?>
