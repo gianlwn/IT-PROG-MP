@@ -83,7 +83,6 @@ if (isset($_POST["semail"])) {
 <body>
     <form action="verifypage.php" method="post" onsubmit="disableButton()">
         <div id="container">
-
             <div id="verify">Verify</div>
             <div id="input">
                 <label for="code">Code:</label>
