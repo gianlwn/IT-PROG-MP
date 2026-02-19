@@ -9,8 +9,9 @@
     <title>Home</title>
 </head>
 <body>
-    <header>hoidas</header>
-    <nav>fsadas</nav>
+    <header>dadsa
+        <nav>fsadas</nav>
+    </header>
     <section>asdsa</section>
     <aside>cashudaso</aside>
     <footer>adsaasd</footer>

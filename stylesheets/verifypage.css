@@ -6,7 +6,7 @@
 }
 
 body {
-    background: linear-gradient(to right, skyblue, lightgreen); /* might change */
+    background: linear-gradient(to top, #3e690d, #addb89); /* might change */
     min-height: 100vh;
     display: flex;
     justify-content: center;
