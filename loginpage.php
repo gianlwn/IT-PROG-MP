@@ -1,5 +1,11 @@
 <!--loginpage.php-->
 
+<?php
+session_start();
+
+// put login locic (we need the database)
+?>
+
 <!doctype html>
 <html lang="en">
 
