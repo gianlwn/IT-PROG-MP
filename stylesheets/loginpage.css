@@ -2,11 +2,12 @@
 
 * {
     /* font-family: */
-/* change the font-family */
+    /* change the font-family */
 }
 
 body {
-    background: linear-gradient(to top, #addb89, #ebffdb); /* might change */
+    background: linear-gradient(to top, #addb89, #ebffdb);
+    /* might change */
     min-height: 100vh;
     display: flex;
     justify-content: left;
