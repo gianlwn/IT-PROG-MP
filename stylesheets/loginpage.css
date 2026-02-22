@@ -9,17 +9,18 @@ body {
     background: linear-gradient(to top, #addb89, #ebffdb); /* might change */
     min-height: 100vh;
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
 }
 
 #container {
     background-color: rgb(236, 243, 250);
-    height: 700px;
-    width: 500px;
+    height: 1000px;
+    width: 700px;
     border-radius: 20px;
     border: 3px solid rgb(114, 114, 114);
     padding: 30px;
+    margin-left: 100px;
 }
 
 #login {
@@ -37,7 +38,7 @@ body {
     margin-bottom: 6px;
 }
 
-#email {
+.input-field {
     width: 100%;
     padding: 12px 15px;
     font-size: 16px;
@@ -48,7 +49,7 @@ body {
     margin-bottom: 25px;
 }
 
-#email:focus {
+.input-field:focus {
     border-color: rgb(60, 120, 200);
     background-color: #ffffff;
 }
