@@ -1,5 +1,3 @@
-<!--home.php-->
-
 <?php
 session_start();
 require 'database.php';

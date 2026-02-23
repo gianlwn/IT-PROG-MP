@@ -1,5 +1,3 @@
-<!--verifypage.php-->
-
 <?php
 session_start();
 require 'database.php';
@@ -11,37 +9,14 @@ require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 
-if (isset($_POST["scode"])) {
-    if (!isset($_SESSION["verification_code"])) {
-        echo "<p>Redirecting you back to login page...</p>";
-        echo "<script>
-        setTimeout(() => {
-            window.location.href = 'loginpage.html';
-        }, 5000);
-      </script>";
-        exit;
-    }
+$error_message = "";
+$success_message = "";
 
-    if (time() - $_SESSION["verification_time"] > 120) {
-        unset($_SESSION["verification_code"], $_SESSION["verification_time"]);
-        $error = "Verification code expired. Please refresh to login again";
-    } else if ($_POST["scode"] != $_SESSION["verification_code"]) {
-        $error = "Incorrect verification code.";
-    } else {
-        unset($_SESSION["verification_code"]);
-        header("Location: home.php");
-        exit;
-    }
-}
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // SEND THE CODE
+    if (isset($_POST["send_code"])) {
+        $email = trim($_POST["email"]);
 
-if (isset($_POST["semail"])) {
-    $email = trim($_POST["semail"]);
-
-    if (!preg_match('/^[a-z._]+@dlsu\.edu\.ph$/', $email)) {
-        die("Invalid DLSU email");
-    }
-
-    if (!isset($_SESSION["verification_code"])) {
         $verificationCode = rand(100000, 999999);
         $_SESSION["verification_code"] = $verificationCode;
         $_SESSION["verification_email"] = $email;
@@ -64,8 +39,26 @@ if (isset($_POST["semail"])) {
             $mail->Body = "Your verification code is: $verificationCode";
 
             $mail->send();
+            $success_message = "Verification code sent! Please check your email.";
         } catch (Exception $e) {
             die("Email failed: {$mail->ErrorInfo}");
+        }
+    }
+    // VERIFY THE CODE
+    elseif (isset($_POST["verify_code"])) {
+        $code = trim($_POST["code"]);
+
+        if (!isset($_SESSION["verification_code"])) {
+            $error_message = "Please request a verification code first.";
+        } else if (time() - $_SESSION["verification_time"] > 10) {
+            unset($_SESSION["verification_code"], $_SESSION["verification_time"]);
+            $error_message = "Verification code expired. Please send a new code.";
+        } else if ($code != $_SESSION["verification_code"]) {
+            $error_message = "Incorrect verification code.";
+        } else {
+            unset($_SESSION["verification_code"]);
+            header("Location: #");
+            exit;
         }
     }
 }
@@ -82,29 +75,52 @@ if (isset($_POST["semail"])) {
 </head>
 
 <body>
-    <form action="verifypage.php" method="post" onsubmit="disableButton()">
+    <form action="verifypage.php" method="post">
         <div id="container">
             <div id="verify">Verify</div>
-            <div id="input">
+
+            <?php if (!empty($error_message)): ?>
+                <div id="error-msg"><?php echo $error_message; ?></div>
+            <?php endif; ?>
+            <?php if (!empty($success_message)): ?>
+                <div id="success-msg"><?php echo $success_message; ?></div>
+            <?php endif; ?>
+
+            <div id="input-container">
+                <label for="email">Email:</label>
+                <div class="email-group">
+                    <input
+                        type="email"
+                        name="email"
+                        id="email-input-field"
+                        class="input-field"
+                        pattern="^[a-z._]+@dlsu\.edu\.ph$"
+                        placeholder="email@dlsu.edu.ph"
+                        title="Use your DLSU email (name_name@dlsu.edu.ph)"
+                        value="<?php echo isset($_POST["email"]) ? $_POST["email"] : ""; ?>"
+                        required />
+                    <input
+                        type="submit"
+                        value="Send Code"
+                        name="send_code"
+                        id="send-code-btn"
+                        formnovalidate />
+                </div>
                 <label for="code">Code:</label>
-                <input type="password" name="scode" id="code" minlength="6" maxlength="6" placeholder="Enter the code sent to your email." required />
-                <input type="submit" value="Verify" id="submitbtn" />
-                <?php if (!empty($error)): ?>
-                    <p id="error-msg">
-                        <?php echo $error; ?>
-                    </p>
-                <?php endif; ?>
+                <input
+                    type="password"
+                    name="code"
+                    id="code-input-field"
+                    class="input-field"
+                    minlength="6"
+                    maxlength="6"
+                    placeholder="Enter the code sent to your email"
+                    title="Enter the code sent to your email"
+                    required />
+                <input type="submit" name="verify_code" value="Verify" id="submit-btn" />
             </div>
         </div>
     </form>
-
-    <script>
-        function disableButton() {
-            const btn = document.getElementById("submitbtn");
-            btn.disabled = true;
-            btn.value = "Please wait...";
-        }
-    </script>
 </body>
 
 </html>

@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           class="input-field"
           pattern="^[a-z._]+@dlsu\.edu\.ph$"
           placeholder="email@dlsu.edu.ph"
-          title="Use lowercase letters and underscores only (name_name@dlsu.edu.ph)"
+          title="Use your DLSU email (name_name@dlsu.edu.ph)"
           required />
         <label for="password">Password:</label>
         <input
@@ -77,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="submit" value="Login" id="submitbtn" />
       </div>
       <hr />
-      <div class="text-options"><a href="#">First time user?</a></div>
+      <div class="text-options"><a href="verifypage.php">First time user?</a></div>
       <div class="text-options"><a href="#">Forgot password</a></div>
     </div>
   </form>

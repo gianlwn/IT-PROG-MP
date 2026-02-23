@@ -1,75 +1,160 @@
-/* verifypage-style.css */
-
 * {
-    /* font-family: */
-/* change the font-family */
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-    background: linear-gradient(to top, #3e690d, #addb89); /* might change */
+    background: linear-gradient(to top, #addb89, #ebffdb);
     min-height: 100vh;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 }
 
 #container {
     background-color: rgb(236, 243, 250);
-    height: 700px;
-    width: 500px;
-    border-radius: 20px;
-    border: 3px solid rgb(114, 114, 114);
-    padding: 30px;
+    width: 700px;
+    padding: 40px;
+    margin-left: 100px;
+    border-radius: 24px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
 #verify {
-    font-size: 60px;
-    margin-top: 15px;
+    font-size: 56px;
+    font-weight: 700;
+    letter-spacing: 1px;
     text-align: center;
+    margin-bottom: 35px;
 }
 
-#input {
-    margin-top: 40px;
+#error-msg {
+    color: #d9534f;
+    background-color: #f2dede;
+    border: 1px solid #ebccd1;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 14px;
 }
 
-#input label {
+#success-msg {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border: 1px solid #d6e9c6;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 14px;
+}
+
+#input-container {
+    margin-top: 20px;
+}
+
+#input-container label {
     display: block;
+    font-size: 14px;
+    font-weight: 600;
     margin-bottom: 6px;
+    color: #444;
 }
 
-#code {
+.email-group {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+#email-input-field {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+#send-code-btn {
+    padding: 0 20px;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+    white-space: nowrap;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+    background: linear-gradient(to right,
+            rgb(60, 120, 200),
+            rgb(80, 140, 220));
+}
+
+#send-code-btn:hover {
+    background: linear-gradient(to right, rgb(45, 95, 170), rgb(60, 120, 200));
+    transform: translateY(-1px);
+}
+
+#send-code-btn:active {
+    transform: translateY(1px);
+}
+
+#code-input-field {
     width: 100%;
+}
+
+.input-field {
     padding: 12px 15px;
     font-size: 16px;
     border-radius: 10px;
     border: 2px solid rgb(180, 180, 180);
     outline: none;
-    box-sizing: border-box;
     margin-bottom: 25px;
+    background-color: #f9fbff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-#code:focus {
-    border-color: rgb(60, 120, 200);
+.input-field:focus {
     background-color: #ffffff;
+    border-color: rgb(60, 120, 200);
+    box-shadow: 0 0 0 3px rgba(60, 120, 200, 0.2);
 }
 
-#submitbtn {
+#submit-btn {
     width: 100%;
     padding: 14px;
     font-size: 18px;
     border-radius: 12px;
     border: none;
-    background-color: rgb(60, 120, 200);
     color: white;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+    background: linear-gradient(to right,
+            rgb(60, 120, 200),
+            rgb(80, 140, 220));
+    font-weight: 600;
 }
 
-#submitbtn:hover {
+#submit-btn:hover:not(:disabled) {
     background-color: rgb(45, 95, 170);
+    transform: translateY(-1px);
 }
 
-#error-msg {
-    color:red;
-    text-align:center;
+#submit-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+#submit-btn:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+@media (max-width: 900px) {
+    body {
+        justify-content: center;
+    }
+
+    #container {
+        margin-left: 0;
+        width: 90%;
+    }
 }
