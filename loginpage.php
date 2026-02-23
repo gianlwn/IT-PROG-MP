@@ -4,7 +4,7 @@
 session_start();
 require 'database.php';
 
-// put login logic (we need the database)
+
 ?>
 
 <!doctype html>
