@@ -56,7 +56,7 @@ require 'database.php';
       // re-enable the button after 60 seconds
       setTimeout(() => {
         btn.disabled = false;
-        btn.value = "Verify";
+        btn.value = "Login";
       }, 60000);
     }
   </script>
