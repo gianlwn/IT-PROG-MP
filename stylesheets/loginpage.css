@@ -31,11 +31,22 @@ body {
     margin-bottom: 35px;
 }
 
-#input {
+#error-msg {
+    color: #d9534f;
+    background-color: #f2dede;
+    border: 1px solid #ebccd1;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 14px;
+}
+
+#input-container {
     margin-top: 20px;
 }
 
-#input label {
+#input-container label {
     display: block;
     font-size: 14px;
     font-weight: 600;
