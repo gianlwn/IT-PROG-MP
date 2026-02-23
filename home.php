@@ -1,5 +1,12 @@
 <!--home.php-->
 
+<?php
+session_start();
+require 'database.php';
+
+// logic
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

@@ -2,8 +2,9 @@
 
 <?php
 session_start();
+require 'database.php';
 
-// put login locic (we need the database)
+// put login logic (we need the database)
 ?>
 
 <!doctype html>
@@ -40,6 +41,9 @@ session_start();
           required />
         <input type="submit" value="Login" id="submitbtn" />
       </div>
+      <hr /> <!-- lines 44-46 need css -->
+      <div class="text-options"><a href="#">First time user?</a></div>
+      <div class="text-options"><a href="#">Forgot password</a></div>
     </div>
   </form>
 

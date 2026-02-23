@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS itprogmp_db;
 USE itprogmp_db;
 
 CREATE TABLE users (
-    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT PRIMARY KEY,
     dlsu_email VARCHAR(100) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
     first_name VARCHAR(50) NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE admin_accounts (
 CREATE TABLE email_verifications (
     verification_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
-    verification_code VARCHAR(100) NOT NULL,
+    verification_code VARCHAR(6) NOT NULL,
     expires_at DATETIME NOT NULL,
     is_used BOOLEAN DEFAULT FALSE,
     

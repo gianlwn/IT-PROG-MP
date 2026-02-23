@@ -2,6 +2,7 @@
 
 <?php
 session_start();
+require 'database.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
