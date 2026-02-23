@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error_message = "Incorrect verification code.";
         } else {
             unset($_SESSION["verification_code"]);
-            header("Location: #");
+            header("Location: createuserprofile.php");
             exit;
         }
     }
