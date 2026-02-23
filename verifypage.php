@@ -17,31 +17,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["send_code"])) {
         $email = trim($_POST["email"]);
 
-        $verificationCode = rand(100000, 999999);
-        $_SESSION["verification_code"] = $verificationCode;
-        $_SESSION["verification_email"] = $email;
-        $_SESSION["verification_time"] = time();
-        $mail = new PHPMailer(true);
+        if (!preg_match('/^[a-z._]+@dlsu\.edu\.ph$/', $email)) {
+            $error_message = "Invalid DLSU email format.";
+        } else {
+            $verificationCode = rand(100000, 999999);
+            $_SESSION["verification_code"] = $verificationCode;
+            $_SESSION["verification_email"] = $email;
+            $_SESSION["verification_time"] = time();
+            $mail = new PHPMailer(true);
 
-        try {
-            $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
-            $mail->SMTPAuth = true;
-            $mail->Username = 'dlsu.marketplace@gmail.com';
-            $mail->Password = 'bddq lwzp gxyf xdno';
-            $mail->SMTPSecure = 'tls';
-            $mail->Port = 587;
+            try {
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+                $mail->Username = 'dlsu.marketplace@gmail.com';
+                $mail->Password = 'bddq lwzp gxyf xdno';
+                $mail->SMTPSecure = 'tls';
+                $mail->Port = 587;
 
-            $mail->setFrom('dlsu.marketplace@gmail.com', 'DLSU Marketplace');
-            $mail->addAddress($email);
+                $mail->setFrom('dlsu.marketplace@gmail.com', 'DLSU Marketplace');
+                $mail->addAddress($email);
 
-            $mail->Subject = 'DLSU Marketplace Authentication Code';
-            $mail->Body = "Your verification code is: $verificationCode";
+                $mail->Subject = 'DLSU Marketplace Authentication Code';
+                $mail->Body = "Your verification code is: $verificationCode";
 
-            $mail->send();
-            $success_message = "Verification code sent! Please check your email.";
-        } catch (Exception $e) {
-            die("Email failed: {$mail->ErrorInfo}");
+                $mail->send();
+                $success_message = "Verification code sent! Please check your email.";
+            } catch (Exception $e) {
+                die("Email failed: {$mail->ErrorInfo}");
+            }
         }
     }
     // VERIFY THE CODE
@@ -50,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (!isset($_SESSION["verification_code"])) {
             $error_message = "Please request a verification code first.";
-        } else if (time() - $_SESSION["verification_time"] > 10) {
+        } else if (time() - $_SESSION["verification_time"] > 120) {
             unset($_SESSION["verification_code"], $_SESSION["verification_time"]);
             $error_message = "Verification code expired. Please send a new code.";
         } else if ($code != $_SESSION["verification_code"]) {
@@ -104,7 +108,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         value="Send Code"
                         name="send_code"
                         id="send-code-btn"
-                        formnovalidate />
+                        formnovalidate
+                        onclick="disableSend()" />
                 </div>
                 <label for="code">Code:</label>
                 <input
@@ -121,6 +126,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
     </form>
+    <script>
+        function disableSend() {
+            const btn = document.getElementById("send-code-btn");
+
+            setTimeout(() => {
+                btn.disabled = true;
+                btn.value = "Sending...";
+                btn.style.cursor = "not-allowed";
+            }, 10);
+        }
+    </script>
 </body>
 
 </html>
