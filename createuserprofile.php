@@ -2,6 +2,8 @@
 session_start();
 include 'db.php';
 
+$error_message = "";
+$success_message = "";
 
 ?>
 
