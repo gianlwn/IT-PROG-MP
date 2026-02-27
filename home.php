@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'database.php';
+include 'db.php';
 
 // logic
 ?>
