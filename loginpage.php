@@ -5,16 +5,14 @@ include 'db.php';
 $error_message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $email = trim($_POST["email"]);
+  $email = $conn->real_escape_string(trim($_POST["email"]));
   $password = $_POST["password"];
 
-  $stmt = $conn->prepare("SELECT user_id, password_hash, first_name, role
-                          FROM users
-                          WHERE dlsu_email = ?
-  ");
-  $stmt->bind_param("s", $email);
-  $stmt->execute();
-  $result = $stmt->get_result();
+  $sql = "SELECT user_id, password_hash, first_name, role
+          FROM users
+          WHERE dlsu_email = '$email'";
+
+  $result = $conn->query($sql);
 
   if ($result->num_rows === 1) {
     $user = $result->fetch_assoc();
@@ -32,8 +30,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   } else {
     $error_message = "Invalid email or password.";
   }
-
-  $stmt->close();
 }
 ?>
 
@@ -98,3 +94,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </body>
 
 </html>
+
+<?php $conn->close(); ?>
