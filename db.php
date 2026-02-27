@@ -2,7 +2,7 @@
 $host     = "localhost";
 $username = "root"; // CHANGE TO YOUR CREDENTIALS 
 $password = "1234"; // CHANGE TO YOUR CREDENTIALS 
-$database = "task_master_db";
+$database = "dlsu_marketplace_db";
 
 $conn = new mysqli($host, $username, $password, $database);
 
