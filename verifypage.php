@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $email_clean = $conn->real_escape_string($email);
             $sql = "SELECT dlsu_email
                     FROM users
-                    WHERE dlsu_email = '$email'";
+                    WHERE dlsu_email = '$email_clean'";
             $result = $conn->query($sql);
 
             if ($result && $result->num_rows > 0) {
