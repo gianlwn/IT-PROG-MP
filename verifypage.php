@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'db.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -19,31 +20,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (!preg_match('/^[a-z._]+@dlsu\.edu\.ph$/', $email)) {
             $error_message = "Invalid DLSU email format.";
         } else {
-            $verificationCode = rand(100000, 999999);
-            $_SESSION["verification_code"] = $verificationCode;
-            $_SESSION["verification_email"] = $email;
-            $_SESSION["verification_time"] = time();
-            $mail = new PHPMailer(true);
+            $email_clean = $conn->real_escape_string($email);
+            $sql = "SELECT dlsu_email
+                    FROM users
+                    WHERE dlsu_email = '$email'";
+            $result = $conn->query($sql);
 
-            try {
-                $mail->isSMTP();
-                $mail->Host = 'smtp.gmail.com';
-                $mail->SMTPAuth = true;
-                $mail->Username = 'dlsu.marketplace@gmail.com';
-                $mail->Password = 'bddq lwzp gxyf xdno';
-                $mail->SMTPSecure = 'tls';
-                $mail->Port = 587;
+            if ($result && $result->num_rows > 0) {
+                $error_message = "This email is already registered. Please log in.";
+            } else {
+                $verificationCode = rand(100000, 999999);
+                $_SESSION["verification_code"] = $verificationCode;
+                $_SESSION["verification_email"] = $email;
+                $_SESSION["verification_time"] = time();
+                $mail = new PHPMailer(true);
 
-                $mail->setFrom('dlsu.marketplace@gmail.com', 'DLSU Marketplace');
-                $mail->addAddress($email);
+                try {
+                    $mail->isSMTP();
+                    $mail->Host = 'smtp.gmail.com';
+                    $mail->SMTPAuth = true;
+                    $mail->Username = 'dlsu.marketplace@gmail.com';
+                    $mail->Password = 'bddq lwzp gxyf xdno';
+                    $mail->SMTPSecure = 'tls';
+                    $mail->Port = 587;
 
-                $mail->Subject = 'DLSU Marketplace Authentication Code';
-                $mail->Body = "Your verification code is: $verificationCode";
+                    $mail->setFrom('dlsu.marketplace@gmail.com', 'DLSU Marketplace');
+                    $mail->addAddress($email);
 
-                $mail->send();
-                $success_message = "Verification code sent! Please check your email.";
-            } catch (Exception $e) {
-                die("Email failed: {$mail->ErrorInfo}");
+                    $mail->Subject = 'DLSU Marketplace Authentication Code';
+                    $mail->Body = "Your verification code is: $verificationCode";
+
+                    $mail->send();
+                    $success_message = "Verification code sent! Please check your email.";
+                } catch (Exception $e) {
+                    die("Email failed: {$mail->ErrorInfo}");
+                }
             }
         }
     }
