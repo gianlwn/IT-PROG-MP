@@ -119,6 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     class="input-field"
                     minlength="6"
                     maxlength="6"
+                    pattern="[0-9]{6}"
                     placeholder="Enter the code sent to your email"
                     title="Enter the code sent to your email"
                     required />

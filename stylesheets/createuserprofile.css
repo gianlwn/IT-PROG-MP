@@ -61,6 +61,28 @@ body {
     box-shadow: 0 0 0 3px rgba(60, 120, 200, 0.2);
 }
 
+#error-msg {
+    color: #d9534f;
+    background-color: #f2dede;
+    border: 1px solid #ebccd1;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 14px;
+}
+
+#success-msg {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border: 1px solid #d6e9c6;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 14px;
+}
+
 .file-input {
     margin-bottom: 20px;
     font-size: 15px;
@@ -93,11 +115,9 @@ body {
     color: white;
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.15s ease;
-    background: linear-gradient(
-        to right,
-        rgb(60, 120, 200),
-        rgb(80, 140, 220)
-    );
+    background: linear-gradient(to right,
+            rgb(60, 120, 200),
+            rgb(80, 140, 220));
     font-weight: 600;
     margin-top: 10px;
 }
