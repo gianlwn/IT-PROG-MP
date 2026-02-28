@@ -148,6 +148,12 @@ body {
     transform: translateY(1px);
 }
 
+hr {
+    margin-top: 25px;
+    border: 0;
+    border-top: 1px solid #ccc;
+}
+
 @media (max-width: 900px) {
     body {
         justify-content: center;

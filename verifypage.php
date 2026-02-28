@@ -12,7 +12,7 @@ $error_message = "";
 $success_message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // SEND THE CODE
+    // send the code via email
     if (isset($_POST["send_code"])) {
         $email = trim($_POST["email"]);
 
@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     }
-    // VERIFY THE CODE
+    // verify the code
     elseif (isset($_POST["verify_code"])) {
         $code = trim($_POST["code"]);
 
@@ -60,6 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error_message = "Incorrect verification code.";
         } else {
             unset($_SESSION["verification_code"]);
+            $_SESSION["email_verified"] = true;
             header("Location: createuserprofile.php");
             exit;
         }
@@ -122,6 +123,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     title="Enter the code sent to your email"
                     required />
                 <input type="submit" name="verify_code" value="Verify" id="submit-btn" />
+            </div>
+            <hr>
+            <div class="text-options">
+                <a href="loginpage.php">Back to Login</a>
             </div>
         </div>
     </form>
