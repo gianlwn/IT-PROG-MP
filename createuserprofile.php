@@ -2,8 +2,17 @@
 session_start();
 include 'db.php';
 
+// prevent people from accessing this without getting verified
+if (!isset($_SESSION["email_verified"]) || $_SESSION["email_verified"] !== true) {
+    header("Location: verifypage.php");
+    exit();
+}
+
 $error_message = "";
 $success_message = "";
+
+// unset the variables email_verified and verification_email
+// ask user to login again
 
 ?>
 
