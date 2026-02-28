@@ -33,16 +33,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "INSERT INTO users (user_id, dlsu_email, password_hash, first_name, last_name, role)
                 VALUES ('$id_number', '$dlsu_email', '$password_hash', '$first_name_clean', '$last_name_clean', '$role')";
 
-        if ($conn->query($sql) === TRUE) {
-            // ask user to login again
-            $success_message = "Profile created successfully! Redirecting to login...";
+        try {
+            if ($conn->query($sql) === TRUE) {
+                // ask user to login again
+                $success_message = "Profile created successfully! Redirecting to login...";
 
-            // unset the variables email verification variables
-            unset($_SESSION["email_verified"]);
-            unset($_SESSION["verification_email"]);
-            unset($_SESSION["verification_code"]);
-            unset($_SESSION["verification_time"]);
-        } else {
+                // unset the variables email verification variables
+                unset($_SESSION["email_verified"]);
+                unset($_SESSION["verification_email"]);
+                unset($_SESSION["verification_code"]);
+                unset($_SESSION["verification_time"]);
+            }
+        } catch (mysqli_sql_exception $e) {
             if ($conn->errno == 1062) {
                 $error_message = "This ID Number or Email is already registered.";
             } else {
