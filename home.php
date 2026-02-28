@@ -2,6 +2,11 @@
 session_start();
 include 'db.php';
 
+if (!isset($_SESSION["dlsu_email"])) {
+    header("Location: loginpage.php");
+    exit();
+}
+
 // logic
 ?>
 
