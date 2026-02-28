@@ -154,6 +154,24 @@ hr {
     border-top: 1px solid #ccc;
 }
 
+.text-options {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.text-options a {
+    color: rgb(60, 120, 200);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.text-options a:hover {
+    color: rgb(45, 95, 170);
+    text-decoration: underline;
+}
+
 @media (max-width: 900px) {
     body {
         justify-content: center;
