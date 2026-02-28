@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (empty($id_number) || empty($first_name) || empty($last_name) || empty($role) || empty($password)) {
         $error_message = "Please fill in all required fields.";
-    } elseif ($password !== $confirm_password) {
+    } else if ($password !== $confirm_password) {
         $error_message = "Passwords do not match!";
     } else {
         $password_hash = password_hash($password, PASSWORD_BCRYPT);
@@ -93,12 +93,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label for="last_name">Last Name:</label>
                 <input type="text" name="last_name" id="last_name" class="input-field" placeholder="e.g. Dela Cruz" required>
 
-                <label for="role">Role:</label>
-                <select name="role" id="role" class="input-field">
-                    <option value="student">Student</option>
-                    <option value="faculty">Faculty</option>
-                    <option value="staff">Staff</option>
-                </select>
+                <?php
+                if (strcmp($_SESSION["email_type"], "student/staff") == 0) {
+                    echo "<label for=\"role\">Role:</label>
+                          <select name=\"role\" id=\"role\" class=\"input-field\">
+                            <option value=\"student\">Student</option>
+                            <option value=\"staff\">Staff</option>
+                          </select>";
+                }
+                ?>
+                <?php
+                if (strcmp($_SESSION["email_type"], "faculty") == 0) {
+                    echo "<label for=\"role\">Role:</label>
+                          <select name=\"role\" id=\"role\" class=\"input-field\">
+                            <option value=\"faculty\">Faculty</option>
+                          </select>";
+                }
+                ?>
 
                 <label for="password">Password:</label>
                 <input type="password" name="password" id="password" class="input-field" placeholder="Create a password" required>
