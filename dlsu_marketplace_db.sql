@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 01, 2026 at 02:45 PM
+-- Generation Time: Mar 01, 2026 at 03:53 PM
 -- Server version: 8.0.43
 -- PHP Version: 8.2.12
 
@@ -81,20 +81,6 @@ CREATE TABLE `claims` (
   `status` enum('pending','completed','cancelled') DEFAULT 'pending',
   `claimed_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `completed_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `email_verifications`
---
-
-CREATE TABLE `email_verifications` (
-  `verification_id` int NOT NULL,
-  `user_id` int NOT NULL,
-  `verification_code` varchar(6) NOT NULL,
-  `expires_at` datetime NOT NULL,
-  `is_used` tinyint(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -287,13 +273,6 @@ ALTER TABLE `claims`
   ADD KEY `seller_id` (`seller_id`);
 
 --
--- Indexes for table `email_verifications`
---
-ALTER TABLE `email_verifications`
-  ADD PRIMARY KEY (`verification_id`),
-  ADD KEY `user_id` (`user_id`);
-
---
 -- Indexes for table `listings`
 --
 ALTER TABLE `listings`
@@ -402,12 +381,6 @@ ALTER TABLE `claims`
   MODIFY `claim_id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `email_verifications`
---
-ALTER TABLE `email_verifications`
-  MODIFY `verification_id` int NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `listings`
 --
 ALTER TABLE `listings`
@@ -480,12 +453,6 @@ ALTER TABLE `claims`
   ADD CONSTRAINT `claims_ibfk_1` FOREIGN KEY (`listing_id`) REFERENCES `listings` (`listing_id`),
   ADD CONSTRAINT `claims_ibfk_2` FOREIGN KEY (`buyer_id`) REFERENCES `users` (`user_id`),
   ADD CONSTRAINT `claims_ibfk_3` FOREIGN KEY (`seller_id`) REFERENCES `users` (`user_id`);
-
---
--- Constraints for table `email_verifications`
---
-ALTER TABLE `email_verifications`
-  ADD CONSTRAINT `email_verifications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `listings`
