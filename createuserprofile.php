@@ -72,10 +72,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php endif; ?>
 
             <?php if (!empty($success_message)): ?>
-                <div id="success-msg"><?php echo htmlspecialchars($success_message); ?></div>
+                <div id="success-msg"><?php echo $success_message; ?></div>
                 <script>
                     setTimeout(() => {
-                        window.location.href = 'loginpage.php';
+                        window.location.href = 'loginpage.php?create=success';
                     }, 3000);
                 </script>
             <?php endif; ?>
