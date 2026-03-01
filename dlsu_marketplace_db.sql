@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 28, 2026 at 06:47 PM
+-- Generation Time: Mar 01, 2026 at 02:45 PM
 -- Server version: 8.0.43
 -- PHP Version: 8.2.12
 
@@ -43,8 +43,16 @@ CREATE TABLE `admin_accounts` (
 
 CREATE TABLE `admin_roles` (
   `admin_role_id` int NOT NULL,
-  `role_name` enum('moderator','super_admin') NOT NULL
+  `role_name` enum('Moderator','Superadmin') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `admin_roles`
+--
+
+INSERT INTO `admin_roles` (`admin_role_id`, `role_name`) VALUES
+(101, 'Superadmin'),
+(102, 'Moderator');
 
 -- --------------------------------------------------------
 
@@ -147,7 +155,7 @@ CREATE TABLE `ratings` (
   `comment` text,
   `is_reviewed_by_admin` tinyint(1) DEFAULT '0',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -177,9 +185,6 @@ CREATE TABLE `system_logs` (
   `log_id` int NOT NULL,
   `user_id` int DEFAULT NULL,
   `action_type` enum('CREATE','UPDATE','DELETE') NOT NULL,
-  `entity_type` varchar(50) NOT NULL,
-  `entity_id` int NOT NULL,
-  `ip_address` varchar(45) DEFAULT NULL,
   `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -222,7 +227,7 @@ CREATE TABLE `users` (
   `password_hash` varchar(255) NOT NULL,
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
-  `role` enum('student','faculty','staff') NOT NULL,
+  `role` enum('Student','Faculty','Staff') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `is_verified` tinyint(1) DEFAULT '0',
   `warning_count` int DEFAULT '0',
   `is_suspended` tinyint(1) DEFAULT '0',
@@ -382,7 +387,7 @@ ALTER TABLE `admin_accounts`
 -- AUTO_INCREMENT for table `admin_roles`
 --
 ALTER TABLE `admin_roles`
-  MODIFY `admin_role_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `admin_role_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 
 --
 -- AUTO_INCREMENT for table `categories`
