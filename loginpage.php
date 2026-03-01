@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
       <hr />
       <div class="text-options"><a href="verifypage.php">First time user?</a></div>
-      <div class="text-options"><a href="#">Forgot password</a></div>
+      <div class="text-options"><a href="forgotpassword.php">Forgot password</a></div>
     </div>
   </form>
 
