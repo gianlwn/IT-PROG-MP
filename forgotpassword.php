@@ -15,7 +15,7 @@ $success_message = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // send the code
     if (isset($_POST["send_code"])) {
-        $email = trim($_POST["send_code"]);
+        $email = trim($_POST["email"]);
 
         if (!preg_match('/^[a-z._]+@dlsu\.edu\.ph$/', $email)) {
             $error_message = "Invalid DLSU email format.";
@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $mail->addAddress($email);
 
                     $mail->Subject = 'DLSU Marketplace Password Reset Code';
-                    $mail->Body = "Your password reset code is: $verificationCode.\n\nIf you did not request this, please ignore this email.";
+                    $mail->Body = "Your password reset code is: $forgot_code\n\nIf you did not request this, please ignore this email.";
 
                     $mail->send();
                     $success_message = "Reset code sent! Please check your email.";
@@ -62,10 +62,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $code = trim($_POST["code"]);
 
         // check if the code is inputted
-        if (!isset($_POST["forgot_code"])) {
+        if (!isset($_POST["code"])) {
             $error_message = "Please request a reset code first.";
             // check if the code expired
-        } else if (time() - $_SESSION["forgot_verified"] > 120) {
+        } else if (time() - $_SESSION["forgot_time"] > 120) {
             unset($_SESSION["forgot_code"], $_SESSION["forgot_time"]);
             $error_message = "Reset code expired. Please send a new code.";
             // check if the code doesn't match
@@ -96,7 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 if ($conn->query($sql) === TRUE) {
                     unset($_SESSION["forgot_email"], $_SESSION["forgot_verified"]);
-                    header("Location: loginpage.php");
+                    header("Location: loginpage.php?reset=success");
                     exit();
                 } else {
                     $error_message = "Database Error: " . $conn->error;
@@ -113,11 +113,60 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheets/verifypage.css">
     <title>Forgot Password</title>
 </head>
 
 <body>
+    <form action="forgotpassword.php" method="post">
+        <div id="container">
+            <div id="verify">Reset Password</div>
 
+            <?php if (!empty($error_message)): ?>
+                <div id="error-msg"><?php echo $error_message; ?></div>
+            <?php endif; ?>
+            <?php if (!empty($success_message)): ?>
+                <div id="success-msg"><?php echo $success_message; ?></div>
+            <?php endif; ?>
+
+            <div id="input-container">
+                <!-- SHOW VERIFICATION UI FIRST -->
+                <?php if (!isset($_SESSION["forgot_verified"]) || $_SESSION["forgot_verified"] !== true): ?>
+                    <label for="email">Registered Email:</label>
+                    <div class="email-group">
+                        <input type="email" name="email" id="email-input-field" class="input-field" pattern="^[a-z._]+@dlsu\.edu\.ph$" placeholder="email@dlsu.edu.ph" value="
+                        <?php echo isset($_SESSION["forgot_email"]) ? $_SESSION["forgot_email"] : (isset($_POST["email"]) ? $_POST["email"] : ""); ?>" required />
+                        <input type="submit" value="Send Code" name="send_code" id="send-code-btn" formnovalidate onclick="disableSend()" />
+                    </div>
+
+                    <label for="code">6-Digit Code:</label>
+                    <input type="password" name="code" id="code-input-field" class="input-field" minlength="6" maxlength="6" pattern="[0-9]{6}" placeholder="Enter the reset code" />
+                    <input type="submit" name="verify_code" value="Verify Code" id="submit-btn" />
+                    <!-- THEN SHOW PASSWORD RESET UI -->
+                <?php else: ?>
+                    <label for="new_password">New Password:</label>
+                    <input type="password" name="new_password" class="input-field" placeholder="Create a new password" required />
+                    <label for="confirm_password">Confirm New Password:</label>
+                    <input type="password" name="confirm_password" class="input-field" placeholder="Confirm your new password" required />
+                    <input type="submit" name="reset_password" value="Reset Password" id="submit-btn" />
+                <?php endif; ?>
+            </div>
+            <hr>
+            <div class="text-options">
+                <a href="loginpage.php">Back to Login</a>
+            </div>
+        </div>
+    </form>
+    <script>
+        function disableSend() {
+            const btn = document.getElementById("send-code-btn");
+            setTimeout(() => {
+                btn.disabled = true;
+                btn.value = "Sending...";
+                btn.style.cursor = "not-allowed";
+            }, 10);
+        }
+    </script>
 </body>
 
 </html>
