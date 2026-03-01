@@ -90,23 +90,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label for="last_name">Last Name:</label>
                 <input type="text" name="last_name" id="last_name" class="input-field" placeholder="e.g. Dela Cruz" required>
 
-                <?php
-                if (strcmp($_SESSION["email_type"], "student/staff") == 0) {
-                    echo "<label for=\"role\">Role:</label>
-                          <select name=\"role\" id=\"role\" class=\"input-field\">
-                            <option value=\"student\">Student</option>
-                            <option value=\"staff\">Staff</option>
-                          </select>";
-                }
-                ?>
-                <?php
-                if (strcmp($_SESSION["email_type"], "faculty") == 0) {
-                    echo "<label for=\"role\">Role:</label>
-                          <select name=\"role\" id=\"role\" class=\"input-field\">
-                            <option value=\"faculty\">Faculty</option>
-                          </select>";
-                }
-                ?>
+                <?php if (strcmp($_SESSION["email_type"], "student/staff") == 0): ?>
+                    <label for="role">Role:</label>
+                    <select name="role" id="role" class="input-field">
+                        <option value="Student">Student</option>
+                        <option value="Staff">Staff</option>
+                    </select>
+
+                <?php elseif (strcmp($_SESSION["email_type"], "faculty") == 0): ?>
+
+                    <label for="role">Role:</label>
+                    <select name="role" id="role" class="input-field">
+                        <option value="Faculty">Faculty</option>
+                    </select>
+
+                <?php endif; ?>
 
                 <label for="password">Password:</label>
                 <input type="password" name="password" id="password" class="input-field" placeholder="Create a password" required>
