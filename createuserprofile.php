@@ -38,11 +38,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // ask user to login again
                 $success_message = "Profile created successfully! Redirecting to login...";
 
-                // unset the variables email verification variables
-                unset($_SESSION["email_verified"]);
-                unset($_SESSION["verification_email"]);
-                unset($_SESSION["verification_code"]);
-                unset($_SESSION["verification_time"]);
+                // unset email_verified
+                unset($_SESSION["email_verified"],);
             }
         } catch (mysqli_sql_exception $e) {
             if ($conn->errno == 1062) {

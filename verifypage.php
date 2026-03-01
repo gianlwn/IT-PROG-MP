@@ -71,13 +71,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else if ($code != $_SESSION["verification_code"]) {
             $error_message = "Incorrect verification code.";
         } else if ($code == $_SESSION["verification_code"] && preg_match('/^[a-z]+(_[a-z]+)*@dlsu\.edu\.ph$/', $email)) {
-            unset($_SESSION["verification_code"]);
+            unset(
+                $_SESSION["verification_code"],
+                $_SESSION["verification_email"],
+                $_SESSION["verification_time"]
+            );
             $_SESSION["email_verified"] = true;
             $_SESSION["email_type"] = "student/staff";
             header("Location: createuserprofile.php");
             exit();
         } else if ($code == $_SESSION["verification_code"] && preg_match('/^[a-z]+(\.[a-z]+)*@dlsu\.edu\.ph$/', $email)) {
-            unset($_SESSION["verification_code"]);
+            unset(
+                $_SESSION["verification_code"],
+                $_SESSION["verification_email"],
+                $_SESSION["verification_time"]
+            );
             $_SESSION["email_verified"] = true;
             $_SESSION["email_type"] = "faculty";
             header("Location: createuserprofile.php");
