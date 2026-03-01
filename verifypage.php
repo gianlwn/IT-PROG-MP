@@ -29,8 +29,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($result && $result->num_rows > 0) {
                 $error_message = "This email is already registered. Please log in.";
             } else {
-                $verificationCode = rand(100000, 999999);
-                $_SESSION["verification_code"] = $verificationCode;
+                $verification_code = rand(100000, 999999);
+                $_SESSION["verification_code"] = $verification_code;
                 $_SESSION["verification_email"] = $email;
                 $_SESSION["verification_time"] = time();
                 $mail = new PHPMailer(true);
@@ -48,12 +48,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $mail->addAddress($email);
 
                     $mail->Subject = 'DLSU Marketplace Authentication Code';
-                    $mail->Body = "Your verification code is: $verificationCode";
+                    $mail->Body = "Your verification code is: $verification_code";
 
                     $mail->send();
                     $success_message = "Verification code sent! Please check your email.";
                 } catch (Exception $e) {
-                    die("Email failed: {$mail->ErrorInfo}");
+                    die("Email failed to send: {$mail->ErrorInfo}");
                 }
             }
         }
@@ -63,13 +63,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = trim($_POST["email"]);
         $code = trim($_POST["code"]);
 
+        // check if the code is inputted
         if (!isset($_SESSION["verification_code"])) {
             $error_message = "Please request a verification code first.";
+            // check if the code expired
         } else if (time() - $_SESSION["verification_time"] > 120) {
             unset($_SESSION["verification_code"], $_SESSION["verification_time"]);
             $error_message = "Verification code expired. Please send a new code.";
+            // check if the code doesn't match
         } else if ($code != $_SESSION["verification_code"]) {
             $error_message = "Incorrect verification code.";
+            // check if the code matches and is a student/staff account
         } else if ($code == $_SESSION["verification_code"] && preg_match('/^[a-z]+(_[a-z]+)*@dlsu\.edu\.ph$/', $email)) {
             unset(
                 $_SESSION["verification_code"],
@@ -80,6 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION["email_type"] = "student/staff";
             header("Location: createuserprofile.php");
             exit();
+            // check if the code matches and is a faculty account
         } else if ($code == $_SESSION["verification_code"] && preg_match('/^[a-z]+(\.[a-z]+)*@dlsu\.edu\.ph$/', $email)) {
             unset(
                 $_SESSION["verification_code"],
