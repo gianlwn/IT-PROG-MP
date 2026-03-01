@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $mail->addAddress($email);
 
                     $mail->Subject = 'DLSU Marketplace Authentication Code';
-                    $mail->Body = "Your verification code is: $verification_code";
+                    $mail->Body = "Your verification code is: $verification_code\n\nIf you did not request this, please ignore this email.";
 
                     $mail->send();
                     $success_message = "Verification code sent! Please check your email.";
@@ -77,7 +77,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else if ($code == $_SESSION["verification_code"] && preg_match('/^[a-z]+(_[a-z]+)*@dlsu\.edu\.ph$/', $email)) {
             unset(
                 $_SESSION["verification_code"],
-                $_SESSION["verification_email"],
                 $_SESSION["verification_time"]
             );
             $_SESSION["email_verified"] = true;
@@ -88,7 +87,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else if ($code == $_SESSION["verification_code"] && preg_match('/^[a-z]+(\.[a-z]+)*@dlsu\.edu\.ph$/', $email)) {
             unset(
                 $_SESSION["verification_code"],
-                $_SESSION["verification_email"],
                 $_SESSION["verification_time"]
             );
             $_SESSION["email_verified"] = true;
