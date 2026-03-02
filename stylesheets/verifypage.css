@@ -4,21 +4,35 @@
 }
 
 body {
-    background: linear-gradient(to top, #addb89, #ebffdb);
+    margin: 0;
     min-height: 100vh;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
+    background: linear-gradient(to bottom, #798367, #4a543e);
 }
 
 #container {
-    background-color: rgb(236, 243, 250);
+    position: relative; /* for the top icon */
+    background-color: #eeece0; 
     width: 700px;
-    padding: 40px;
-    margin-left: 100px;
+    padding: 60px 40px 40px; /* extra top padding for the icon */
     border-radius: 24px;
-    border: 1px solid rgba(0, 0, 0, 0.15);
+    border: 3px solid rgba(0, 0, 0, 0.15);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    text-align: center;
+}
+
+.login-icon {
+    position: absolute;
+    top: 0;               /* center of image at top border */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 5px 15px rgba(37, 54, 38, 0.2);
 }
 
 #verify {
@@ -57,10 +71,11 @@ body {
 
 #input-container label {
     display: block;
+    text-align: left;
     font-size: 14px;
     font-weight: 600;
     margin-bottom: 6px;
-    color: #444;
+    color: #2e3e30;
 }
 
 .email-group {
@@ -84,13 +99,11 @@ body {
     font-size: 15px;
     white-space: nowrap;
     transition: background-color 0.2s ease, transform 0.15s ease;
-    background: linear-gradient(to right,
-            rgb(60, 120, 200),
-            rgb(80, 140, 220));
+    background: #4a543e;
 }
 
 #send-code-btn:hover {
-    background: linear-gradient(to right, rgb(45, 95, 170), rgb(60, 120, 200));
+    background: #798367;
     transform: translateY(-1px);
 }
 
@@ -106,17 +119,17 @@ body {
     padding: 12px 15px;
     font-size: 16px;
     border-radius: 10px;
-    border: 2px solid rgb(180, 180, 180);
+    border: 2px solid #798367;
     outline: none;
     margin-bottom: 25px;
-    background-color: #f9fbff;
+    background-color: #cec8b0;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .input-field:focus {
-    background-color: #ffffff;
-    border-color: rgb(60, 120, 200);
-    box-shadow: 0 0 0 3px rgba(60, 120, 200, 0.2);
+    background-color: #cec8b0;
+    border-color: #798367;
+    box-shadow: 0 0 0 3px rgba(55, 129, 87, 0.2);
 }
 
 #submit-btn {
@@ -125,17 +138,15 @@ body {
     font-size: 18px;
     border-radius: 12px;
     border: none;
-    color: white;
+    color: #eeece0;
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.15s ease;
-    background: linear-gradient(to right,
-            rgb(60, 120, 200),
-            rgb(80, 140, 220));
+    background: #4a543e;
     font-weight: 600;
 }
 
 #submit-btn:hover:not(:disabled) {
-    background-color: rgb(45, 95, 170);
+    background-color: #798367;
     transform: translateY(-1px);
 }
 
@@ -160,7 +171,7 @@ hr {
 }
 
 .text-options a {
-    color: rgb(60, 120, 200);
+    color: #798367;
     text-decoration: none;
     font-size: 14px;
     font-weight: 600;
@@ -168,7 +179,7 @@ hr {
 }
 
 .text-options a:hover {
-    color: rgb(45, 95, 170);
+    color: #798367;
     text-decoration: underline;
 }
 

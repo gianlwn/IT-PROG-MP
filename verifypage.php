@@ -111,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <form action="verifypage.php" method="post">
         <div id="container">
-            <div id="verify">Verify</div>
+            <img src="images/login-icon.png" alt="login-icon" class="login-icon">
 
             <?php if (!empty($error_message)): ?>
                 <div id="error-msg"><?php echo $error_message; ?></div>

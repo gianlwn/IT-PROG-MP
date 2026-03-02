@@ -97,7 +97,7 @@ body {
 }
 
 #submitbtn:hover:not(:disabled) {
-    background-color: #4a543e;
+    background-color: #798367;
     transform: translateY(-1px);
 }
 
@@ -131,7 +131,7 @@ hr {
 
 .text-options a:hover {
     text-decoration: underline;
-    color: #cec8b0;
+    color: #798367
 }
 
 @media (max-width: 900px) {
