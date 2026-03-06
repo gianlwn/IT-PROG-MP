@@ -4,9 +4,8 @@
 }
 
 body {
-    background: linear-gradient(to top, #addb89, #ebffdb);
+    background: linear-gradient(to bottom, #798367, #4a543e);
     min-height: 100vh;
-    display: flex;
     justify-content: center;
     align-items: center;
     margin: 0;
@@ -14,11 +13,12 @@ body {
 }
 
 #container {
-    background-color: rgb(236, 243, 250);
-    width: 100%;
-    max-width: 550px;
+    background-color: #eeece0;
+    width: 90%;
     padding: 40px;
     border-radius: 24px;
+    margin: auto;
+    margin-top: 20px;
     border: 1px solid rgba(0, 0, 0, 0.15);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
@@ -32,33 +32,102 @@ body {
     color: #222;
 }
 
-#input-container {
+.profile-top{
+    display:flex;
+    align-items:center;
+    gap:25px;
+    margin-left: 10px;
+    margin-bottom:10px;
+}
+
+.profile-image{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.profile-info{
+    display:flex;
+    flex-direction:column;
+}
+
+.id-container {
     display: flex;
     flex-direction: column;
+    margin-top: 10px;
+}
+
+.email-display {
+    font-size: 13px;
+    color: #555;
+    margin-top: 5px; /* reduce if too big */
+    align-self: flex-start; /* ensures it aligns with the input */
+}
+
+#input-container {
+    display: flex;
+    gap: 40px;      
+    flex-wrap: wrap; 
+    
+    background-color: #a4ad95;
+    
+    width: 100%;
+    padding: 40px;
+    border-radius: 24px;
+    margin: auto;
+    border: 2px solid rgba(0, 0, 0, 0.15);
 }
 
 #input-container label {
     font-size: 14px;
     font-weight: 600;
-    margin-bottom: 6px;
-    color: #444;
+    color: #4a543e;
 }
 
 .input-field {
-    padding: 12px 15px;
+    padding: 3px 12px;
     font-size: 16px;
     border-radius: 10px;
-    border: 2px solid rgb(180, 180, 180);
+    border: 2px solid black;
     outline: none;
     margin-bottom: 20px;
-    background-color: #f9fbff;
+    background-color: #eeece0;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .input-field:focus {
-    background-color: #ffffff;
-    border-color: rgb(60, 120, 200);
+    background-color: #cec8b0;
+    border-color: black;
     box-shadow: 0 0 0 3px rgba(60, 120, 200, 0.2);
+}
+
+#id_number {
+    background-color: #cec8b0;
+}
+
+.form-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 250px; 
+}
+
+.section-header {
+    font-weight: 700;
+    font-size: 25px;
+    margin-bottom: 10px;
+    color: #eeece0;
+}
+
+.role-group label {
+    margin-right: 15px;
+    font-weight: 500;
+}
+
+.password-group label {
+    margin-top: 10px;
 }
 
 #error-msg {
@@ -115,15 +184,13 @@ body {
     color: white;
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.15s ease;
-    background: linear-gradient(to right,
-            rgb(60, 120, 200),
-            rgb(80, 140, 220));
+    background: #4a543e;
     font-weight: 600;
     margin-top: 10px;
 }
 
 #submit-btn:hover {
-    background-color: rgb(45, 95, 170);
+    background-color: #6f7c5e;
     transform: translateY(-1px);
 }
 

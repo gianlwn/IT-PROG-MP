@@ -18,7 +18,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $confirm_password = $_POST["confirm_password"] ?? "";
     $first_name = trim($_POST["first_name"] ?? "");
     $last_name = trim($_POST["last_name"] ?? "");
+    $course_code = trim($_POST["course_code"] ?? "");
     $role = $_POST["role"] ?? "";
+    $phone_number = trim($_POST["phone_number"] ?? "");
+
 
     if (empty($id_number) || empty($first_name) || empty($last_name) || empty($role) || empty($password)) {
         $error_message = "Please fill in all required fields.";
@@ -30,8 +33,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $first_name_clean = $conn->real_escape_string($first_name);
         $last_name_clean = $conn->real_escape_string($last_name);
 
-        $sql = "INSERT INTO users (user_id, dlsu_email, password_hash, first_name, last_name, role)
-                VALUES ('$id_number', '$dlsu_email', '$password_hash', '$first_name_clean', '$last_name_clean', '$role')";
+        $sql = "INSERT INTO users (user_id, dlsu_email, password_hash, first_name, last_name, course_code, role, phone_number)
+                VALUES ('$id_number', '$dlsu_email', '$password_hash', '$first_name_clean', '$last_name_clean', '$course_code', '$role', '$phone_number')";
 
         try {
             if ($conn->query($sql) === TRUE) {
@@ -65,7 +68,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <form action="createuserprofile.php" method="post" enctype="multipart/form-data">
         <div id="container">
-            <div id="create-user-profile">Create Profile</div>
+            <div id="header">
+                <h1>Create Profile</h1>
+                <hr>
+                <div class="profile-top">
+                    <img src="images/login-icon.png" class="profile-image">
+
+                    <div class="profile-info">
+                        <div class="id-container">
+                            <label for="id_number">ID Number</label>
+                            <input type="text" name="id_number" id="id_number" class="input-field" minlength="8" maxlength="8" pattern="[0-9]{8}" placeholder="e.g. 12345678" required>
+                        </div>
+            
+                        <div class="email-display">
+                            Email: <?php echo $_SESSION["verification_email"]; ?>
+                        </div>
+                </div>
+            </div>
 
             <?php if (!empty($error_message)): ?>
                 <div id="error-msg"><?php echo $error_message; ?></div>
@@ -81,16 +100,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php endif; ?>
 
             <div id="input-container">
-                <label for="id_number">ID Number:</label>
-                <input type="text" name="id_number" id="id_number" class="input-field" minlength="8" maxlength="8" pattern="[0-9]{8}" placeholder="e.g. 12345678" required>
+                <div class="form-column">
+                    <div class="section-header">Personal Information</div>
 
-                <label for="first_name">First Name:</label>
-                <input type="text" name="first_name" id="first_name" class="input-field" placeholder="e.g. Juan" required>
+                    <label for="first_name">First Name</label>
+                    <input type="text" name="first_name" id="first_name" class="input-field" placeholder="e.g. Juan" required>
 
-                <label for="last_name">Last Name:</label>
-                <input type="text" name="last_name" id="last_name" class="input-field" placeholder="e.g. Dela Cruz" required>
+                    <label for="last_name">Last Name</label>
+                    <input type="text" name="last_name" id="last_name" class="input-field" placeholder="e.g. Dela Cruz" required>
 
-                <?php if (strcmp($_SESSION["email_type"], "student/staff") == 0): ?>
+                    <label for="course_code">Course Code</label>
+                    <input type="text" name="course_code" id="course_code" class="input-field" placeholder="e.g. BS-IT" required>
+
+                    <div class="role-group">
+                        <div class="section-header">Role</div>
+                        <label><input type="radio" name="role" value="Student"> Student</label>
+                        <label><input type="radio" name="role" value="Staff"> Staff</label>
+                    </div>
+            </div>
+
+            <div class="form-column">
+                <div class="section-header">Contact Information</div>
+
+                <label for="phone_number">Phone Number</label>
+                <input type="text" 
+                    name="phone_number" 
+                    class="input-field" 
+                    pattern="09[0-9]{9}" 
+                    minlength="11" 
+                    maxlength="11" 
+                    placeholder="e.g. 09685706073" 
+                    required>
+                <div class="password-group">
+                    <div class="section-header">Create Password</div>
+                    <label for="password"><b>New Password:</b></label>
+                    <input type="password" name="password" id="password" class="input-field" placeholder="Create a password" required>
+                    <br>
+                    <label for="confirm_password">Confirm Password:</label>
+                    <input type="password" name="confirm_password" id="confirm_password" class="input-field" placeholder="Confirm your password" required>
+
+                    <input type="submit" value="Complete Profile" id="submit-btn">
+
+            </div>
+
+                <?php /* if (strcmp($_SESSION["email_type"], "student/staff") == 0): ?>
                     <label for="role">Role:</label>
                     <select name="role" id="role" class="input-field">
                         <option value="Student">Student</option>
@@ -104,15 +157,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <option value="Faculty">Faculty</option>
                     </select>
 
-                <?php endif; ?>
+                <?php endif; */ ?>
 
-                <label for="password">Password:</label>
-                <input type="password" name="password" id="password" class="input-field" placeholder="Create a password" required>
-
-                <label for="confirm_password">Confirm Password:</label>
-                <input type="password" name="confirm_password" id="confirm_password" class="input-field" placeholder="Confirm your password" required>
-
-                <input type="submit" value="Complete Profile" id="submit-btn">
             </div>
         </div>
     </form>
