@@ -12,15 +12,15 @@ $error_message = "";
 $success_message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id_number = trim($_POST["id_number"]);
+    $id_number = trim($_POST["id_number"] ?? "");
     $dlsu_email = $_SESSION["verification_email"];
-    $password = $_POST["password"];
-    $confirm_password = $_POST["confirm_password"];
-    $first_name = trim($_POST["first_name"]);
-    $last_name = trim($_POST["last_name"]);
-    $course_code = trim($_POST["course_code"]);
-    $role = $_POST["role"];
-    $phone_number = trim($_POST["phone_number"]);
+    $password = $_POST["password"] ?? "";
+    $confirm_password = $_POST["confirm_password"] ?? "";
+    $first_name = trim($_POST["first_name"] ?? "");
+    $last_name = trim($_POST["last_name"] ?? "");
+    $course_code = trim($_POST["course_code"] ?? "");
+    $role = $_POST["role"] ?? "";
+    $phone_number = trim($_POST["phone_number"] ?? "");
 
 
     if (empty($id_number) || empty($first_name) || empty($last_name) || empty($role) || empty($password)) {
