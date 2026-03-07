@@ -79,88 +79,83 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <label for="id_number">ID Number</label>
                             <input type="text" name="id_number" id="id_number" class="input-field" minlength="8" maxlength="8" pattern="[0-9]{8}" placeholder="e.g. 12345678" required>
                         </div>
-            
+
                         <div class="email-display">
                             Email: <?php echo $_SESSION["verification_email"]; ?>
                         </div>
-                </div>
-            </div>
-
-            <?php if (!empty($error_message)): ?>
-                <div id="error-msg"><?php echo $error_message; ?></div>
-            <?php endif; ?>
-
-            <?php if (!empty($success_message)): ?>
-                <div id="success-msg"><?php echo $success_message; ?></div>
-                <script>
-                    setTimeout(() => {
-                        window.location.href = 'loginpage.php?create=success';
-                    }, 3000);
-                </script>
-            <?php endif; ?>
-
-            <div id="input-container">
-                <div class="form-column">
-                    <div class="section-header">Personal Information</div>
-
-                    <label for="first_name">First Name</label>
-                    <input type="text" name="first_name" id="first_name" class="input-field" placeholder="e.g. Juan" required>
-
-                    <label for="last_name">Last Name</label>
-                    <input type="text" name="last_name" id="last_name" class="input-field" placeholder="e.g. Dela Cruz" required>
-
-                    <label for="course_code">Course Code</label>
-                    <input type="text" name="course_code" id="course_code" class="input-field" placeholder="e.g. BS-IT" required>
-
-                    <div class="role-group">
-                        <div class="section-header">Role</div>
-                        <label><input type="radio" name="role" value="Student"> Student</label>
-                        <label><input type="radio" name="role" value="Staff"> Staff</label>
                     </div>
-            </div>
+                </div>
 
-            <div class="form-column">
-                <div class="section-header">Contact Information</div>
+                <?php if (!empty($error_message)): ?>
+                    <div id="error-msg"><?php echo $error_message; ?></div>
+                <?php endif; ?>
 
-                <label for="phone_number">Phone Number</label>
-                <input type="text" 
-                    name="phone_number" 
-                    class="input-field" 
-                    pattern="09[0-9]{9}" 
-                    minlength="11" 
-                    maxlength="11" 
-                    placeholder="e.g. 09685706073" 
-                    required>
-                <div class="password-group">
-                    <div class="section-header">Create Password</div>
-                    <label for="password"><b>New Password:</b></label>
-                    <input type="password" name="password" id="password" class="input-field" placeholder="Create a password" required>
-                    <br>
-                    <label for="confirm_password">Confirm Password:</label>
-                    <input type="password" name="confirm_password" id="confirm_password" class="input-field" placeholder="Confirm your password" required>
+                <?php if (!empty($success_message)): ?>
+                    <div id="success-msg"><?php echo $success_message; ?></div>
+                    <script>
+                        setTimeout(() => {
+                            window.location.href = 'loginpage.php?create=success';
+                        }, 3000);
+                    </script>
+                <?php endif; ?>
 
-                    <input type="submit" value="Complete Profile" id="submit-btn">
+                <div id="input-container">
+                    <div class="form-column">
+                        <div class="section-header">Personal Information</div>
 
-            </div>
+                        <label for="first_name">First Name</label>
+                        <input type="text" name="first_name" id="first_name" class="input-field" placeholder="e.g. Juan" required>
 
-                <?php /* if (strcmp($_SESSION["email_type"], "student/staff") == 0): ?>
-                    <label for="role">Role:</label>
-                    <select name="role" id="role" class="input-field">
-                        <option value="Student">Student</option>
-                        <option value="Staff">Staff</option>
-                    </select>
+                        <label for="last_name">Last Name</label>
+                        <input type="text" name="last_name" id="last_name" class="input-field" placeholder="e.g. Dela Cruz" required>
 
-                <?php elseif (strcmp($_SESSION["email_type"], "faculty") == 0): ?>
+                        <label for="course_code">Course Code</label>
+                        <input type="text" name="course_code" id="course_code" class="input-field" placeholder="e.g. BS-IT" required>
 
-                    <label for="role">Role:</label>
-                    <select name="role" id="role" class="input-field">
-                        <option value="Faculty">Faculty</option>
-                    </select>
+                        <?php if (strcmp($_SESSION["email_type"], "student/staff") == 0): ?>
 
-                <?php endif; */ ?>
+                            <div class="role-group">
+                                <div class="section-header">Role</div>
+                                <label><input type="radio" name="role" value="Student"> Student</label>
+                                <label><input type="radio" name="role" value="Staff"> Staff</label>
+                            </div>
 
-            </div>
-        </div>
+                        <?php elseif (strcmp($_SESSION["email_type"], "faculty") == 0): ?>
+
+                            <div class="role-group">
+                                <div class="section-header">Role</div>
+                                <label><input type="radio" name="role" value="Faculty"> Faculty</label>
+                            </div>
+
+                        <?php endif; ?>
+
+                    </div>
+
+                    <div class="form-column">
+                        <div class="section-header">Contact Information</div>
+
+                        <label for="phone_number">Phone Number</label>
+                        <input type="text"
+                            name="phone_number"
+                            class="input-field"
+                            pattern="09[0-9]{9}"
+                            minlength="11"
+                            maxlength="11"
+                            placeholder="e.g. 09685706073"
+                            required>
+                        <div class="password-group">
+                            <div class="section-header">Create Password</div>
+                            <label for="password"><b>New Password:</b></label>
+                            <input type="password" name="password" id="password" class="input-field" placeholder="Create a password" required>
+                            <br>
+                            <label for="confirm_password">Confirm Password:</label>
+                            <input type="password" name="confirm_password" id="confirm_password" class="input-field" placeholder="Confirm your password" required>
+
+                            <input type="submit" value="Complete Profile" id="submit-btn">
+
+                        </div>
+                    </div>
+                </div>
     </form>
 </body>
 
