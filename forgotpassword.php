@@ -12,6 +12,7 @@ require 'PHPMailer/src/SMTP.php';
 $error_message = "";
 $success_message = "";
 $success_message_reset = "";
+$flag = true;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // send the code
@@ -76,6 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             unset($_SESSION["forgot_code"], $_SESSION["forgot_time"]);
             $_SESSION["forgot_verified"] = true;
+            $flag = false;
             $success_message = "Code verified! You may now reset your password.";
         }
         // reset the password
@@ -139,11 +141,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <div id="input-container">
                 <!-- SHOW VERIFICATION UI FIRST -->
-                <?php if (!isset($_SESSION["forgot_verified"]) || $_SESSION["forgot_verified"] !== true): ?>
+                <?php if (empty($success_message_reset) && (!isset($_SESSION["forgot_verified"]) || $_SESSION["forgot_verified"] !== true) && $flag): ?>
                     <label for="email">Registered Email:</label>
                     <div class="email-group">
                         <input type="email" name="email" id="email-input-field" class="input-field" pattern="^[a-z._]+@dlsu\.edu\.ph$" placeholder="email@dlsu.edu.ph" value="
-                        <?php echo isset($_SESSION["forgot_email"]) ? $_SESSION["forgot_email"] : (isset($_POST["email"]) ? $_POST["email"] : ""); ?>" required />
+                        <?php echo isset($_SESSION["forgot_email"]) ? $_SESSION["forgot_email"] : (isset($_POST["email"]) ? $_POST["email"] : "");?>" required />
                         <input type="submit" value="Send Code" name="send_code" id="send-code-btn" formnovalidate onclick="disableSend()" />
                     </div>
 
