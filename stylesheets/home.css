@@ -1,16 +1,99 @@
-body {
+/* Sidebar Layout Tweak */
+.sidebar {
+    width: 280px;
+    background-color: #4a543e; /* Dark Forest */
+    color: #eeece0;
+    padding: 40px 20px;
+    position: fixed;
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-    background-color: #f4f1de;
 }
 
-main {
+.user-profile-section {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.nav-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid #798367;
+    margin-bottom: 15px;
+}
+
+.user-name {
+    font-size: 1.2rem;
+    margin: 5px 0;
+    color: #eeece0;
+}
+
+.user-id {
+    font-size: 0.9rem;
+    color: #cec8b0;
+    font-weight: 400;
+}
+
+/* Header & Cart Button */
+.top-bar {
     display: flex;
-    flex: 1;
-    gap: 20px;
-    padding: 20px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
 }
 
-section { flex: 3; } /* Main content area */
-aside { flex: 1; background: #eeece0; padding: 15px; border-radius: 10px; } /* Sidebar */
+.header-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.cart-btn {
+    background: transparent;
+    border: 2px solid #4a543e;
+    color: #4a543e;
+    padding: 8px 18px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.cart-btn:hover {
+    background: #4a543e;
+    color: #eeece0;
+}
+
+.create-listing-btn {
+    background: #4a543e;
+    color: #eeece0;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Navigation Items */
+.nav-menu a {
+    color: #eeece0;
+    text-decoration: none;
+    padding: 12px 15px;
+    display: block;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    transition: 0.2s;
+}
+
+.nav-menu a:hover, .nav-menu a.active {
+    background: #798367;
+}
+
+.nav-divider {
+    border: 0;
+    border-top: 1px solid rgba(238, 236, 224, 0.2);
+    margin: 15px 0;
+}
