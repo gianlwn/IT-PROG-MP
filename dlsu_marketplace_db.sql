@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Mar 06, 2026 at 02:32 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Host: 127.0.0.1
+-- Generation Time: Mar 08, 2026 at 12:42 PM
+-- Server version: 8.0.43
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,11 +28,11 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `admin_accounts` (
-  `admin_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `admin_role_id` int(11) NOT NULL,
-  `assigned_by` int(11) NOT NULL,
-  `assigned_at` timestamp NULL DEFAULT current_timestamp()
+  `admin_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `admin_role_id` int NOT NULL,
+  `assigned_by` int NOT NULL,
+  `assigned_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -42,8 +42,8 @@ CREATE TABLE `admin_accounts` (
 --
 
 CREATE TABLE `admin_roles` (
-  `admin_role_id` int(11) NOT NULL,
-  `role_name` enum('Moderator','Superadmin') NOT NULL
+  `admin_role_id` int NOT NULL,
+  `role_name` enum('Moderator','Superadmin') COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -61,10 +61,10 @@ INSERT INTO `admin_roles` (`admin_role_id`, `role_name`) VALUES
 --
 
 CREATE TABLE `categories` (
-  `category_id` int(11) NOT NULL,
-  `category_name` varchar(100) NOT NULL,
-  `created_by_admin_id` int(11) NOT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp()
+  `category_id` int NOT NULL,
+  `category_name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `created_by_admin_id` int NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -74,12 +74,12 @@ CREATE TABLE `categories` (
 --
 
 CREATE TABLE `claims` (
-  `claim_id` int(11) NOT NULL,
-  `listing_id` int(11) NOT NULL,
-  `buyer_id` int(11) NOT NULL,
-  `seller_id` int(11) NOT NULL,
-  `status` enum('pending','completed','cancelled') DEFAULT 'pending',
-  `claimed_at` timestamp NULL DEFAULT current_timestamp(),
+  `claim_id` int NOT NULL,
+  `listing_id` int NOT NULL,
+  `buyer_id` int NOT NULL,
+  `seller_id` int NOT NULL,
+  `status` enum('pending','completed','cancelled') COLLATE utf8mb4_general_ci DEFAULT 'pending',
+  `claimed_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `completed_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -90,16 +90,16 @@ CREATE TABLE `claims` (
 --
 
 CREATE TABLE `listings` (
-  `listing_id` int(11) NOT NULL,
-  `seller_id` int(11) NOT NULL,
-  `title` varchar(150) NOT NULL,
-  `description` text NOT NULL,
+  `listing_id` int NOT NULL,
+  `seller_id` int NOT NULL,
+  `title` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `description` text COLLATE utf8mb4_general_ci NOT NULL,
   `price` decimal(10,2) NOT NULL,
-  `category_id` int(11) NOT NULL,
-  `status` enum('available','reserved','sold') DEFAULT 'available',
-  `is_removed` tinyint(1) DEFAULT 0,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `category_id` int NOT NULL,
+  `status` enum('available','reserved','sold') COLLATE utf8mb4_general_ci DEFAULT 'available',
+  `is_removed` tinyint(1) DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -109,10 +109,10 @@ CREATE TABLE `listings` (
 --
 
 CREATE TABLE `listing_images` (
-  `image_id` int(11) NOT NULL,
-  `listing_id` int(11) NOT NULL,
-  `image_path` varchar(255) NOT NULL,
-  `uploaded_at` timestamp NULL DEFAULT current_timestamp()
+  `image_id` int NOT NULL,
+  `listing_id` int NOT NULL,
+  `image_path` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `uploaded_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -122,8 +122,8 @@ CREATE TABLE `listing_images` (
 --
 
 CREATE TABLE `listing_tags` (
-  `listing_id` int(11) NOT NULL,
-  `tag_id` int(11) NOT NULL
+  `listing_id` int NOT NULL,
+  `tag_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -133,14 +133,14 @@ CREATE TABLE `listing_tags` (
 --
 
 CREATE TABLE `ratings` (
-  `rating_id` int(11) NOT NULL,
-  `claim_id` int(11) NOT NULL,
-  `rater_id` int(11) NOT NULL,
-  `rated_user_id` int(11) NOT NULL,
-  `rating_value` int(11) DEFAULT NULL,
-  `comment` text DEFAULT NULL,
-  `is_reviewed_by_admin` tinyint(1) DEFAULT 0,
-  `created_at` timestamp NULL DEFAULT current_timestamp()
+  `rating_id` int NOT NULL,
+  `claim_id` int NOT NULL,
+  `rater_id` int NOT NULL,
+  `rated_user_id` int NOT NULL,
+  `rating_value` int DEFAULT NULL,
+  `comment` text COLLATE utf8mb4_general_ci,
+  `is_reviewed_by_admin` tinyint(1) DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -150,14 +150,14 @@ CREATE TABLE `ratings` (
 --
 
 CREATE TABLE `reports` (
-  `report_id` int(11) NOT NULL,
-  `reporter_id` int(11) NOT NULL,
-  `reported_listing_id` int(11) DEFAULT NULL,
-  `reported_user_id` int(11) DEFAULT NULL,
-  `reason` text NOT NULL,
-  `status` enum('pending','resolved','rejected') DEFAULT 'pending',
-  `reviewed_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `report_id` int NOT NULL,
+  `reporter_id` int NOT NULL,
+  `reported_listing_id` int DEFAULT NULL,
+  `reported_user_id` int DEFAULT NULL,
+  `reason` text COLLATE utf8mb4_general_ci NOT NULL,
+  `status` enum('pending','resolved','rejected') COLLATE utf8mb4_general_ci DEFAULT 'pending',
+  `reviewed_by` int DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `resolved_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -168,10 +168,10 @@ CREATE TABLE `reports` (
 --
 
 CREATE TABLE `system_logs` (
-  `log_id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `action_type` enum('CREATE','UPDATE','DELETE') NOT NULL,
-  `timestamp` timestamp NULL DEFAULT current_timestamp()
+  `log_id` int NOT NULL,
+  `user_id` int DEFAULT NULL,
+  `action_type` enum('CREATE','UPDATE','DELETE') COLLATE utf8mb4_general_ci NOT NULL,
+  `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -181,10 +181,10 @@ CREATE TABLE `system_logs` (
 --
 
 CREATE TABLE `tags` (
-  `tag_id` int(11) NOT NULL,
-  `tag_name` varchar(100) NOT NULL,
-  `created_by_admin_id` int(11) NOT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp()
+  `tag_id` int NOT NULL,
+  `tag_name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `created_by_admin_id` int NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -194,11 +194,11 @@ CREATE TABLE `tags` (
 --
 
 CREATE TABLE `transaction_proofs` (
-  `proof_id` int(11) NOT NULL,
-  `claim_id` int(11) NOT NULL,
-  `submitted_by` int(11) NOT NULL,
-  `file_path` varchar(255) NOT NULL,
-  `submitted_at` timestamp NULL DEFAULT current_timestamp()
+  `proof_id` int NOT NULL,
+  `claim_id` int NOT NULL,
+  `submitted_by` int NOT NULL,
+  `file_path` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `submitted_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -208,20 +208,28 @@ CREATE TABLE `transaction_proofs` (
 --
 
 CREATE TABLE `users` (
-  `user_id` int(11) NOT NULL,
-  `dlsu_email` varchar(100) NOT NULL,
-  `password_hash` varchar(255) NOT NULL,
-  `first_name` varchar(50) NOT NULL,
-  `last_name` varchar(50) NOT NULL,
-  `course_code` varchar(10) NOT NULL,
-  `role` enum('Student','Faculty','Staff') NOT NULL,
-  `phone_number` varchar(11) DEFAULT NULL,
-  `is_verified` tinyint(1) DEFAULT 0,
-  `warning_count` int(11) DEFAULT 0,
-  `is_suspended` tinyint(1) DEFAULT 0,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `user_id` int NOT NULL,
+  `dlsu_email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `password_hash` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `first_name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `last_name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `course_code` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
+  `role` enum('Student','Faculty','Staff') COLLATE utf8mb4_general_ci NOT NULL,
+  `phone_number` varchar(11) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `profile_picture` varchar(255) COLLATE utf8mb4_general_ci DEFAULT 'default-pfp.jpg',
+  `is_verified` tinyint(1) DEFAULT '0',
+  `warning_count` int DEFAULT '0',
+  `is_suspended` tinyint(1) DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`user_id`, `dlsu_email`, `password_hash`, `first_name`, `last_name`, `course_code`, `role`, `phone_number`, `profile_picture`, `is_verified`, `warning_count`, `is_suspended`, `created_at`, `updated_at`) VALUES
+(12415537, 'giancarlo_lawan@dlsu.edu.ph', '$2y$10$fRlIzYXZMimoL6UQDI3H5eaweesWQO5F7ytteXQJSKcrSmeqMzzpK', 'Giancarlo', 'Lawan', 'BS-IT', 'Student', '09285170610', 'default-pfp.jpg', 0, 0, 0, '2026-03-08 11:24:03', '2026-03-08 11:24:03');
 
 -- --------------------------------------------------------
 
@@ -230,12 +238,12 @@ CREATE TABLE `users` (
 --
 
 CREATE TABLE `warnings` (
-  `warning_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `rating_id` int(11) DEFAULT NULL,
-  `issued_by` int(11) NOT NULL,
-  `reason` text NOT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp()
+  `warning_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `rating_id` int DEFAULT NULL,
+  `issued_by` int NOT NULL,
+  `reason` text COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -362,73 +370,73 @@ ALTER TABLE `warnings`
 -- AUTO_INCREMENT for table `admin_accounts`
 --
 ALTER TABLE `admin_accounts`
-  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `admin_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `admin_roles`
 --
 ALTER TABLE `admin_roles`
-  MODIFY `admin_role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
+  MODIFY `admin_role_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `category_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `claims`
 --
 ALTER TABLE `claims`
-  MODIFY `claim_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `claim_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `listings`
 --
 ALTER TABLE `listings`
-  MODIFY `listing_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `listing_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `listing_images`
 --
 ALTER TABLE `listing_images`
-  MODIFY `image_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `image_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `ratings`
 --
 ALTER TABLE `ratings`
-  MODIFY `rating_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `rating_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `reports`
 --
 ALTER TABLE `reports`
-  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `report_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `system_logs`
 --
 ALTER TABLE `system_logs`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `log_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tags`
 --
 ALTER TABLE `tags`
-  MODIFY `tag_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `tag_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `transaction_proofs`
 --
 ALTER TABLE `transaction_proofs`
-  MODIFY `proof_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `proof_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `warnings`
 --
 ALTER TABLE `warnings`
-  MODIFY `warning_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `warning_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
