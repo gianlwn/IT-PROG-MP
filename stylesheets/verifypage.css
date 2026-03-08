@@ -124,6 +124,7 @@ body {
     margin-bottom: 25px;
     background-color: #cec8b0;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
 }
 
 .input-field:focus {

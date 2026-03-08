@@ -11,6 +11,7 @@ require 'PHPMailer/src/SMTP.php';
 
 $error_message = "";
 $success_message = "";
+$success_message_reset = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // send the code
@@ -62,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $code = trim($_POST["code"]);
 
         // check if the code is inputted
-        if (!isset($_POST["code"])) {
+        if (!isset($_POST["code"]) || !isset($_SESSION["forgot_time"])) {
             $error_message = "Please request a reset code first.";
             // check if the code expired
         } else if (time() - $_SESSION["forgot_time"] > 120) {
@@ -95,9 +96,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $sql = "UPDATE users SET password_hash = '$password_hash' WHERE dlsu_email = '$email_clean'";
 
                 if ($conn->query($sql) === TRUE) {
+                    $success_message_reset = "Password resetted successfully! Redirecting to login...";
                     unset($_SESSION["forgot_email"], $_SESSION["forgot_verified"]);
-                    header("Location: loginpage.php?reset=success");
-                    exit();
                 } else {
                     $error_message = "Database Error: " . $conn->error;
                 }
@@ -127,6 +127,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php endif; ?>
             <?php if (!empty($success_message)): ?>
                 <div id="success-msg"><?php echo $success_message; ?></div>
+            <?php endif; ?>
+            <?php if (!empty($success_message_reset)): ?>
+                <div id="success-msg"><?php echo $success_message_reset; ?></div>
+                <script>
+                    setTimeout(() => {
+                        window.location.href = 'loginpage.php?create=success';
+                    }, 3000);
+                </script>
             <?php endif; ?>
 
             <div id="input-container">
