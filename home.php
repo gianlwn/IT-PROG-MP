@@ -17,12 +17,14 @@ $user_id = $_SESSION["user_id"] ?? "00000000";
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="stylesheets/home.css" />
     <title>DLSU Marketplace | Home</title>
 </head>
+
 <body>
     <div class="dashboard-container">
         <aside class="sidebar">
@@ -60,3 +62,11 @@ $user_id = $_SESSION["user_id"] ?? "00000000";
                 </div>
 
                 <div class="product-grid">
+                    <p class="empty-state-text">No items listed yet. Check back later!</p>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+
+</html>
