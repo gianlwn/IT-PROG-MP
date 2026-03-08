@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $email = $conn->real_escape_string(trim($_POST["email"]));
   $password = $_POST["password"];
 
-  $sql = "SELECT user_id, password_hash, first_name, last_name, role, dlsu_email
+  $sql = "SELECT user_id, password_hash, first_name, last_name, role, dlsu_email, profile_picture
           FROM users
           WHERE dlsu_email = '$email'";
 
@@ -20,6 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (password_verify($password, $user["password_hash"])) {
       $_SESSION["dlsu_email"] = $user["dlsu_email"];
       $_SESSION["user_id"] = $user["user_id"];
+      $_SESSION["profile_picture"] = $user["profile_picture"];
       $_SESSION["first_name"] = $user["first_name"];
       $_SESSION["last_name"] = $user["last_name"];
       $_SESSION["role"] = $user["role"];

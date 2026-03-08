@@ -13,6 +13,8 @@ $first_name = $_SESSION["first_name"] ?? "User";
 $last_name = $_SESSION["last_name"] ?? "";
 $full_name = trim($first_name . " " . $last_name);
 $user_id = $_SESSION["user_id"] ?? "00000000";
+$profile_pic = $_SESSION["profile_picture"] ?? "login-icon.png";
+$pic_path = "images/" . $profile_pic;
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +31,7 @@ $user_id = $_SESSION["user_id"] ?? "00000000";
     <div class="dashboard-container">
         <aside class="sidebar">
             <div class="user-profile-section">
-                <img src="images/login-icon.png" alt="Profile" class="nav-logo">
+                <img src="<?php echo $pic_path; ?>" alt="Profile" class="nav-logo">
                 <div class="user-info-display">
                     <h2 class="user-name"><?php echo $full_name; ?></h2>
                     <p class="user-id">ID: <?php echo $user_id; ?></p>
