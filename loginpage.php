@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $email = $conn->real_escape_string(trim($_POST["email"]));
   $password = $_POST["password"];
 
-  $sql = "SELECT user_id, password_hash, first_name, role, dlsu_email
+  $sql = "SELECT user_id, password_hash, first_name, last_name, role, dlsu_email
           FROM users
           WHERE dlsu_email = '$email'";
 
