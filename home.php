@@ -25,5 +25,6 @@ if (!isset($_SESSION["dlsu_email"])) {
     <section>asdsa</section>
     <aside>cashudaso</aside>
     <footer>adsaasd</footer>
+    <a href="logout.php">Logout</a>
 </body>
 </html>
