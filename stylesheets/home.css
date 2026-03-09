@@ -7,7 +7,7 @@
 }
 
 body {
-    background-color: #f4f1de; /* Off-white cream background */
+    background-color: #f4f1de;
     color: #333;
 }
 
@@ -19,8 +19,8 @@ body {
 /* Sidebar Styles */
 .sidebar {
     width: 280px;
-    background-color: #4a543e; /* Dark Forest from your login page */
-    color: #eeece0; /* Cream text */
+    background-color: #4a543e;
+    color: #eeece0;
     padding: 40px 20px;
     position: fixed;
     height: 100vh;
@@ -37,7 +37,7 @@ body {
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    border: 3px solid #798367; /* Sage border */
+    border: 3px solid #798367;
     margin-bottom: 15px;
     object-fit: cover;
     background-color: #eeece0;
@@ -66,7 +66,7 @@ body {
 }
 
 .nav-menu a:hover, .nav-menu a.active {
-    background: #798367; /* Sage highlight */
+    background: #798367;
 }
 
 .nav-divider {
