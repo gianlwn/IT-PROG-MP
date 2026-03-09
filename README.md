@@ -13,7 +13,7 @@
     <li><strong>Initialize the database in phpMyAdmin</strong></li>
         <ul>
             <li>Download and install the <a href="https://github.com/gianlwn/IT-PROG-MP/blob/main/dlsu_marketplace_db.sql">dlsu_marketplace_db.sql</a> file.</li>
-            <li>Create a database named \"dlsu_marketplace_db\" in phpMyAdmin using the collation \"utf8mb4_general_ci\".</li>
+            <li>Create a database named "dlsu_marketplace_db" in phpMyAdmin using the collation "utf8mb4_general_ci".</li>
         </ul>
     <li><strong>Edit "db.php" with your SQL server credentials.</strong></li> 
         <ul>
@@ -38,7 +38,7 @@
         </ul>
     <li><strong>Using the application.</strong></li>
         <ul>
-            <li>Type in your browser "localhost/<foldername>" to access the application.</li>
+            <li>Type in your browser "localhost/&lt;foldername&gt;" to access the application.</li>
             <li>This should take you to the login page of our application.</li>
         </ul>
     <li>if meron edit</li> <!--CHANGE THIS LATER>-->
