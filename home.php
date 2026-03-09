@@ -5,7 +5,6 @@ include 'db.php';
 // check if user is logged in
 if (!isset($_SESSION["dlsu_email"])) {
     header("Location: loginpage.php");
-    exit();
 }
 
 // user data for display
@@ -29,10 +28,10 @@ $pic_path = "images/" . $profile_pic;
     <div class="dashboard-container">
         <aside class="sidebar">
             <div class="user-profile-section">
-                <img src="<?php echo htmlspecialchars($pic_path); ?>" alt="Profile" class="nav-logo">
+                <img src="<?php echo $pic_path; ?>" alt="Profile" class="nav-logo">
                 <div class="user-info-display">
-                    <h2 class="user-name"><?php echo htmlspecialchars($full_name); ?></h2>
-                    <p class="user-id">ID: <?php echo htmlspecialchars($user_id); ?></p>
+                    <h2 class="user-name"><?php echo $full_name; ?></h2>
+                    <p class="user-id">ID: <?php echo $user_id; ?></p>
                 </div>
             </div>
             <nav class="nav-menu">

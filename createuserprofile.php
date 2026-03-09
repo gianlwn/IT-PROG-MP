@@ -5,7 +5,6 @@ include 'db.php';
 // prevent people from accessing this without getting verified
 if (!isset($_SESSION["email_verified"]) || $_SESSION["email_verified"] !== true) {
     header("Location: verifypage.php");
-    exit();
 }
 
 $error_message = "";
