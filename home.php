@@ -40,7 +40,7 @@ $pic_path = "images/" . $profile_pic;
                 <a href="#">My Claims</a>
                 <a href="#">Profile</a>
                 <hr class="nav-divider">
-                <a href="logout.php" class="logout-link">Logout</a>
+                <a href="destroy.php" class="logout-link">Logout</a>
             </nav>
         </aside>
 
