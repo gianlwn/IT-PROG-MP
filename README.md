@@ -21,6 +21,7 @@
         </ul>
     <li>if meron edit</li> <!--CHANGE THIS LATER>-->
 </ol>
+<hr>
 <h3>Setup Instructions</h3>
 <ol>
     <li><strong>Start XAMPP</strong></li>
