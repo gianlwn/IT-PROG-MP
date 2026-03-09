@@ -1,8 +1,26 @@
-/* Sidebar Layout Tweak */
+/* General Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f4f1de; /* Off-white cream background */
+    color: #333;
+}
+
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar Styles */
 .sidebar {
     width: 280px;
-    background-color: #4a543e; /* Dark Forest */
-    color: #eeece0;
+    background-color: #4a543e; /* Dark Forest from your login page */
+    color: #eeece0; /* Cream text */
     padding: 40px 20px;
     position: fixed;
     height: 100vh;
@@ -19,8 +37,10 @@
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    border: 3px solid #798367;
+    border: 3px solid #798367; /* Sage border */
     margin-bottom: 15px;
+    object-fit: cover;
+    background-color: #eeece0;
 }
 
 .user-name {
@@ -35,7 +55,33 @@
     font-weight: 400;
 }
 
-/* Header & Cart Button */
+.nav-menu a {
+    color: #eeece0;
+    text-decoration: none;
+    padding: 12px 15px;
+    display: block;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    transition: 0.2s;
+}
+
+.nav-menu a:hover, .nav-menu a.active {
+    background: #798367; /* Sage highlight */
+}
+
+.nav-divider {
+    border: 0;
+    border-top: 1px solid rgba(238, 236, 224, 0.2);
+    margin: 15px 0;
+}
+
+/* Main Content Area */
+.main-content {
+    margin-left: 280px;
+    flex: 1;
+    padding: 30px;
+}
+
 .top-bar {
     display: flex;
     justify-content: space-between;
@@ -44,8 +90,26 @@
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
 }
 
+.search-wrapper {
+    background: #eeece0;
+    padding: 10px 15px;
+    border-radius: 10px;
+    width: 50%;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.search-wrapper input {
+    border: none;
+    background: transparent;
+    width: 100%;
+    outline: none;
+    color: #333;
+}
+
+/* Header & Cart Button */
 .header-actions {
     display: flex;
     gap: 12px;
@@ -77,23 +141,120 @@
     cursor: pointer;
 }
 
-/* Navigation Items */
-.nav-menu a {
+/* Sections */
+.section-container {
+    margin-bottom: 40px;
+}
+
+.section-title {
+    font-size: 1.4rem;
+    color: #4a543e;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+/* Quick Filter - Scrollable Chips */
+.category-scroll {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    scrollbar-width: none; /* Hide scrollbar for cleaner look */
+}
+
+.filter-chip {
+    background-color: #eeece0;
+    border: 1px solid #798367;
+    color: #4a543e;
+    padding: 8px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    white-space: nowrap;
+    font-weight: 500;
+    transition: 0.2s ease;
+}
+
+.filter-chip:hover, .filter-chip.active {
+    background-color: #798367;
     color: #eeece0;
-    text-decoration: none;
-    padding: 12px 15px;
-    display: block;
+}
+
+/* Product Grid & Cards */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+.product-card {
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease;
+    border: 1px solid rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+.product-image-placeholder {
+    height: 180px;
+    background-color: #cec8b0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #798367;
+    font-weight: 600;
+}
+
+.product-info {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.category-tag {
+    font-size: 11px;
+    color: #798367;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.item-name {
+    margin: 5px 0;
+    font-size: 1.1rem;
+    color: #222;
+    line-height: 1.2;
+    min-height: 2.4em;
+}
+
+.item-price {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #4a543e;
+    margin-bottom: 15px;
+}
+
+.view-item-btn {
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    border: 1px solid #4a543e;
+    color: #4a543e;
     border-radius: 8px;
-    margin-bottom: 8px;
+    font-weight: 600;
+    cursor: pointer;
     transition: 0.2s;
+    margin-top: auto;
 }
 
-.nav-menu a:hover, .nav-menu a.active {
-    background: #798367;
-}
-
-.nav-divider {
-    border: 0;
-    border-top: 1px solid rgba(238, 236, 224, 0.2);
-    margin: 15px 0;
+.view-item-btn:hover {
+    background: #4a543e;
+    color: #eeece0;
 }

@@ -19,22 +19,20 @@ $pic_path = "images/" . $profile_pic;
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="stylesheets/home.css" />
     <title>DLSU Marketplace | Home</title>
 </head>
-
 <body>
     <div class="dashboard-container">
         <aside class="sidebar">
             <div class="user-profile-section">
-                <img src="<?php echo $pic_path; ?>" alt="Profile" class="nav-logo">
+                <img src="<?php echo htmlspecialchars($pic_path); ?>" alt="Profile" class="nav-logo">
                 <div class="user-info-display">
-                    <h2 class="user-name"><?php echo $full_name; ?></h2>
-                    <p class="user-id">ID: <?php echo $user_id; ?></p>
+                    <h2 class="user-name"><?php echo htmlspecialchars($full_name); ?></h2>
+                    <p class="user-id">ID: <?php echo htmlspecialchars($user_id); ?></p>
                 </div>
             </div>
             <nav class="nav-menu">
@@ -59,16 +57,53 @@ $pic_path = "images/" . $profile_pic;
             </header>
 
             <section class="content-body">
-                <div class="section-header">
-                    <h3>Recent Listings</h3>
+                <div class="section-container">
+                    <h3 class="section-title">Quick Filter</h3>
+                    <div class="category-scroll">
+                        <button class="filter-chip active">All</button>
+                        <button class="filter-chip">Books</button>
+                        <button class="filter-chip">Uniforms</button>
+                        <button class="filter-chip">Electronics</button>
+                        <button class="filter-chip">School Supplies</button>
+                        <button class="filter-chip">Laboratory Gear</button>
+                        <button class="filter-chip">Others</button>
+                    </div>
                 </div>
 
-                <div class="product-grid">
-                    <p class="empty-state-text">No items listed yet. Check back later!</p>
+                <div class="section-container">
+                    <h3 class="section-title">Featured Items</h3>
+                    <div class="product-grid">
+                        <div class="product-card">
+                            <div class="product-image-placeholder">No Image</div>
+                            <div class="product-info">
+                                <span class="category-tag">Books</span>
+                                <h4 class="item-name">Engineering Math Textbook</h4>
+                                <p class="item-price">₱450.00</p>
+                                <button class="view-item-btn">View Details</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image-placeholder">No Image</div>
+                            <div class="product-info">
+                                <span class="category-tag">Uniforms</span>
+                                <h4 class="item-name">Men's Polo (Medium)</h4>
+                                <p class="item-price">₱300.00</p>
+                                <button class="view-item-btn">View Details</button>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="product-image-placeholder">No Image</div>
+                            <div class="product-info">
+                                <span class="category-tag">Electronics</span>
+                                <h4 class="item-name">Scientific Calculator</h4>
+                                <p class="item-price">₱1,200.00</p>
+                                <button class="view-item-btn">View Details</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
         </main>
     </div>
 </body>
-
 </html>
