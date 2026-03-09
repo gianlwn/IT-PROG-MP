@@ -76,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="profile-info">
                         <div class="id-container">
                             <label for="id_number">ID Number</label>
-                            <input type="text" name="id_number" id="id_number" class="input-field" minlength="8" maxlength="8" pattern="[0-9]{8}" placeholder="e.g. 12345678" required>
+                            <input type="text" name="id_number" id="id-number" class="input-field" minlength="8" maxlength="8" pattern="[0-9]{8}" placeholder="e.g. 12345678" required>
                         </div>
 
                         <div class="email-display">
@@ -144,7 +144,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             required>
                         <div class="password-group">
                             <div class="section-header">Create Password</div>
-                            <label for="password"><b>New Password:</b></label>
+                            <label for="password">New Password:</label>
                             <input type="password" name="password" id="password" class="input-field" placeholder="Create a password" required>
                             <br>
                             <label for="confirm_password">Confirm Password:</label>

@@ -23,15 +23,6 @@ body {
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
-#create-user-profile {
-    font-size: 42px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-align: center;
-    margin-bottom: 30px;
-    color: #222;
-}
-
 .profile-top{
     display:flex;
     align-items:center;
@@ -102,7 +93,7 @@ body {
     box-shadow: 0 0 0 3px rgba(60, 120, 200, 0.2);
 }
 
-#id_number {
+#id-number {
     background-color: #cec8b0;
 }
 
@@ -150,29 +141,6 @@ body {
     border-radius: 4px;
     text-align: center;
     font-size: 14px;
-}
-
-.file-input {
-    margin-bottom: 20px;
-    font-size: 15px;
-    color: #555;
-}
-
-.file-input::file-selector-button {
-    padding: 10px 15px;
-    border-radius: 8px;
-    border: 1px solid rgb(180, 180, 180);
-    background-color: #fff;
-    color: #444;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.2s ease, border-color 0.2s ease;
-    margin-right: 15px;
-}
-
-.file-input::file-selector-button:hover {
-    background-color: #f0f0f0;
-    border-color: #888;
 }
 
 #submit-btn {
