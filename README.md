@@ -4,6 +4,7 @@
 <p>change later pls</p> <!--CHANGE THIS LATER>-->
 <hr>
 <h3>Prerequisites</h3>
+<hr>
 <ol>
     <li><strong><strong>XAMPP (Recommended)</strong></strong></li>
         <ul>
@@ -21,7 +22,8 @@
         </ul>
     <li>if meron edit</li> <!--CHANGE THIS LATER>-->
 </ol>
-<h2>Setup Instructions</h2>
+<h3>Setup Instructions</h3>
+<hr>
 <ol>
     <li><strong>Start XAMPP</strong></li>
         <ul>
