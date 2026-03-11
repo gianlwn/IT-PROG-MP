@@ -111,8 +111,8 @@ CREATE TABLE `listings` (
   `price` decimal(10,2) NOT NULL,
   `quantity` int NOT NULL DEFAULT '1',
   `category1_id` int NOT NULL,
-  `category2_id` int NOT NULL,
-  `category3_id` int NOT NULL,
+  `category2_id` int DEFAULT NULL,
+  `category3_id` int DEFAULT NULL,
   `status` enum('available','reserved','sold') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'available',
   `is_removed` tinyint(1) DEFAULT '0',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
@@ -436,7 +436,7 @@ ALTER TABLE `claims`
 --
 ALTER TABLE `listings`
   ADD CONSTRAINT `listings_ibfk_1` FOREIGN KEY (`seller_id`) REFERENCES `users` (`user_id`),
-  ADD CONSTRAINT `listings_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`),
+  ADD CONSTRAINT `listings_ibfk_2` FOREIGN KEY (`category1_id`) REFERENCES `categories` (`category_id`),
   ADD CONSTRAINT `listings_ibfk_3` FOREIGN KEY (`category2_id`) REFERENCES `categories` (`category_id`),
   ADD CONSTRAINT `listings_ibfk_4` FOREIGN KEY (`category3_id`) REFERENCES `categories` (`category_id`);
 
