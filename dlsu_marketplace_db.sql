@@ -133,17 +133,6 @@ CREATE TABLE `listing_images` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `listing_tags`
---
-
-CREATE TABLE `listing_tags` (
-  `listing_id` int NOT NULL,
-  `tag_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `ratings`
 --
 
@@ -304,13 +293,6 @@ ALTER TABLE `listings`
 ALTER TABLE `listing_images`
   ADD PRIMARY KEY (`image_id`),
   ADD KEY `listing_id` (`listing_id`);
-
---
--- Indexes for table `listing_tags`
---
-ALTER TABLE `listing_tags`
-  ADD PRIMARY KEY (`listing_id`,`tag_id`),
-  ADD KEY `tag_id` (`tag_id`);
 
 --
 -- Indexes for table `ratings`
@@ -484,13 +466,6 @@ ALTER TABLE `listings`
 --
 ALTER TABLE `listing_images`
   ADD CONSTRAINT `listing_images_ibfk_1` FOREIGN KEY (`listing_id`) REFERENCES `listings` (`listing_id`) ON DELETE CASCADE;
-
---
--- Constraints for table `listing_tags`
---
-ALTER TABLE `listing_tags`
-  ADD CONSTRAINT `listing_tags_ibfk_1` FOREIGN KEY (`listing_id`) REFERENCES `listings` (`listing_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `listing_tags_ibfk_2` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`tag_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `ratings`
