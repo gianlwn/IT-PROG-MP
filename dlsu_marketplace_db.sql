@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 08, 2026 at 01:27 PM
+-- Generation Time: Mar 11, 2026 at 03:44 PM
 -- Server version: 8.0.43
 -- PHP Version: 8.2.12
 
@@ -215,7 +215,7 @@ CREATE TABLE `users` (
   `last_name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `course_code` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
   `role` enum('Student','Faculty','Staff') COLLATE utf8mb4_general_ci NOT NULL,
-  `phone_number` varchar(11) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `phone_number` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `profile_picture` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'default_pfp.jpg',
   `is_verified` tinyint(1) DEFAULT '0',
   `warning_count` int DEFAULT '0',
