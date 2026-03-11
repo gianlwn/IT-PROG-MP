@@ -173,6 +173,23 @@ CREATE TABLE `reports` (
 
 -- --------------------------------------------------------
 
+CREATE TABLE `reviews` (
+  `review_id` int NOT NULL AUTO_INCREMENT,
+  `claim_id` int NOT NULL,
+  `reviewer_id` int NOT NULL,
+  `reviewee_id` int NOT NULL,
+  `review_type` enum('Seller','Buyer') NOT NULL,
+  `rating` int NOT NULL CHECK (`rating` BETWEEN 1 AND 5),
+  `comment` text COLLATE utf8mb4_general_ci,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`review_id`),
+  KEY `claim_id` (`claim_id`),
+  KEY `reviewer_id` (`reviewer_id`),
+  KEY `reviewee_id` (`reviewee_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
 --
 -- Table structure for table `system_logs`
 --
@@ -466,6 +483,14 @@ ALTER TABLE `reports`
   ADD CONSTRAINT `reports_ibfk_2` FOREIGN KEY (`reported_listing_id`) REFERENCES `listings` (`listing_id`),
   ADD CONSTRAINT `reports_ibfk_3` FOREIGN KEY (`reported_user_id`) REFERENCES `users` (`user_id`),
   ADD CONSTRAINT `reports_ibfk_4` FOREIGN KEY (`reviewed_by`) REFERENCES `users` (`user_id`);
+
+--
+-- Constraints for table `reviews`
+--
+ALTER TABLE `reviews`
+  ADD CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`claim_id`) REFERENCES `claims` (`claim_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`reviewer_id`) REFERENCES `users` (`user_id`),
+  ADD CONSTRAINT `reviews_ibfk_3` FOREIGN KEY (`reviewee_id`) REFERENCES `users` (`user_id`);
 
 --
 -- Constraints for table `system_logs`
