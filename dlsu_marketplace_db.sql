@@ -51,8 +51,8 @@ CREATE TABLE `admin_roles` (
 --
 
 INSERT INTO `admin_roles` (`admin_role_id`, `role_name`) VALUES
-(101, 'Superadmin'),
-(102, 'Moderator');
+(1, 'Superadmin'),
+(2, 'Moderator');
 
 -- --------------------------------------------------------
 
@@ -66,20 +66,6 @@ CREATE TABLE `categories` (
   `created_by_admin_id` int NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `categories`
---
-
-INSERT INTO `categories` (`category_id`, `category_name`, `created_by_admin_id`, `created_at`) VALUES
-(1, 'CCS', 2, '2026-03-11 15:16:46'),
-(2, 'COS', 2, '2026-03-11 15:17:25'),
-(3, 'GCOE', 2, '2026-03-11 15:17:49'),
-(4, 'BAGCED', 2, '2026-03-11 15:17:54'),
-(5, 'CLA', 2, '2026-03-11 15:18:04'),
-(6, 'COB', 2, '2026-03-11 15:18:09'),
-(7, 'Books', 2, '2026-03-11 15:18:17'),
-(8, 'Clothes', 2, '2026-03-11 15:18:33');
 
 -- --------------------------------------------------------
 
