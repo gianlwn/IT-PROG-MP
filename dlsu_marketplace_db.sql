@@ -436,7 +436,7 @@ ALTER TABLE `claims`
 --
 ALTER TABLE `listings`
   ADD CONSTRAINT `listings_ibfk_1` FOREIGN KEY (`seller_id`) REFERENCES `users` (`user_id`),
-  ADD CONSTRAINT `listings_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`);
+  ADD CONSTRAINT `listings_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`),
   ADD CONSTRAINT `listings_ibfk_3` FOREIGN KEY (`category2_id`) REFERENCES `categories` (`category_id`),
   ADD CONSTRAINT `listings_ibfk_4` FOREIGN KEY (`category3_id`) REFERENCES `categories` (`category_id`);
 
