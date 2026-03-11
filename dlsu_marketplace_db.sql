@@ -349,7 +349,7 @@ ALTER TABLE `admin_accounts`
 -- AUTO_INCREMENT for table `admin_roles`
 --
 ALTER TABLE `admin_roles`
-  MODIFY `admin_role_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
+  MODIFY `admin_role_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `categories`
