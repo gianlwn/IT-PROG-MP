@@ -92,7 +92,7 @@ CREATE TABLE `claims` (
   `listing_id` int NOT NULL,
   `buyer_id` int NOT NULL,
   `seller_id` int NOT NULL,
-  `status` enum('pending','completed','cancelled') COLLATE utf8mb4_general_ci DEFAULT 'pending',
+  `status` enum('Pending','Completed','Cancelled') COLLATE utf8mb4_general_ci DEFAULT 'Pending',
   `claimed_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `completed_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -113,7 +113,7 @@ CREATE TABLE `listings` (
   `category1_id` int NOT NULL,
   `category2_id` int DEFAULT NULL,
   `category3_id` int DEFAULT NULL,
-  `status` enum('available','reserved','sold') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'available',
+  `status` enum('Available','Reserved','Sold') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'Available',
   `is_removed` tinyint(1) DEFAULT '0',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -161,7 +161,7 @@ CREATE TABLE `reports` (
   `reported_listing_id` int DEFAULT NULL,
   `reported_user_id` int DEFAULT NULL,
   `reason` text COLLATE utf8mb4_general_ci NOT NULL,
-  `status` enum('pending','resolved','rejected') COLLATE utf8mb4_general_ci DEFAULT 'pending',
+  `status` enum('Pending','Resolved','Rejected') COLLATE utf8mb4_general_ci DEFAULT 'Pending',
   `reviewed_by` int DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `resolved_at` datetime DEFAULT NULL
