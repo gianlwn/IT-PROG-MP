@@ -106,12 +106,14 @@ CREATE TABLE `claims` (
 CREATE TABLE `listings` (
   `listing_id` int NOT NULL,
   `seller_id` int NOT NULL,
-  `product_name` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
-  `description` text COLLATE utf8mb4_general_ci NOT NULL,
+  `product_name` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `price` decimal(10,2) NOT NULL,
   `quantity` int NOT NULL DEFAULT '1',
-  `category_id` int NOT NULL,
-  `status` enum('available','reserved','sold') COLLATE utf8mb4_general_ci DEFAULT 'available',
+  `category1_id` int NOT NULL,
+  `category2_id` int NOT NULL,
+  `category3_id` int NOT NULL,
+  `status` enum('available','reserved','sold') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'available',
   `is_removed` tinyint(1) DEFAULT '0',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -272,7 +274,9 @@ ALTER TABLE `claims`
 ALTER TABLE `listings`
   ADD PRIMARY KEY (`listing_id`),
   ADD KEY `seller_id` (`seller_id`),
-  ADD KEY `category_id` (`category_id`);
+  ADD KEY `category1_id` (`category1_id`) USING BTREE,
+  ADD KEY `category2_id` (`category2_id`) USING BTREE,
+  ADD KEY `category3_id` (`category3_id`) USING BTREE;
 
 --
 -- Indexes for table `listing_images`
@@ -433,6 +437,8 @@ ALTER TABLE `claims`
 ALTER TABLE `listings`
   ADD CONSTRAINT `listings_ibfk_1` FOREIGN KEY (`seller_id`) REFERENCES `users` (`user_id`),
   ADD CONSTRAINT `listings_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`);
+  ADD CONSTRAINT `listings_ibfk_3` FOREIGN KEY (`category2_id`) REFERENCES `categories` (`category_id`),
+  ADD CONSTRAINT `listings_ibfk_4` FOREIGN KEY (`category3_id`) REFERENCES `categories` (`category_id`);
 
 --
 -- Constraints for table `listing_images`
