@@ -181,19 +181,6 @@ CREATE TABLE `system_logs` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tags`
---
-
-CREATE TABLE `tags` (
-  `tag_id` int NOT NULL,
-  `tag_name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `created_by_admin_id` int NOT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `transaction_proofs`
 --
 
@@ -321,14 +308,6 @@ ALTER TABLE `system_logs`
   ADD KEY `user_id` (`user_id`);
 
 --
--- Indexes for table `tags`
---
-ALTER TABLE `tags`
-  ADD PRIMARY KEY (`tag_id`),
-  ADD UNIQUE KEY `tag_name` (`tag_name`),
-  ADD KEY `created_by_admin_id` (`created_by_admin_id`);
-
---
 -- Indexes for table `transaction_proofs`
 --
 ALTER TABLE `transaction_proofs`
@@ -411,12 +390,6 @@ ALTER TABLE `system_logs`
   MODIFY `log_id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `tags`
---
-ALTER TABLE `tags`
-  MODIFY `tag_id` int NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `transaction_proofs`
 --
 ALTER TABLE `transaction_proofs`
@@ -489,12 +462,6 @@ ALTER TABLE `reports`
 --
 ALTER TABLE `system_logs`
   ADD CONSTRAINT `system_logs_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
-
---
--- Constraints for table `tags`
---
-ALTER TABLE `tags`
-  ADD CONSTRAINT `tags_ibfk_1` FOREIGN KEY (`created_by_admin_id`) REFERENCES `admin_accounts` (`admin_id`);
 
 --
 -- Constraints for table `transaction_proofs`
