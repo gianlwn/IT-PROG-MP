@@ -18,12 +18,14 @@ $pic_path = "images/" . $profile_pic;
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="stylesheets/home.css" />
     <title>DLSU Marketplace | Home</title>
 </head>
+
 <body>
     <div class="dashboard-container">
         <aside class="sidebar">
@@ -77,6 +79,10 @@ $pic_path = "images/" . $profile_pic;
                             <div class="product-info">
                                 <span class="category-tag">Books</span>
                                 <h4 class="item-name">Engineering Math Textbook</h4>
+                                <div class="seller-row">
+                                    <span class="seller-name">Jason Benedict Lee</span>
+                                    <span class="seller-rating">★ 4.8</span>
+                                </div>
                                 <p class="item-price">₱450.00</p>
                                 <button class="view-item-btn">View Details</button>
                             </div>
@@ -86,6 +92,10 @@ $pic_path = "images/" . $profile_pic;
                             <div class="product-info">
                                 <span class="category-tag">Uniforms</span>
                                 <h4 class="item-name">Men's Polo (Medium)</h4>
+                                <div class="seller-row">
+                                    <span class="seller-name">Camille Erika Sarabia</span>
+                                    <span class="seller-rating">★ 1.7</span>
+                                </div>
                                 <p class="item-price">₱300.00</p>
                                 <button class="view-item-btn">View Details</button>
                             </div>
@@ -95,6 +105,10 @@ $pic_path = "images/" . $profile_pic;
                             <div class="product-info">
                                 <span class="category-tag">Electronics</span>
                                 <h4 class="item-name">Scientific Calculator</h4>
+                                <div class="seller-row">
+                                    <span class="seller-name">Giancarlo Lawan</span>
+                                    <span class="seller-rating">★ 5.0</span>
+                                </div>
                                 <p class="item-price">₱1,200.00</p>
                                 <button class="view-item-btn">View Details</button>
                             </div>
@@ -105,4 +119,5 @@ $pic_path = "images/" . $profile_pic;
         </main>
     </div>
 </body>
+
 </html>

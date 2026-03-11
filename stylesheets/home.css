@@ -234,6 +234,34 @@ body {
     min-height: 2.4em;
 }
 
+.seller-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.seller-name {
+    font-size: 0.85rem;
+    color: #666;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 10px;
+}
+
+.seller-rating {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #f39c12;
+    background: rgba(243, 156, 18, 0.1);
+    padding: 3px 8px;
+    border-radius: 8px;
+    white-space: nowrap;
+}
+
 .item-price {
     font-size: 1.2rem;
     font-weight: 700;
