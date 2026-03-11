@@ -67,6 +67,24 @@ CREATE TABLE `categories` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `categories`
+--
+
+SET FOREIGN_KEY_CHECKS = 0;
+
+INSERT INTO `categories` (`category_id`, `category_name`, `created_by_admin_id`, `created_at`) VALUES
+(1, 'CCS', 1, '2026-03-11 07:16:46'),
+(2, 'COS', 1, '2026-03-11 07:17:25'),
+(3, 'GCOE', 1, '2026-03-11 07:17:49'),
+(4, 'BAGCED', 1, '2026-03-11 07:17:54'),
+(5, 'CLA', 1, '2026-03-11 07:18:04'),
+(6, 'COB', 1, '2026-03-11 07:18:09'),
+(7, 'Books', 1, '2026-03-11 07:18:17'),
+(8, 'Clothes', 1, '2026-03-11 07:18:33');
+
+SET FOREIGN_KEY_CHECKS = 1;
+
 -- --------------------------------------------------------
 
 --
