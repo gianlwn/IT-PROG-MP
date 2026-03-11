@@ -95,6 +95,7 @@ CREATE TABLE `listings` (
   `product_name` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
   `description` text COLLATE utf8mb4_general_ci NOT NULL,
   `price` decimal(10,2) NOT NULL,
+  `quantity` int NOT NULL DEFAULT '1',
   `category_id` int NOT NULL,
   `status` enum('available','reserved','sold') COLLATE utf8mb4_general_ci DEFAULT 'available',
   `is_removed` tinyint(1) DEFAULT '0',
