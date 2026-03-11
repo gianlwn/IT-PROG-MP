@@ -92,7 +92,7 @@ CREATE TABLE `claims` (
 CREATE TABLE `listings` (
   `listing_id` int NOT NULL,
   `seller_id` int NOT NULL,
-  `title` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `product_name` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
   `description` text COLLATE utf8mb4_general_ci NOT NULL,
   `price` decimal(10,2) NOT NULL,
   `category_id` int NOT NULL,
