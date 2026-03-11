@@ -38,9 +38,9 @@ $pic_path = "images/" . $profile_pic;
             </div>
             <nav class="nav-menu">
                 <a href="home.php" class="active">Home</a>
-                <a href="#">My Listings</a>
-                <a href="#">My Claims</a>
-                <a href="#">Profile</a>
+                <a href="mylistings.php">My Listings</a>
+                <a href="myclaims.php">My Claims</a>
+                <a href="editprofile.php">Edit Profile</a>
                 <hr class="nav-divider">
                 <a href="destroy.php" class="logout-link">Logout</a>
             </nav>
