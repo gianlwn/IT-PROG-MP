@@ -148,7 +148,7 @@ CREATE TABLE `ratings` (
   `rater_id` int NOT NULL,
   `rated_user_id` int NOT NULL,
   `rating_value` int DEFAULT NULL,
-  `reviews` text COLLATE utf8mb4_general_ci,
+  `review` text COLLATE utf8mb4_general_ci,
   `is_reviewed_by_admin` tinyint(1) DEFAULT '0',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
