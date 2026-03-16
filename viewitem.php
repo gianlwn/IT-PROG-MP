@@ -16,7 +16,7 @@ if (!isset($_GET["listing_id"]) || empty($_GET["listing_id"])) {
 
 $listing_id = intval($_GET["listing_id"]);
 $item_query = "SELECT l.listing_id, c1.category_name AS cat1, c2.category_name AS cat2, c3.category_name AS cat3,
-                         l.product_name, CONCAT(u.first_name, ' ', u.last_name) AS full_name, IFNULL(AVG(r.rating_value), 0) AS avg_rating,
+                         l.product_name, CONCAT(u.first_name, ' ', u.last_name) AS full_name, IFNULL(ROUND(AVG(r.rating_value), 1), 0) AS avg_rating,
                          l.price, l.quantity, (SELECT image_path FROM listing_images WHERE listing_id = l.listing_id LIMIT 1) AS image_path
                   FROM listings l
                   LEFT JOIN users u ON u.user_id = l.seller_id

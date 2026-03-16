@@ -20,7 +20,7 @@ $pic_path = "images/" . $profile_pic;
 // get all listings
 $listings = [];
 $listing_query = "SELECT l.listing_id, c1.category_name AS cat1, c2.category_name AS cat2, c3.category_name AS cat3,
-                         l.product_name, CONCAT(u.first_name, ' ', u.last_name) AS full_name, IFNULL(AVG(r.rating_value), 0) AS avg_rating,
+                         l.product_name, CONCAT(u.first_name, ' ', u.last_name) AS full_name, IFNULL(ROUND(AVG(r.rating_value), 1), 0) AS avg_rating,
                          l.price, l.quantity, (SELECT image_path FROM listing_images WHERE listing_id = l.listing_id LIMIT 1) AS image_path
                   FROM listings l
                   LEFT JOIN users u ON u.user_id = l.seller_id
@@ -132,10 +132,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <h4 class="item-name"><?php echo $l["product_name"]; ?></h4>
                                         <div class="seller-row">
                                             <span class="seller-name"><?php echo $l["full_name"]; ?></span>
-                                            <span class="seller-rating">★ <?php echo number_format($l["avg_rating"], 1); ?></span>
+                                            <span class="seller-rating">★ <?php echo $l["avg_rating"]; ?></span>
                                         </div>
                                         <div class="price-qty-row">
-                                            <p class="item-price">₱<?php echo number_format($l["price"], 2); ?></p>
+                                            <p class="item-price">₱<?php echo $l["price"]; ?></p>
                                             <span class="item-quantity">Qty: <?php echo $l["quantity"]; ?></span>
                                         </div>
                                         <button class="view-item-btn" name="viewitem" value="<?php echo $l["listing_id"]; ?>">View Details</button>
