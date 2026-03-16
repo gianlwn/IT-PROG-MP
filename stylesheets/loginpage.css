@@ -12,7 +12,7 @@ body {
     background: linear-gradient(to bottom, #798367, #4a543e);
 }
 
-#container {
+.container {
     position: relative; /* absolute positioning of the login-icon */
     background-color: #eeece0; 
     width: 700px;
@@ -34,7 +34,7 @@ body {
     box-shadow: 0 5px 15px rgba(37, 54, 38, 0.2); 
 }
 
-#error-msg {
+.error-msg {
     color: #d9534f;
     background-color: #f2dede;
     border: 1px solid #ebccd1;
@@ -45,11 +45,11 @@ body {
     font-size: 14px;
 }
 
-#input-container {
+.input-container {
     margin-top: 20px;
 }
 
-#input-container label {
+.input-container label {
     display: block;
     font-size: 14px;
     font-weight: 600;
@@ -75,7 +75,7 @@ body {
     box-shadow: 0 0 0 3px rgba(55, 129, 87, 0.2);
 }
 
-#submitbtn {
+.submit-btn {
     width: 100%;
     padding: 14px;
     font-size: 18px;
@@ -88,17 +88,17 @@ body {
     font-weight: 600;
 }
 
-#submitbtn:hover:not(:disabled) {
+.submit-btn:hover:not(:disabled) {
     background-color: #798367;
     transform: translateY(-1px);
 }
 
-#submitbtn:disabled {
+.submit-btn:disabled {
     opacity: 0.7;
     cursor: not-allowed;
 }
 
-#submitbtn:active:not(:disabled) {
+.submit-btn:active:not(:disabled) {
     transform: translateY(1px);
 }
 
@@ -131,7 +131,7 @@ hr {
         justify-content: center;
     }
 
-    #container {
+    .container {
         margin-left: 0;
         width: 90%;
     }

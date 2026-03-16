@@ -12,7 +12,7 @@ body {
     padding: 20px;
 }
 
-#container {
+.container {
     background-color: #eeece0;
     width: 90%;
     padding: 40px;
@@ -56,7 +56,7 @@ body {
     align-self: flex-start; /* ensures it aligns with the input */
 }
 
-#input-container {
+.input-container {
     display: flex;
     gap: 40px;      
     flex-wrap: wrap; 
@@ -70,7 +70,7 @@ body {
     border: 2px solid rgba(0, 0, 0, 0.15);
 }
 
-#input-container label {
+.input-container label {
     font-size: 14px;
     font-weight: 600;
     color: #4a543e;
@@ -121,7 +121,7 @@ body {
     margin-top: 10px;
 }
 
-#error-msg {
+.error-msg {
     color: #d9534f;
     background-color: #f2dede;
     border: 1px solid #ebccd1;
@@ -132,7 +132,7 @@ body {
     font-size: 14px;
 }
 
-#success-msg {
+.success-msg {
     color: #3c763d;
     background-color: #dff0d8;
     border: 1px solid #d6e9c6;
@@ -143,7 +143,7 @@ body {
     font-size: 14px;
 }
 
-#submit-btn {
+.submit-btn {
     width: 100%;
     padding: 14px;
     font-size: 18px;
@@ -157,11 +157,11 @@ body {
     margin-top: 10px;
 }
 
-#submit-btn:hover {
+.submit-btn:hover {
     background-color: #6f7c5e;
     transform: translateY(-1px);
 }
 
-#submit-btn:active {
+.submit-btn:active {
     transform: translateY(1px);
 }

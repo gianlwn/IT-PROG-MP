@@ -67,8 +67,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <form action="createuserprofile.php" method="post" enctype="multipart/form-data">
-        <div id="container">
-            <div id="header">
+        <div class="container">
+            <div class="header">
                 <h1>Create Profile</h1>
                 <hr>
                 <div class="profile-top">
@@ -87,11 +87,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <?php if (!empty($error_message)): ?>
-                    <div id="error-msg"><?php echo $error_message; ?></div>
+                    <div class="error-msg"><?php echo $error_message; ?></div>
                 <?php endif; ?>
 
                 <?php if (!empty($success_message)): ?>
-                    <div id="success-msg"><?php echo $success_message; ?></div>
+                    <div class="success-msg"><?php echo $success_message; ?></div>
                     <script>
                         setTimeout(() => {
                             window.location.href = 'loginpage.php?create=success';
@@ -99,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </script>
                 <?php endif; ?>
 
-                <div id="input-container">
+                <div class="input-container">
                     <div class="form-column">
                         <div class="section-header">Personal Information</div>
 

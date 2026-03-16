@@ -121,17 +121,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <form action="forgotpassword.php" method="post">
-        <div id="container">
+        <div class="container">
             <img src="images/login-icon.png" alt="login-icon" class="login-icon">
 
             <?php if (!empty($error_message)): ?>
-                <div id="error-msg"><?php echo $error_message; ?></div>
+                <div class="error-msg"><?php echo $error_message; ?></div>
             <?php endif; ?>
             <?php if (!empty($success_message)): ?>
-                <div id="success-msg"><?php echo $success_message; ?></div>
+                <div class="success-msg"><?php echo $success_message; ?></div>
             <?php endif; ?>
             <?php if (!empty($success_message_reset)): ?>
-                <div id="success-msg"><?php echo $success_message_reset; ?></div>
+                <div class="success-msg"><?php echo $success_message_reset; ?></div>
                 <script>
                     setTimeout(() => {
                         window.location.href = 'loginpage.php?create=success';
@@ -139,26 +139,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </script>
             <?php endif; ?>
 
-            <div id="input-container">
+            <div class="input-container">
                 <!-- SHOW VERIFICATION UI FIRST -->
                 <?php if (empty($success_message_reset) && (!isset($_SESSION["forgot_verified"]) || $_SESSION["forgot_verified"] !== true) && $flag): ?>
                     <label for="email">Registered Email:</label>
                     <div class="email-group">
-                        <input type="email" name="email" id="email-input-field" class="input-field" pattern="^[a-z._]+@dlsu\.edu\.ph$" title="Use your DLSU email (name_name@dlsu.edu.ph)" placeholder="email@dlsu.edu.ph" value="
+                        <input type="email" name="email" class="email-input-field" class="input-field" pattern="^[a-z._]+@dlsu\.edu\.ph$" title="Use your DLSU email (name_name@dlsu.edu.ph)" placeholder="email@dlsu.edu.ph" value="
                         <?php echo isset($_SESSION["forgot_email"]) ? $_SESSION["forgot_email"] : (isset($_POST["email"]) ? $_POST["email"] : "");?>" required />
-                        <input type="submit" value="Send Code" name="send_code" id="send-code-btn" formnovalidate onclick="disableSend()" />
+                        <input type="submit" value="Send Code" name="send_code" class="send-code-btn" formnovalidate onclick="disableSend()" />
                     </div>
 
                     <label for="code">6-Digit Code:</label>
-                    <input type="password" name="code" id="code-input-field" class="input-field" minlength="6" maxlength="6" pattern="[0-9]{6}" title="Enter the code sent to your email" placeholder="Enter the reset code" />
-                    <input type="submit" name="verify_code" value="Verify Code" id="submit-btn" />
+                    <input type="password" name="code" class="code-input-field" class="input-field" minlength="6" maxlength="6" pattern="[0-9]{6}" title="Enter the code sent to your email" placeholder="Enter the reset code" />
+                    <input type="submit" name="verify_code" value="Verify Code" class="submit-btn" />
                     <!-- THEN SHOW PASSWORD RESET UI -->
                 <?php else: ?>
                     <label for="new_password">New Password:</label>
                     <input type="password" name="new_password" class="input-field" placeholder="Create a new password" required />
                     <label for="confirm_password">Confirm New Password:</label>
                     <input type="password" name="confirm_password" class="input-field" placeholder="Confirm your new password" required />
-                    <input type="submit" name="reset_password" value="Reset Password" id="submit-btn" />
+                    <input type="submit" name="reset_password" value="Reset Password" class="submit-btn" />
                 <?php endif; ?>
             </div>
             <hr>

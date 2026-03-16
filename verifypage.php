@@ -110,23 +110,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <form action="verifypage.php" method="post">
-        <div id="container">
+        <div class="container">
             <img src="images/login-icon.png" alt="login-icon" class="login-icon">
 
             <?php if (!empty($error_message)): ?>
-                <div id="error-msg"><?php echo $error_message; ?></div>
+                <div class="error-msg"><?php echo $error_message; ?></div>
             <?php endif; ?>
             <?php if (!empty($success_message)): ?>
-                <div id="success-msg"><?php echo $success_message; ?></div>
+                <div class="success-msg"><?php echo $success_message; ?></div>
             <?php endif; ?>
 
-            <div id="input-container">
+            <div class="input-container">
                 <label for="email">Email:</label>
                 <div class="email-group">
                     <input
                         type="email"
                         name="email"
-                        id="email-input-field"
+                        class="email-input-field"
                         class="input-field"
                         pattern="^[a-z._]+@dlsu\.edu\.ph$"
                         placeholder="email@dlsu.edu.ph"
@@ -137,7 +137,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         type="submit"
                         value="Send Code"
                         name="send_code"
-                        id="send-code-btn"
+                        class="send-code-btn"
                         formnovalidate
                         onclick="disableSend()" />
                 </div>
@@ -145,7 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input
                     type="password"
                     name="code"
-                    id="code-input-field"
+                    class="code-input-field"
                     class="input-field"
                     minlength="6"
                     maxlength="6"
@@ -153,7 +153,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     placeholder="Enter the code sent to your email"
                     title="Enter the code sent to your email"
                     required />
-                <input type="submit" name="verify_code" value="Verify" id="submit-btn" />
+                <input type="submit" name="verify_code" value="Verify" class="submit-btn" />
             </div>
             <hr>
             <div class="text-options">

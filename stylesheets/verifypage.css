@@ -12,7 +12,7 @@ body {
     background: linear-gradient(to bottom, #798367, #4a543e);
 }
 
-#container {
+.container {
     position: relative; /* for the top icon */
     background-color: #eeece0; 
     width: 700px;
@@ -35,7 +35,7 @@ body {
     box-shadow: 0 5px 15px rgba(37, 54, 38, 0.2);
 }
 
-#error-msg {
+.error-msg {
     color: #d9534f;
     background-color: #f2dede;
     border: 1px solid #ebccd1;
@@ -46,7 +46,7 @@ body {
     font-size: 14px;
 }
 
-#success-msg {
+.success-msg {
     color: #3c763d;
     background-color: #dff0d8;
     border: 1px solid #d6e9c6;
@@ -57,11 +57,11 @@ body {
     font-size: 14px;
 }
 
-#input-container {
+.input-container {
     margin-top: 20px;
 }
 
-#input-container label {
+.input-container label {
     display: block;
     text-align: left;
     font-size: 14px;
@@ -77,13 +77,13 @@ body {
     align-items: stretch;
 }
 
-#email-input-field {
+.email-input-field {
     flex: 1;
     width: auto;
     margin-bottom: 0;
 }
 
-#send-code-btn {
+.send-code-btn {
     padding: 0 20px;
     border-radius: 10px;
     border: none;
@@ -96,16 +96,16 @@ body {
     background: #4a543e;
 }
 
-#send-code-btn:hover {
+.send-code-btn:hover {
     background: #798367;
     transform: translateY(-1px);
 }
 
-#send-code-btn:active {
+.send-code-btn:active {
     transform: translateY(1px);
 }
 
-#code-input-field {
+.code-input-field {
     width: 100%;
 }
 
@@ -127,7 +127,7 @@ body {
     box-shadow: 0 0 0 3px rgba(55, 129, 87, 0.2);
 }
 
-#submit-btn {
+.submit-btn {
     width: 100%;
     padding: 14px;
     font-size: 18px;
@@ -140,17 +140,17 @@ body {
     font-weight: 600;
 }
 
-#submit-btn:hover:not(:disabled) {
+.submit-btn:hover:not(:disabled) {
     background-color: #798367;
     transform: translateY(-1px);
 }
 
-#submit-btn:disabled {
+.submit-btn:disabled {
     opacity: 0.7;
     cursor: not-allowed;
 }
 
-#submit-btn:active:not(:disabled) {
+.submit-btn:active:not(:disabled) {
     transform: translateY(1px);
 }
 
@@ -183,7 +183,7 @@ hr {
         justify-content: center;
     }
 
-    #container {
+    .container {
         margin-left: 0;
         width: 90%;
     }

@@ -47,14 +47,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
   <form action="loginpage.php" method="post" onsubmit="disableButton()">
-    <div id="container">
+    <div class="container">
       <img src="images/login-icon.png" alt="login-icon" class="login-icon">
 
       <?php if (!empty($error_message)): ?>
-        <div id="error-msg"><?php echo $error_message; ?></div>
+        <div class="error-msg"><?php echo $error_message; ?></div>
       <?php endif; ?>
 
-      <div id="input-container">
+      <div class="input-container">
         <label for="email">Email:</label>
         <input
           type="email"
@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           placeholder="Enter your password"
           title="Enter your password"
           required />
-        <input type="submit" value="Login" id="submitbtn" />
+        <input type="submit" value="Login" class="submit-btn" />
       </div>
       <hr />
       <div class="text-options"><a href="verifypage.php">First time user?</a></div>
