@@ -9,10 +9,10 @@ if (!isset($_SESSION["dlsu_email"])) {
 }
 
 // user data for display
-$first_name = $_SESSION["first_name"] ?? "User";
-$last_name = $_SESSION["last_name"] ?? "";
+$first_name = $_SESSION["first_name"];
+$last_name = $_SESSION["last_name"];
 $full_name = trim($first_name . " " . $last_name);
-$user_id = $_SESSION["user_id"] ?? "00000000";
+$user_id = $_SESSION["user_id"];
 $profile_pic = $_SESSION["profile_picture"] ?? "login-icon.png";
 $pic_path = "images/" . $profile_pic;
 
