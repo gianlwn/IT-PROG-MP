@@ -1,0 +1,230 @@
+/* --- 1. Base Reset & Body --- */
+* {
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 40px;
+    background-color: #f4f1de;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* --- 2. Main Container --- */
+.card-container {
+    background-color: #eeece0;
+    width: 100%;
+    max-width: 900px;
+    padding: 40px;
+    border-radius: 24px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 700;
+    color: #4a543e;
+}
+
+.header hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #aaa, transparent);
+    margin: 20px 0 30px 0;
+}
+
+/* --- 3. Inner Form Layout --- */
+.form-box {
+    background-color: #a4ad95;
+    padding: 40px;
+    border-radius: 24px;
+    border: 2px solid rgba(0, 0, 0, 0.15);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.form-box h3, .form-box label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #4a543e;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* --- 4. Inputs & Controls --- */
+input[type="text"], 
+textarea, 
+select, 
+input[type="number"] {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 2px solid #798367;
+    background-color: #cec8b0;
+    color: #333;
+    outline: none;
+    margin-bottom: 25px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+    background-color: #eeece0;
+    border-color: #4a543e;
+    box-shadow: 0 0 0 3px rgba(74, 84, 62, 0.2);
+}
+
+textarea {
+    resize: vertical;
+    height: 120px;
+}
+
+/* Quantity Input Group */
+.quantity-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.quantity-group label {
+    margin-bottom: 0;
+}
+
+.quantity-group input {
+    width: 100px;
+    margin-bottom: 0;
+}
+
+/* Pricing Input Group */
+.pricing-input {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.pricing-input .currency {
+    background-color: #798367;
+    color: #eeece0;
+    border: 2px solid #798367;
+    border-right: none;
+    padding: 12px 18px;
+    border-radius: 10px 0 0 10px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.pricing-input input {
+    border-radius: 0 10px 10px 0;
+    margin-bottom: 0;
+}
+
+/* --- 5. Image Upload Squares --- */
+.image-upload-group {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.image-upload-box {
+    width: 90px;
+    height: 90px;
+    background-color: #cec8b0;
+    border: 2px dashed #798367;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-align: center;
+    font-size: 12px;
+    color: #4a543e;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.image-upload-box:hover {
+    background-color: #eeece0;
+    transform: translateY(-2px);
+}
+
+.image-upload-box input[type="file"] {
+    display: none; 
+}
+
+/* --- 6. Buttons --- */
+.button-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+button {
+    padding: 14px 24px;
+    font-size: 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.15s ease, color 0.2s ease;
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+.btn-discard {
+    background-color: transparent;
+    border: 2px solid #4a543e;
+    color: #4a543e;
+}
+
+.btn-discard:hover {
+    background-color: #4a543e;
+    color: #eeece0;
+}
+
+.btn-add {
+    background-color: #4a543e;
+    border: none;
+    color: #eeece0;
+}
+
+.btn-add:hover {
+    background-color: #798367;
+    transform: translateY(-1px);
+}
+
+.alert {
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+.alert.success { 
+    color: #3c763d;
+    background-color: #dff0d8;
+    border: 1px solid #d6e9c6;
+}
+.alert.error { 
+    color: #d9534f;
+    background-color: #f2dede;
+    border: 1px solid #ebccd1;
+}
+
+/* --- 7. Responsive Design --- */
+@media (max-width: 900px) {
+    .form-box {
+        grid-template-columns: 1fr; 
+        gap: 20px;
+    }
+}
