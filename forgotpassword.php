@@ -145,7 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="email">Registered Email:</label>
                     <div class="email-group">
                         <input type="email" name="email" id="email-input-field" class="input-field" pattern="^[a-z._]+@dlsu\.edu\.ph$" title="Use your DLSU email (name_name@dlsu.edu.ph)" placeholder="email@dlsu.edu.ph" value="
-                        <?php echo isset($_SESSION["forgot_email"]) ? $_SESSION["forgot_email"] : (isset($_POST["email"]) ? $_POST["email"] : "");?>" required />
+                        <?php echo isset($_SESSION["forgot_email"]) ? $_SESSION["forgot_email"] : (isset($_POST["email"]) ? $_POST["email"] : ""); ?>" required />
                         <input type="submit" value="Send Code" name="send_code" id="send-code-btn" formnovalidate onclick="disableSend()" />
                     </div>
 
