@@ -23,24 +23,24 @@ body {
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
-.profile-top{
-    display:flex;
-    align-items:center;
-    gap:25px;
+.profile-top {
+    display: flex;
+    align-items: center;
+    gap: 25px;
     margin-left: 10px;
-    margin-bottom:10px;
+    margin-bottom: 10px;
 }
 
-.profile-image{
-    width:70px;
-    height:70px;
-    border-radius:50%;
-    object-fit:cover;
+.profile-image {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
-.profile-info{
-    display:flex;
-    flex-direction:column;
+.profile-info {
+    display: flex;
+    flex-direction: column;
 }
 
 .id-container {
@@ -52,17 +52,17 @@ body {
 .email-display {
     font-size: 13px;
     color: #555;
-    margin-top: 5px; /* reduce if too big */
-    align-self: flex-start; /* ensures it aligns with the input */
+    margin-top: 5px;
+    /* reduce if too big */
+    align-self: flex-start;
+    /* ensures it aligns with the input */
 }
 
 .input-container {
     display: flex;
-    gap: 40px;      
-    flex-wrap: wrap; 
-    
+    gap: 40px;
+    flex-wrap: wrap;
     background-color: #a4ad95;
-    
     width: 100%;
     padding: 40px;
     border-radius: 24px;
@@ -93,16 +93,12 @@ body {
     box-shadow: 0 0 0 3px rgba(60, 120, 200, 0.2);
 }
 
-#id-number {
-    background-color: #cec8b0;
-}
-
 .form-column {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 7px;
-    min-width: 250px; 
+    min-width: 250px;
 }
 
 .section-header {
@@ -164,4 +160,20 @@ body {
 
 .submit-btn:active {
     transform: translateY(1px);
+}
+
+.password-group a {
+    color: #4a543e;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: color 0.2s ease;
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.password-group a:hover {
+    color: #798367;
+    text-decoration: underline;
 }

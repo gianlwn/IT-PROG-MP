@@ -13,7 +13,7 @@ body {
 }
 
 .container {
-    position: relative; /* absolute positioning of the login-icon */
+    position: relative;
     background-color: #eeece0; 
     width: 700px;
     padding: 40px;
@@ -24,13 +24,13 @@ body {
 
 .login-icon {
     position: absolute;
-    top: 0;               /* align with top of container */
-    left: 50%;            /* center horizontally */
-    transform: translate(-50%, -50%); /* move up half of image height */
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 100px;          
     height: 100px;        
-    border-radius: 50%;   /* make circular */
-    object-fit: cover;    /* keep image proportions */
+    border-radius: 50%;
+    object-fit: cover;
     box-shadow: 0 5px 15px rgba(37, 54, 38, 0.2); 
 }
 

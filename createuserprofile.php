@@ -77,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="profile-info">
                         <div class="id-container">
                             <label for="id_number">ID Number</label>
-                            <input type="text" name="id_number" id="id-number" class="input-field" minlength="8" maxlength="8" pattern="[0-9]{8}" placeholder="e.g. 12345678" required>
+                            <input type="text" name="id_number" class="input-field" minlength="8" maxlength="8" pattern="[0-9]{8}" placeholder="e.g. 12345678" required>
                         </div>
 
                         <div class="email-display">
@@ -104,13 +104,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="section-header">Personal Information</div>
 
                         <label for="first_name">First Name</label>
-                        <input type="text" name="first_name" id="first_name" class="input-field" placeholder="e.g. Juan" required>
+                        <input type="text" name="first_name" class="input-field" placeholder="e.g. Juan" required>
 
                         <label for="last_name">Last Name</label>
-                        <input type="text" name="last_name" id="last_name" class="input-field" placeholder="e.g. Dela Cruz" required>
+                        <input type="text" name="last_name" class="input-field" placeholder="e.g. Dela Cruz" required>
 
                         <label for="course_code">Course Code</label>
-                        <input type="text" name="course_code" id="course_code" class="input-field" placeholder="e.g. BS-IT" required>
+                        <input type="text" name="course_code" class="input-field" placeholder="e.g. BS-IT" required>
 
                         <?php if ($_SESSION["email_type"] === "student/staff"): ?>
 
@@ -146,13 +146,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="password-group">
                             <div class="section-header">Create Password</div>
                             <label for="password">New Password:</label>
-                            <input type="password" name="password" id="password" class="input-field" placeholder="Create a password" required>
+                            <input type="password" name="password" class="input-field" placeholder="Create a password" required>
                             <br>
                             <label for="confirm_password">Confirm Password:</label>
-                            <input type="password" name="confirm_password" id="confirm_password" class="input-field" placeholder="Confirm your password" required>
+                            <input type="password" name="confirm_password" class="input-field" placeholder="Confirm your password" required>
 
-                            <input type="submit" value="Complete Profile" id="submit-btn">
-
+                            <input type="submit" value="Complete Profile" class="submit-btn">
+                            <a href="destroy.php">Cancel</a>
                         </div>
                     </div>
                 </div>

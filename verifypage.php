@@ -126,7 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input
                         type="email"
                         name="email"
-                        class="email-input-field"
+                        id="email-input-field"
                         class="input-field"
                         pattern="^[a-z._]+@dlsu\.edu\.ph$"
                         placeholder="email@dlsu.edu.ph"
@@ -137,7 +137,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         type="submit"
                         value="Send Code"
                         name="send_code"
-                        class="send-code-btn"
+                        id="send-code-btn"
                         formnovalidate
                         onclick="disableSend()" />
                 </div>
@@ -145,7 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input
                     type="password"
                     name="code"
-                    class="code-input-field"
+                    id="code-input-field"
                     class="input-field"
                     minlength="6"
                     maxlength="6"

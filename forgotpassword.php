@@ -144,13 +144,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <?php if (empty($success_message_reset) && (!isset($_SESSION["forgot_verified"]) || $_SESSION["forgot_verified"] !== true) && $flag): ?>
                     <label for="email">Registered Email:</label>
                     <div class="email-group">
-                        <input type="email" name="email" class="email-input-field" class="input-field" pattern="^[a-z._]+@dlsu\.edu\.ph$" title="Use your DLSU email (name_name@dlsu.edu.ph)" placeholder="email@dlsu.edu.ph" value="
+                        <input type="email" name="email" id="email-input-field" class="input-field" pattern="^[a-z._]+@dlsu\.edu\.ph$" title="Use your DLSU email (name_name@dlsu.edu.ph)" placeholder="email@dlsu.edu.ph" value="
                         <?php echo isset($_SESSION["forgot_email"]) ? $_SESSION["forgot_email"] : (isset($_POST["email"]) ? $_POST["email"] : "");?>" required />
-                        <input type="submit" value="Send Code" name="send_code" class="send-code-btn" formnovalidate onclick="disableSend()" />
+                        <input type="submit" value="Send Code" name="send_code" id="send-code-btn" formnovalidate onclick="disableSend()" />
                     </div>
 
                     <label for="code">6-Digit Code:</label>
-                    <input type="password" name="code" class="code-input-field" class="input-field" minlength="6" maxlength="6" pattern="[0-9]{6}" title="Enter the code sent to your email" placeholder="Enter the reset code" />
+                    <input type="password" name="code" id="code-input-field" class="input-field" minlength="6" maxlength="6" pattern="[0-9]{6}" title="Enter the code sent to your email" placeholder="Enter the reset code" />
                     <input type="submit" name="verify_code" value="Verify Code" class="submit-btn" />
                     <!-- THEN SHOW PASSWORD RESET UI -->
                 <?php else: ?>
