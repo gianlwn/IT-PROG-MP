@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error_message = "Incorrect reset code.";
             // code is correct
         } else {
-            unset($_SESSION["forgot_code"], $_SESSION["forgot_time"]);
+            unset($_SESSION["forgot_code"], $_SESSION["forgot_time"], $_POST["send_code"]);
             $_SESSION["forgot_verified"] = true;
             $flag = false;
             $success_message = "Code verified! You may now reset your password.";
@@ -101,7 +101,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 if ($conn->query($sql) === TRUE) {
                     $success_message_reset = "Password resetted successfully! Redirecting to login...";
-                    unset($_SESSION["forgot_email"], $_SESSION["forgot_verified"]);
+                    unset($_SESSION["forgot_email"], $_SESSION["forgot_verified"], $_POST["verify_code"]);
                 } else {
                     $error_message = "Database Error: " . $conn->error;
                 }
