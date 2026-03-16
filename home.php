@@ -17,8 +17,11 @@ $profile_pic = $_SESSION["profile_picture"] ?? "login-icon.png";
 $pic_path = "images/" . $profile_pic;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST["action"]) && $_POST["action"] == "create") {
+    if (isset($_POST["action"]) && $_POST["action"] === "createlisting") {
         header("Location: createlisting.php");
+        exit();
+    } else if (isset($_POST["action"]) && $_POST["action"] === "viewcart") {
+        header("Location: viewcart.php");
         exit();
     }
 }
@@ -61,8 +64,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <input type="text" placeholder="Search for items...">
                     </div>
                     <div class="header-actions">
-                        <button class="cart-btn">Cart (0)</button>
-                        <button class="create-listing-btn" type="submit" name="action" value="create">+ Create Listing</button>
+                        <button class="cart-btn" type="submit" name="action" value="viewcart">Cart (0)</button>
+                        <button class="create-listing-btn" type="submit" name="action" value="createlisting">+ Create Listing</button>
                     </div>
                 </header>
 
