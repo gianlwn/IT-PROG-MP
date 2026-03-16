@@ -85,8 +85,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (!isset($_SESSION["forgot_verified"]) || $_SESSION["forgot_verified"] !== true) {
             $error_message = "Please verify your email first.";
         } else {
-            $new_password = $_POST["new_password"];
-            $confirm_password = $_POST["confirm_password"];
+            $new_password = $conn->real_escape_string($_POST["new_password"]);
+            $confirm_password = $conn->real_escape_string($_POST["confirm_password"]);
 
             if (empty($new_password) || empty($confirm_password)) {
                 $error_message = "Please fill in all fields.";
@@ -95,7 +95,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else {
                 $password_hash = password_hash($new_password, PASSWORD_BCRYPT);
                 $email_clean = $conn->real_escape_string($_SESSION["forgot_email"]);
-                $sql = "UPDATE users SET password_hash = '$password_hash' WHERE dlsu_email = '$email_clean'";
+                $sql = "UPDATE users
+                        SET password_hash = '$password_hash'
+                        WHERE dlsu_email = '$email_clean'";
 
                 if ($conn->query($sql) === TRUE) {
                     $success_message_reset = "Password resetted successfully! Redirecting to login...";
@@ -116,7 +118,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="stylesheets/verifypage.css">
+    <?php if (empty($success_message_reset) && (!isset($_SESSION["forgot_verified"]) || $_SESSION["forgot_verified"] !== true) && $flag): ?>
     <title>Forgot Password - DLSU Marketplace</title>
+    <?php else: ?>
+    <title>Reset Password - DLSU Marketplace</title>
+    <?php endif; ?>
 </head>
 
 <body>
