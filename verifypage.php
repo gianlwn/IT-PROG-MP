@@ -82,6 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION["email_verified"] = true;
             $_SESSION["email_type"] = "student/staff";
             header("Location: createuserprofile.php");
+            exit();
             // check if the code matches and is a faculty account
         } else if ($code == $_SESSION["verification_code"] && preg_match('/^[a-z]+(\.[a-z]+)*@dlsu\.edu\.ph$/', $email)) {
             unset(
@@ -91,6 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION["email_verified"] = true;
             $_SESSION["email_type"] = "faculty";
             header("Location: createuserprofile.php");
+            exit();
         }
     }
 }

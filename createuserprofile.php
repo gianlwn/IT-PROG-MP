@@ -5,6 +5,7 @@ include 'db.php';
 // prevent people from accessing this without getting verified
 if (!isset($_SESSION["email_verified"]) || $_SESSION["email_verified"] !== true) {
     header("Location: verifypage.php");
+    exit();
 }
 
 $error_message = "";
@@ -111,7 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <label for="course_code">Course Code</label>
                         <input type="text" name="course_code" id="course_code" class="input-field" placeholder="e.g. BS-IT" required>
 
-                        <?php if (strcmp($_SESSION["email_type"], "student/staff") == 0): ?>
+                        <?php if ($_SESSION["email_type"] === "student/staff"): ?>
 
                             <div class="role-group">
                                 <div class="section-header">Role</div>
@@ -119,7 +120,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <label><input type="radio" name="role" value="Staff"> Staff</label>
                             </div>
 
-                        <?php elseif (strcmp($_SESSION["email_type"], "faculty") == 0): ?>
+                        <?php elseif ($_SESSION["email_type"] === "faculty"): ?>
 
                             <div class="role-group">
                                 <div class="section-header">Role</div>

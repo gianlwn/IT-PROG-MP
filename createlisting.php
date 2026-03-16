@@ -5,6 +5,7 @@ include 'db.php';
 // check if user is logged in
 if (!isset($_SESSION["dlsu_email"])) {
     header("Location: loginpage.php");
+    exit();
 }
 ?>
 

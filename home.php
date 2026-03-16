@@ -5,6 +5,7 @@ include 'db.php';
 // check if user is logged in
 if (!isset($_SESSION["dlsu_email"])) {
     header("Location: loginpage.php");
+    exit();
 }
 
 // user data for display
@@ -18,6 +19,7 @@ $pic_path = "images/" . $profile_pic;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["action"]) && $_POST["action"] == "create") {
         header("Location: createlisting.php");
+        exit();
     }
 }
 ?>

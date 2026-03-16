@@ -25,6 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $_SESSION["last_name"] = $user["last_name"];
       $_SESSION["role"] = $user["role"];
       header("Location: home.php");
+      exit();
     } else {
       $error_message = "Invalid email or password.";
     }
