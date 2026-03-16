@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 11, 2026 at 03:44 PM
+-- Generation Time: Mar 16, 2026 at 04:21 PM
 -- Server version: 8.0.43
 -- PHP Version: 8.2.12
 
@@ -35,6 +35,14 @@ CREATE TABLE `admin_accounts` (
   `assigned_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `admin_accounts`
+--
+
+INSERT INTO `admin_accounts` (`admin_id`, `user_id`, `admin_role_id`, `assigned_by`, `assigned_at`) VALUES
+(1, 12415537, 1, 12415537, '2026-03-11 00:39:28'),
+(2, 12323780, 2, 12415537, '2026-03-11 00:39:35');
+
 -- --------------------------------------------------------
 
 --
@@ -43,7 +51,7 @@ CREATE TABLE `admin_accounts` (
 
 CREATE TABLE `admin_roles` (
   `admin_role_id` int NOT NULL,
-  `role_name` enum('Moderator','Superadmin') COLLATE utf8mb4_general_ci NOT NULL
+  `role_name` enum('Moderator','Superadmin') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -57,12 +65,26 @@ INSERT INTO `admin_roles` (`admin_role_id`, `role_name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `cart`
+--
+
+CREATE TABLE `cart` (
+  `cart_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `listing_id` int NOT NULL,
+  `quantity` int NOT NULL DEFAULT '1',
+  `added_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `categories`
 --
 
 CREATE TABLE `categories` (
   `category_id` int NOT NULL,
-  `category_name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `category_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `created_by_admin_id` int NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -71,19 +93,18 @@ CREATE TABLE `categories` (
 -- Dumping data for table `categories`
 --
 
-SET FOREIGN_KEY_CHECKS = 0;
-
 INSERT INTO `categories` (`category_id`, `category_name`, `created_by_admin_id`, `created_at`) VALUES
-(1, 'CCS', 1, '2026-03-11 07:16:46'),
-(2, 'COS', 1, '2026-03-11 07:17:25'),
-(3, 'GCOE', 1, '2026-03-11 07:17:49'),
-(4, 'BAGCED', 1, '2026-03-11 07:17:54'),
+(1, 'RVRCOB', 1, '2026-03-11 07:16:46'),
+(2, 'GCOE', 1, '2026-03-11 07:17:25'),
+(3, 'CCS', 1, '2026-03-11 07:17:49'),
+(4, 'COS', 1, '2026-03-11 07:17:54'),
 (5, 'CLA', 1, '2026-03-11 07:18:04'),
-(6, 'COB', 1, '2026-03-11 07:18:09'),
-(7, 'Books', 1, '2026-03-11 07:18:17'),
-(8, 'Clothes', 1, '2026-03-11 07:18:33');
-
-SET FOREIGN_KEY_CHECKS = 1;
+(6, 'BAGCED', 1, '2026-03-11 07:18:09'),
+(7, 'SOE', 1, '2026-03-11 07:18:17'),
+(8, 'COL', 1, '2026-03-11 07:18:33'),
+(9, 'SHS', 1, '2026-03-16 15:19:47'),
+(10, 'Clothes', 1, '2026-03-16 15:21:02'),
+(11, 'Books', 1, '2026-03-16 15:21:07');
 
 -- --------------------------------------------------------
 
@@ -96,7 +117,7 @@ CREATE TABLE `claims` (
   `listing_id` int NOT NULL,
   `buyer_id` int NOT NULL,
   `seller_id` int NOT NULL,
-  `status` enum('Pending','Completed','Cancelled') COLLATE utf8mb4_general_ci DEFAULT 'Pending',
+  `status` enum('Pending','Completed','Cancelled') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'Pending',
   `claimed_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `completed_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -132,7 +153,7 @@ CREATE TABLE `listings` (
 CREATE TABLE `listing_images` (
   `image_id` int NOT NULL,
   `listing_id` int NOT NULL,
-  `image_path` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `image_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `uploaded_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -148,7 +169,7 @@ CREATE TABLE `ratings` (
   `rater_id` int NOT NULL,
   `rated_user_id` int NOT NULL,
   `rating_value` int DEFAULT NULL,
-  `review` text COLLATE utf8mb4_general_ci,
+  `review` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `is_reviewed_by_admin` tinyint(1) DEFAULT '0',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -164,8 +185,8 @@ CREATE TABLE `reports` (
   `reporter_id` int NOT NULL,
   `reported_listing_id` int DEFAULT NULL,
   `reported_user_id` int DEFAULT NULL,
-  `reason` text COLLATE utf8mb4_general_ci NOT NULL,
-  `status` enum('Pending','Resolved','Rejected') COLLATE utf8mb4_general_ci DEFAULT 'Pending',
+  `reason` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `status` enum('Pending','Resolved','Rejected') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'Pending',
   `reviewed_by` int DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `resolved_at` datetime DEFAULT NULL
@@ -180,7 +201,7 @@ CREATE TABLE `reports` (
 CREATE TABLE `system_logs` (
   `log_id` int NOT NULL,
   `user_id` int DEFAULT NULL,
-  `action_type` enum('CREATE','UPDATE','DELETE') COLLATE utf8mb4_general_ci NOT NULL,
+  `action_type` enum('CREATE','UPDATE','DELETE') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -194,7 +215,7 @@ CREATE TABLE `transaction_proofs` (
   `proof_id` int NOT NULL,
   `claim_id` int NOT NULL,
   `submitted_by` int NOT NULL,
-  `file_path` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `file_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `submitted_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -206,12 +227,12 @@ CREATE TABLE `transaction_proofs` (
 
 CREATE TABLE `users` (
   `user_id` int NOT NULL,
-  `dlsu_email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `password_hash` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `first_name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `last_name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `course_code` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
-  `role` enum('Student','Faculty','Staff') COLLATE utf8mb4_general_ci NOT NULL,
+  `dlsu_email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `password_hash` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `first_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `last_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `course_code` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `role` enum('Student','Faculty','Staff') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `phone_number` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `profile_picture` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'default_pfp.jpg',
   `is_verified` tinyint(1) DEFAULT '0',
@@ -220,6 +241,14 @@ CREATE TABLE `users` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`user_id`, `dlsu_email`, `password_hash`, `first_name`, `last_name`, `course_code`, `role`, `phone_number`, `profile_picture`, `is_verified`, `warning_count`, `is_suspended`, `created_at`, `updated_at`) VALUES
+(12323780, 'camille_erika_sarabia@dlsu.edu.ph', '$2y$10$1evMpDD1mNlRpp3hLiUxne4atiVeQGYXEbUK4Ehf3k0lJcsM/yO1C', 'Camille Erika', 'Sarabia', 'BS-IT', 'Student', '09685706073', 'default_pfp.jpg', 0, 0, 0, '2026-03-11 00:39:10', '2026-03-11 00:39:10'),
+(12415537, 'giancarlo_lawan@dlsu.edu.ph', '$2y$10$Xs9Piy/bZQxRmfytQjPDruMqTR0aJ/BCmqe8NQcX1.kUXCtTPsq9.', 'Giancarlo', 'Lawan', 'BS-IT', 'Student', '09285170610', 'default_pfp.jpg', 0, 0, 0, '2026-03-11 00:38:42', '2026-03-14 19:36:29');
 
 -- --------------------------------------------------------
 
@@ -232,7 +261,7 @@ CREATE TABLE `warnings` (
   `user_id` int NOT NULL,
   `rating_id` int DEFAULT NULL,
   `issued_by` int NOT NULL,
-  `reason` text COLLATE utf8mb4_general_ci NOT NULL,
+  `reason` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -254,6 +283,14 @@ ALTER TABLE `admin_accounts`
 --
 ALTER TABLE `admin_roles`
   ADD PRIMARY KEY (`admin_role_id`);
+
+--
+-- Indexes for table `cart`
+--
+ALTER TABLE `cart`
+  ADD PRIMARY KEY (`cart_id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `listing_id` (`listing_id`);
 
 --
 -- Indexes for table `categories`
@@ -347,19 +384,25 @@ ALTER TABLE `warnings`
 -- AUTO_INCREMENT for table `admin_accounts`
 --
 ALTER TABLE `admin_accounts`
-  MODIFY `admin_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `admin_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `admin_roles`
 --
 ALTER TABLE `admin_roles`
-  MODIFY `admin_role_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `admin_role_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `cart`
+--
+ALTER TABLE `cart`
+  MODIFY `cart_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `category_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `category_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `claims`
@@ -422,10 +465,11 @@ ALTER TABLE `admin_accounts`
   ADD CONSTRAINT `admin_accounts_ibfk_3` FOREIGN KEY (`assigned_by`) REFERENCES `users` (`user_id`);
 
 --
--- Constraints for table `categories`
+-- Constraints for table `cart`
 --
-ALTER TABLE `categories`
-  ADD CONSTRAINT `categories_ibfk_1` FOREIGN KEY (`created_by_admin_id`) REFERENCES `admin_accounts` (`admin_id`);
+ALTER TABLE `cart`
+  ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `cart_ibfk_2` FOREIGN KEY (`listing_id`) REFERENCES `listings` (`listing_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `claims`
@@ -449,44 +493,6 @@ ALTER TABLE `listings`
 --
 ALTER TABLE `listing_images`
   ADD CONSTRAINT `listing_images_ibfk_1` FOREIGN KEY (`listing_id`) REFERENCES `listings` (`listing_id`) ON DELETE CASCADE;
-
---
--- Constraints for table `ratings`
---
-ALTER TABLE `ratings`
-  ADD CONSTRAINT `ratings_ibfk_1` FOREIGN KEY (`claim_id`) REFERENCES `claims` (`claim_id`),
-  ADD CONSTRAINT `ratings_ibfk_2` FOREIGN KEY (`rater_id`) REFERENCES `users` (`user_id`),
-  ADD CONSTRAINT `ratings_ibfk_3` FOREIGN KEY (`rated_user_id`) REFERENCES `users` (`user_id`);
-
---
--- Constraints for table `reports`
---
-ALTER TABLE `reports`
-  ADD CONSTRAINT `reports_ibfk_1` FOREIGN KEY (`reporter_id`) REFERENCES `users` (`user_id`),
-  ADD CONSTRAINT `reports_ibfk_2` FOREIGN KEY (`reported_listing_id`) REFERENCES `listings` (`listing_id`),
-  ADD CONSTRAINT `reports_ibfk_3` FOREIGN KEY (`reported_user_id`) REFERENCES `users` (`user_id`),
-  ADD CONSTRAINT `reports_ibfk_4` FOREIGN KEY (`reviewed_by`) REFERENCES `users` (`user_id`);
-
---
--- Constraints for table `system_logs`
---
-ALTER TABLE `system_logs`
-  ADD CONSTRAINT `system_logs_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
-
---
--- Constraints for table `transaction_proofs`
---
-ALTER TABLE `transaction_proofs`
-  ADD CONSTRAINT `transaction_proofs_ibfk_1` FOREIGN KEY (`claim_id`) REFERENCES `claims` (`claim_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `transaction_proofs_ibfk_2` FOREIGN KEY (`submitted_by`) REFERENCES `users` (`user_id`);
-
---
--- Constraints for table `warnings`
---
-ALTER TABLE `warnings`
-  ADD CONSTRAINT `warnings_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
-  ADD CONSTRAINT `warnings_ibfk_2` FOREIGN KEY (`rating_id`) REFERENCES `ratings` (`rating_id`),
-  ADD CONSTRAINT `warnings_ibfk_3` FOREIGN KEY (`issued_by`) REFERENCES `users` (`user_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
