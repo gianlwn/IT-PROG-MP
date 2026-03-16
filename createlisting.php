@@ -7,6 +7,9 @@ if (!isset($_SESSION["dlsu_email"])) {
     header("Location: loginpage.php");
     exit();
 }
+
+$success_msg = "";
+$error_msg = "";
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +35,7 @@ if (!isset($_SESSION["dlsu_email"])) {
 
                 <div class="left-col">
                     <label for="product_name">Product Name</label>
-                    <input type="text" id="product_name" name="product_name" placeholder="labubu... (ifykyk lang)" required>
+                    <input type="text" id="product_name" name="product_name" placeholder="Enter product name here..." required>
 
                     <label for="description">Product Description</label>
                     <textarea id="description" name="description" placeholder="Enter product description here..." required></textarea>
@@ -67,15 +70,15 @@ if (!isset($_SESSION["dlsu_email"])) {
                     <label>Add Image/s</label>
                     <div class="image-upload-group">
                         <label class="image-upload-box">
-                            Click to Upload
+                            Click to Upload (required)
                             <input type="file" name="image1" accept="image/*" required>
                         </label>
                         <label class="image-upload-box">
-                            Click to Upload
+                            Click to Upload (optional)
                             <input type="file" name="image2" accept="image/*">
                         </label>
                         <label class="image-upload-box">
-                            Click to Upload
+                            Click to Upload (optional)
                             <input type="file" name="image3" accept="image/*">
                         </label>
                     </div>
