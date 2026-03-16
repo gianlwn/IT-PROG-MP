@@ -18,7 +18,7 @@ $cat_query = "SELECT category_id, category_name
               ORDER BY category_id ASC";
 $cat_result = $conn->query($cat_query);
 
-if ($cat_result && $cat_result->num_rows > 0) {
+if ($cat_result == TRUE && $cat_result->num_rows > 0) {
     while ($row = $cat_result->fetch_assoc()) {
         $categories[] = $row;
     }
@@ -45,6 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $new_listing_id = $conn->insert_id;
             $upload_dir = "uploads/";
 
+            // creates the folder if it doesnt exist
             if (!is_dir($upload_dir)) {
                 mkdir($upload_dir, 0777, true);
             }

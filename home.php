@@ -8,6 +8,7 @@ if (!isset($_SESSION["dlsu_email"])) {
     exit();
 }
 
+
 // user data for display
 $first_name = $_SESSION["first_name"];
 $last_name = $_SESSION["last_name"];
@@ -16,6 +17,29 @@ $user_id = $_SESSION["user_id"];
 $profile_pic = $_SESSION["profile_picture"] ?? "login-icon.png";
 $pic_path = "images/" . $profile_pic;
 
+// get all listings
+$listings = [];
+$listing_query = "SELECT c1.category_name AS cat1, c2.category_name AS cat2, c3.category_name AS cat3,
+                         l.product_name, CONCAT(u.first_name, ' ', u.last_name) AS full_name, IFNULL(AVG(r.rating_value), 0) AS avg_rating,
+                         l.price, l.quantity, (SELECT image_path FROM listing_images WHERE listing_id = l.listing_id LIMIT 1) AS image_path
+                  FROM listings l
+                  LEFT JOIN users u ON u.user_id = l.seller_id
+                  LEFT JOIN ratings r ON r.rated_user_id = u.user_id
+                  LEFT JOIN categories c1 ON c1.category_id = l.category1_id
+                  LEFT JOIN categories c2 ON c2.category_id = l.category2_id
+                  LEFT JOIN categories c3 ON c3.category_id = l.category3_id
+                  WHERE l.status = 'Available'
+                  GROUP BY l.listing_id";
+
+$listing_result = $conn->query($listing_query);
+
+if ($listing_result == TRUE && $listing_result->num_rows > 0) {
+    while ($row = $listing_result->fetch_assoc()) {
+        $listings[] = $row;
+    }
+}
+
+// handle action for createlisting.php and viewcart.php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["action"]) && $_POST["action"] === "createlisting") {
         header("Location: createlisting.php");
@@ -84,47 +108,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
 
                     <div class="section-container">
-                        <h3 class="section-title">Featured Items</h3>
+                        <h3 class="section-title">All Items</h3>
                         <div class="product-grid">
-                            <div class="product-card">
-                                <div class="product-image-placeholder">No Image</div>
-                                <div class="product-info">
-                                    <span class="category-tag">Books</span>
-                                    <h4 class="item-name">Engineering Math Textbook</h4>
-                                    <div class="seller-row">
-                                        <span class="seller-name">Jason Benedict Lee</span>
-                                        <span class="seller-rating">★ 4.8</span>
+                            <?php foreach ($listings as $l): ?>
+                                <div class="product-card">
+                                    <?php if (!empty($l["image_path"])): ?>
+                                        <img src="<?php echo $l["image_path"]; ?>" alt="Product Image" class="product-image">
+                                    <?php else: ?>
+                                        <div class="product-image-placeholder">No Image</div>
+                                    <?php endif; ?>
+                                    <div class="product-info">
+                                        <?php
+                                        $categories = [];
+                                        if (!empty($l["cat1"])) $categories[] = $l["cat1"];
+                                        if (!empty($l["cat2"])) $categories[] = $l["cat2"];
+                                        if (!empty($l["cat3"])) $categories[] = $l["cat3"];
+                                        $category_display = implode(', ', $categories);
+                                        ?>
+                                        <span class="category-tag"><?php echo $category_display; ?></span>
+                                        <h4 class="item-name"><?php echo $l["product_name"]; ?></h4>
+                                        <div class="seller-row">
+                                            <span class="seller-name"><?php echo $l["full_name"]; ?></span>
+                                            <span class="seller-rating">★ <?php echo number_format($l["avg_rating"], 1); ?></span>
+                                        </div>
+                                        <div class="price-qty-row">
+                                            <p class="item-price">₱<?php echo $l["price"]; ?></p>
+                                            <span class="item-quantity">Qty: <?php echo $l["quantity"]; ?></span>
+                                        </div>
+                                        <button class="view-item-btn">View Details</button>
                                     </div>
-                                    <p class="item-price">₱450.00</p>
-                                    <button class="view-item-btn">View Details</button>
                                 </div>
-                            </div>
-                            <div class="product-card">
-                                <div class="product-image-placeholder">No Image</div>
-                                <div class="product-info">
-                                    <span class="category-tag">Uniforms</span>
-                                    <h4 class="item-name">Men's Polo (Medium)</h4>
-                                    <div class="seller-row">
-                                        <span class="seller-name">Camille Erika Sarabia</span>
-                                        <span class="seller-rating">★ 1.7</span>
-                                    </div>
-                                    <p class="item-price">₱300.00</p>
-                                    <button class="view-item-btn">View Details</button>
-                                </div>
-                            </div>
-                            <div class="product-card">
-                                <div class="product-image-placeholder">No Image</div>
-                                <div class="product-info">
-                                    <span class="category-tag">Electronics</span>
-                                    <h4 class="item-name">Scientific Calculator</h4>
-                                    <div class="seller-row">
-                                        <span class="seller-name">Giancarlo Lawan</span>
-                                        <span class="seller-rating">★ 5.0</span>
-                                    </div>
-                                    <p class="item-price">₱1,200.00</p>
-                                    <button class="view-item-btn">View Details</button>
-                                </div>
-                            </div>
+                            <?php endforeach; ?>
                         </div>
                     </div>
                 </section>
