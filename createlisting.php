@@ -120,21 +120,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <select name="category1_id" required>
                         <option value="">Choose Category (required)</option>
                         <?php foreach ($categories as $c): ?>
-                            <option value="<?php echo $c["category_id"]?>"><?php echo $c["category_name"]?></option>
+                            <option value="<?php echo $c["category_id"] ?>"><?php echo $c["category_name"] ?></option>
                         <?php endforeach; ?>
                     </select>
 
                     <select name="category2_id">
                         <option value="">Choose Category (optional)</option>
                         <?php foreach ($categories as $c): ?>
-                            <option value="<?php echo $c["category_id"]?>"><?php echo $c["category_name"]?></option>
+                            <option value="<?php echo $c["category_id"] ?>"><?php echo $c["category_name"] ?></option>
                         <?php endforeach; ?>
                     </select>
 
                     <select name="category3_id">
                         <option value="">Choose Category (optional)</option>
                         <?php foreach ($categories as $c): ?>
-                            <option value="<?php echo $c["category_id"]?>"><?php echo $c["category_name"]?></option>
+                            <option value="<?php echo $c["category_id"] ?>"><?php echo $c["category_name"] ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
