@@ -3,7 +3,7 @@ session_start();
 include 'db.php';
 
 // check if user is logged in
-if (!isset($_SESSION["dlsu_email"])) {
+if (!isset($_SESSION["user_id"])) {
     header("Location: loginpage.php");
     exit();
 }
@@ -14,7 +14,7 @@ if (!isset($_SESSION["dlsu_email"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Listings</title>
+    <title>DLSU Marketplace | My Listings</title>
 </head>
 <body>
     
