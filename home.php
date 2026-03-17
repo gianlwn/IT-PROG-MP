@@ -132,7 +132,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <h4 class="item-name"><?php echo $l["product_name"]; ?></h4>
                                         <div class="seller-row">
                                             <span class="seller-name"><?php echo $l["full_name"]; ?></span>
-                                            <span class="seller-rating">★ <?php echo $l["avg_rating"]; ?></span>
+                                            <?php if ($l["avg_rating"] > 0): ?>
+                                                <span class="seller-rating">★ <?php echo $l["avg_rating"]; ?></span>
+                                            <?php else: ?>
+                                                <span class="seller-rating">★ N/A</span>
+                                            <?php endif; ?>
                                         </div>
                                         <div class="price-qty-row">
                                             <p class="item-price">₱<?php echo $l["price"]; ?></p>
