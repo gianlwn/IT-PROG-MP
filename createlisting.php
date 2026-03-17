@@ -170,8 +170,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
 
                     <div class="button-group">
-                        <button type="submit" name="action" value="discard" class="btn-discard" formnovalidate>Discard</button>
-                        <button type="submit" name="action" value="add" class="btn-add">Add Product</button>
+                        <button name="action" value="discard" class="btn-discard" formnovalidate>Discard</button>
+                        <button name="action" value="add" class="btn-add">Add Product</button>
                     </div>
                 </div>
 

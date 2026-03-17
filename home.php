@@ -91,8 +91,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <input type="text" placeholder="Search for items...">
                     </div>
                     <div class="header-actions">
-                        <button class="cart-btn" type="submit" name="action" value="viewcart">Cart (0)</button>
-                        <button class="create-listing-btn" type="submit" name="action" value="createlisting">+ Create Listing</button>
+                        <button class="cart-btn" name="action" value="viewcart">Cart (0)</button>
+                        <button class="create-listing-btn" name="action" value="createlisting">+ Create Listing</button>
                     </div>
                 </header>
 
