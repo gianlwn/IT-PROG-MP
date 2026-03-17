@@ -14,6 +14,14 @@ if (!isset($_GET["listing_id"]) || empty($_GET["listing_id"])) {
     exit();
 }
 
+// user data for display
+$first_name = $_SESSION["first_name"];
+$last_name = $_SESSION["last_name"];
+$full_name = trim($first_name . " " . $last_name);
+$user_id = $_SESSION["user_id"];
+$profile_pic = $_SESSION["profile_picture"] ?? "login-icon.png";
+$pic_path = "images/" . $profile_pic;
+
 $listing_id = intval($_GET["listing_id"]);
 $item_query = "SELECT l.listing_id, c1.category_name AS cat1, c2.category_name AS cat2, c3.category_name AS cat3,
                          l.product_name, CONCAT(u.first_name, ' ', u.last_name) AS full_name, IFNULL(ROUND(AVG(r.rating_value), 1), 0) AS avg_rating,
@@ -50,11 +58,32 @@ $item = $item_result->fetch_assoc();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheets/viewitem.css" />
     <title><?php echo ""; ?> | DLSU Marketplace</title>
 </head>
 
 <body>
-
+    <form action="viewitem.php" method="post">
+        <div class="dashboard-container">
+            <aside class="sidebar">
+                <div class="user-profile-section">
+                    <img src="<?php echo $pic_path; ?>" alt="Profile" class="nav-logo">
+                    <div class="user-info-display">
+                        <h2 class="user-name"><?php echo $full_name; ?></h2>
+                        <p class="user-id">ID: <?php echo $user_id; ?></p>
+                    </div>
+                </div>
+                <nav class="nav-menu">
+                    <a href="home.php" class="active">Home</a>
+                    <a href="mylistings.php">My Listings</a>
+                    <a href="myclaims.php">My Claims</a>
+                    <a href="editprofile.php">Edit Profile</a>
+                    <hr class="nav-divider">
+                    <a href="destroy.php" class="logout-link">Logout</a>
+                </nav>
+            </aside>
+        </div>
+    </form>
 </body>
 
 </html>
