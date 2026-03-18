@@ -169,7 +169,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <hr>
             <div class="text-options">
-                <a href="destroy.php">Back to Login</a>
+                <a href="logout.php">Back to Login</a>
             </div>
         </div>
     </form>

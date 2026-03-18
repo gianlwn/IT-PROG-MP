@@ -92,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <a href="myclaims.php">My Claims</a>
                     <a href="editprofile.php">Edit Profile</a>
                     <hr class="nav-divider">
-                    <a href="destroy.php" class="logout-link">Logout</a>
+                    <a href="logout.php" class="logout-link">Logout</a>
                 </nav>
             </aside>
 

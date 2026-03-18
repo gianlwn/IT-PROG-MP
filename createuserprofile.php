@@ -152,7 +152,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <input type="password" name="confirm_password" class="input-field" placeholder="Confirm your password" required>
 
                             <input type="submit" value="Complete Profile" class="submit-btn">
-                            <a href="destroy.php">Cancel</a>
+                            <a href="logout.php">Cancel</a>
                         </div>
                     </div>
                 </div>
