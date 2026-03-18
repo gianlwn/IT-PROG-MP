@@ -40,14 +40,13 @@ if ($listing_result == TRUE && $listing_result->num_rows > 0) {
 }
 
 // get all items in the cart
-$cart_query = "SELECT SUM(quantity) AS cart_total
+$cart_query = "SELECT COUNT(quantity) AS cart_total
                FROM cart
-               WHERE buyer_id = '$user_id'
-               GROUP BY cart_id";
+               WHERE buyer_id = '$user_id'";
 
 $cart_result = $conn->query($cart_query);
 
-if ($cart_result == TRUE && $cart_result->num_rows === 1) {
+if ($cart_result == TRUE && $cart_result->num_rows > 0) {
     $cart_row = $cart_result->fetch_assoc();
 }
 
