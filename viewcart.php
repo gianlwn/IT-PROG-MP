@@ -133,7 +133,7 @@ if ($cart_result && $cart_result->num_rows > 0) {
                                         <input type="hidden" name="cart_id" value="<?php echo $item["cart_id"]; ?>">
                                         <div class="qty-control">
                                             <input type="number" name="new_qty" min="1" max="<?php echo $item["quantity"]; ?>" value="<?php echo $item["cart_qty"]; ?>" class="qty-input">
-                                            <button type="submit" name="action" value="update" class="btn update-btn">Update</button>
+                                            <button type="submit" name="action" value="updatecart" class="btn update-btn">Update</button>
                                         </div>
                                     </form>
                                     <form action="contact_seller.php" method="POST" class="action-form">
@@ -142,7 +142,7 @@ if ($cart_result && $cart_result->num_rows > 0) {
                                     </form>
                                     <form action="cart_action.php" method="POST" class="action-form">
                                         <input type="hidden" name="cart_id" value="<?php echo $item["cart_id"]; ?>">
-                                        <button type="submit" name="action" value="remove" class="btn remove-btn">Remove</button>
+                                        <button type="submit" name="action" value="removefromcart" class="btn remove-btn">Remove</button>
                                     </form>
                                 </div>
                             </div>
