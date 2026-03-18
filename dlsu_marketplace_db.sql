@@ -70,7 +70,7 @@ INSERT INTO `admin_roles` (`admin_role_id`, `role_name`) VALUES
 
 CREATE TABLE `cart` (
   `cart_id` int NOT NULL,
-  `user_id` int NOT NULL,
+  `buyer_id` int NOT NULL,
   `listing_id` int NOT NULL,
   `quantity` int NOT NULL DEFAULT '1',
   `added_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
