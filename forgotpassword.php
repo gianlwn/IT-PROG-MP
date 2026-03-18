@@ -23,11 +23,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error_message = "Invalid DLSU email format.";
         } else {
             $email_clean = $conn->real_escape_string($email);
-            $sql = "SELECT dlsu_email FROM users WHERE dlsu_email = '$email_clean'";
-            $result = $conn->query($sql);
+            $forgot_query = "SELECT dlsu_email
+                             FROM users
+                             WHERE dlsu_email = '$email_clean'";
+            $forgot_result = $conn->query($forgot_query);
 
             // check if the email is already registered
-            if ($result && $result->num_rows === 0) {
+            if ($forgot_result == TRUE && $forgot_result->num_rows === 0) {
                 $error_message = "This email is not registered. Please create an account.";
             } else {
                 $forgot_code = rand(100000, 999999);
@@ -119,9 +121,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="stylesheets/verifypage.css">
     <?php if (empty($success_message_reset) && (!isset($_SESSION["forgot_verified"]) || $_SESSION["forgot_verified"] !== true) && $flag): ?>
-    <title>Forgot Password - DLSU Marketplace</title>
+    <title>DLSU Marketplace | Forgot Password</title>
     <?php else: ?>
-    <title>Reset Password - DLSU Marketplace</title>
+    <title>DLSU Marketplace | Reset Password</title>
     <?php endif; ?>
 </head>
 

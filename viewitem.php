@@ -76,7 +76,7 @@ $category_display = implode(', ', $categories);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="stylesheets/viewitem.css" />
-    <title><?php echo $item["product_name"]; ?> | DLSU Marketplace</title>
+    <title>DLSU Marketplace | <?php echo $item["product_name"]; ?></title>
 </head>
 
 <body>
@@ -95,7 +95,6 @@ $category_display = implode(', ', $categories);
             ?>
         </div>
     <?php endif; ?>
-
     <?php if (isset($_GET["success"]) || isset($_GET["error"])): ?>
         <script>
             setTimeout(function() {
@@ -134,7 +133,6 @@ $category_display = implode(', ', $categories);
                         <div class="no-image-large">No Image Available</div>
                     <?php endif; ?>
                 </div>
-
                 <?php if (!empty($images)): ?>
                     <div class="thumbnail-row">
                         <?php foreach ($images as $img): ?>
@@ -174,12 +172,10 @@ $category_display = implode(', ', $categories);
                     <form action="cart_action.php" method="POST" class="purchase-form">
                         <input type="hidden" name="action" value="addtocart">
                         <input type="hidden" name="listing_id" value="<?php echo $item["listing_id"]; ?>">
-
                         <div class="qty-input">
                             <label for="buy_qty">Quantity to buy:</label>
                             <input type="number" id="buy_qty" name="buy_qty" min="1" max="<?php echo intval($item["quantity"]); ?>" value="1" required>
                         </div>
-
                         <button type="submit" class="add-cart-btn">Add to Cart</button>
                     </form>
                 <?php endif; ?>

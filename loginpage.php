@@ -8,14 +8,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $email = $conn->real_escape_string(trim($_POST["email"]));
   $password = $conn->real_escape_string($_POST["password"]);
 
-  $sql = "SELECT user_id, password_hash, first_name, last_name, role, dlsu_email, profile_picture
-          FROM users
-          WHERE dlsu_email = '$email'";
+  $login_query = "SELECT user_id, password_hash, first_name, last_name, role, dlsu_email, profile_picture
+                  FROM users
+                  WHERE dlsu_email = '$email'";
 
-  $result = $conn->query($sql);
+  $login_result = $conn->query($login_query);
 
-  if ($result == TRUE && $result->num_rows === 1) {
-    $user = $result->fetch_assoc();
+  if ($login_result == TRUE && $login_result->num_rows === 1) {
+    $user = $login_result->fetch_assoc();
 
     if (password_verify($password, $user["password_hash"])) {
       $_SESSION["dlsu_email"] = $user["dlsu_email"];
@@ -53,7 +53,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <?php if (!empty($error_message)): ?>
         <div class="error-msg"><?php echo $error_message; ?></div>
       <?php endif; ?>
-
       <div class="input-container">
         <label for="email">Email:</label>
         <input
@@ -79,7 +78,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <div class="text-options"><a href="forgotpassword.php">Forgot password</a></div>
     </div>
   </form>
-
   <script>
     function disableButton() {
       const btn = document.getElementById("submitbtn");
@@ -96,5 +94,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </body>
 
 </html>
-
 <?php $conn->close(); ?>

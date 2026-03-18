@@ -95,18 +95,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <a href="logout.php" class="logout-link">Logout</a>
                 </nav>
             </aside>
-
             <main class="main-content">
                 <header class="top-bar">
                     <div class="search-wrapper">
                         <input type="text" placeholder="Search for items...">
                     </div>
                     <div class="header-actions">
-                        <button class="cart-btn" name="action" value="viewcart">Cart (<?php echo !empty($cart_row["cart_total"]) ? $cart_row["cart_total"] : 0 ; ?>)</button>
+                        <button class="cart-btn" name="action" value="viewcart">Cart (<?php echo !empty($cart_row["cart_total"]) ? $cart_row["cart_total"] : 0; ?>)</button>
                         <button class="create-listing-btn" name="action" value="createlisting">+ Create Listing</button>
                     </div>
                 </header>
-
                 <section class="content-body">
                     <div class="section-container">
                         <h3 class="section-title">Quick Filter</h3>
@@ -120,7 +118,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <button class="filter-chip">Others</button>
                         </div>
                     </div>
-
                     <div class="section-container">
                         <h3 class="section-title">All Items</h3>
                         <div class="product-grid">

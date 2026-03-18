@@ -57,7 +57,7 @@ if ($cart_result && $cart_result->num_rows > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="stylesheets/home.css" />
     <link rel="stylesheet" href="stylesheets/viewcart.css" />
-    <title>My Cart | DLSU Marketplace</title>
+    <title>DLSU Marketplace | My Cart</title>
 </head>
 
 <body>

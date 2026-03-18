@@ -21,12 +21,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error_message = "Invalid DLSU email format.";
         } else {
             $email_clean = $conn->real_escape_string($email);
-            $sql = "SELECT dlsu_email
-                    FROM users
-                    WHERE dlsu_email = '$email_clean'";
-            $result = $conn->query($sql);
+            $verify_query = "SELECT dlsu_email
+                             FROM users
+                             WHERE dlsu_email = '$email_clean'";
+            $verify_result = $conn->query($verify_query);
 
-            if ($result && $result->num_rows > 0) {
+            if ($verify_result && $verify_result->num_rows > 0) {
                 $error_message = "This email is already registered. Please log in.";
             } else {
                 $verification_code = rand(100000, 999999);
@@ -112,14 +112,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <form action="verifypage.php" method="post">
         <div class="container">
             <img src="images/login-icon.png" alt="login-icon" class="login-icon">
-
             <?php if (!empty($error_message)): ?>
                 <div class="error-msg"><?php echo $error_message; ?></div>
             <?php endif; ?>
             <?php if (!empty($success_message)): ?>
                 <div class="success-msg"><?php echo $success_message; ?></div>
             <?php endif; ?>
-
             <div class="input-container">
                 <label for="email">Email:</label>
                 <div class="email-group">

@@ -84,17 +84,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="stylesheets/createlisting.css" />
-    <title>Add New Product - DLSU Marketplace</title>
+    <title>DLSU Marketplace | Add New Product</title>
 </head>
-
 <body>
-
     <div class="card-container">
         <div class="header">
             <h1>Add New Product</h1>
             <hr>
         </div>
-
         <?php if ($success_msg): ?>
             <div class="alert success"><?php echo $success_msg; ?></div>
             <script>
@@ -106,17 +103,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php if ($error_msg): ?>
             <div class="alert error"><?php echo $error_msg; ?></div>
         <?php endif; ?>
-
         <form action="createlisting.php" method="POST" enctype="multipart/form-data">
             <div class="form-box">
-
                 <div class="left-col">
                     <label for="product_name">Product Name</label>
                     <input type="text" id="product_name" name="product_name" placeholder="Enter product name here..." required>
-
                     <label for="description">Product Description</label>
                     <textarea id="description" name="description" placeholder="Enter product description here..." required></textarea>
-
                     <label>Product Categories:</label>
                     <select name="category1_id" required>
                         <option value="">Choose Category (required)</option>
@@ -124,14 +117,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <option value="<?php echo $c["category_id"] ?>"><?php echo $c["category_name"] ?></option>
                         <?php endforeach; ?>
                     </select>
-
                     <select name="category2_id">
                         <option value="">Choose Category (optional)</option>
                         <?php foreach ($categories as $c): ?>
                             <option value="<?php echo $c["category_id"] ?>"><?php echo $c["category_name"] ?></option>
                         <?php endforeach; ?>
                     </select>
-
                     <select name="category3_id">
                         <option value="">Choose Category (optional)</option>
                         <?php foreach ($categories as $c): ?>
@@ -139,14 +130,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <?php endforeach; ?>
                     </select>
                 </div>
-
                 <div class="right-col">
                     <h3>Inventory</h3>
                     <div class="quantity-group">
                         <label for="quantity">Quantity:</label>
                         <input type="number" id="quantity" name="quantity" value="1" min="1" required>
                     </div>
-
                     <label>Add Image/s</label>
                     <div class="image-upload-group">
                         <label class="image-upload-box" id="box1">
@@ -162,19 +151,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <input type="file" name="image3" id="image3" accept="image/*" onchange="updateBoxText(this, 'text3', 'box3')">
                         </label>
                     </div>
-
                     <label for="price">Pricing</label>
                     <div class="pricing-input">
                         <span class="currency">₱</span>
                         <input type="number" id="price" name="price" step="0.01" value="180.00" min="0" required>
                     </div>
-
                     <div class="button-group">
                         <button name="action" value="discard" class="btn-discard" formnovalidate>Discard</button>
                         <button name="action" value="add" class="btn-add">Add Product</button>
                     </div>
                 </div>
-
             </div>
         </form>
     </div>
