@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 16, 2026 at 04:21 PM
+-- Generation Time: Mar 18, 2026 at 02:12 PM
 -- Server version: 8.0.43
 -- PHP Version: 8.2.12
 
@@ -76,6 +76,17 @@ CREATE TABLE `cart` (
   `added_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`cart_id`, `buyer_id`, `listing_id`, `quantity`, `added_at`) VALUES
+(1, 12415537, 1, 1, '2026-03-18 08:00:30'),
+(2, 12410012, 1, 1, '2026-03-18 08:05:44'),
+(3, 12413178, 1, 1, '2026-03-18 08:14:59'),
+(4, 12415421, 2, 3, '2026-03-18 08:32:32'),
+(5, 12415421, 1, 1, '2026-03-18 08:50:16');
+
 -- --------------------------------------------------------
 
 --
@@ -144,6 +155,14 @@ CREATE TABLE `listings` (
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `listings`
+--
+
+INSERT INTO `listings` (`listing_id`, `seller_id`, `product_name`, `description`, `price`, `quantity`, `category1_id`, `category2_id`, `category3_id`, `status`, `is_removed`, `created_at`, `updated_at`) VALUES
+(1, 12323780, 'New Trends in Computers', 'A book about new trends in computers', 180.00, 1, 3, 11, NULL, 'Available', 0, '2026-03-17 04:10:26', '2026-03-17 04:10:26'),
+(2, 12413178, 'Men Regular Fit Solid Button Down Collar Casual Shirt', 'Comes in different colors.\r\n- beige\r\n- light blue\r\n- black\r\n', 180.00, 3, 10, NULL, NULL, 'Available', 0, '2026-03-18 08:28:28', '2026-03-18 08:28:28');
+
 -- --------------------------------------------------------
 
 --
@@ -156,6 +175,16 @@ CREATE TABLE `listing_images` (
   `image_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `uploaded_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `listing_images`
+--
+
+INSERT INTO `listing_images` (`image_id`, `listing_id`, `image_path`, `uploaded_at`) VALUES
+(1, 1, 'uploads/listing_1_69b8d43238ca1.jpg', '2026-03-17 04:10:26'),
+(2, 2, 'uploads/listing_2_69ba622c4c76d.jpg', '2026-03-18 08:28:28'),
+(3, 2, 'uploads/listing_2_69ba622c4d55e.jpg', '2026-03-18 08:28:28'),
+(4, 2, 'uploads/listing_2_69ba622c4e06d.jpg', '2026-03-18 08:28:28');
 
 -- --------------------------------------------------------
 
@@ -248,7 +277,10 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `dlsu_email`, `password_hash`, `first_name`, `last_name`, `course_code`, `role`, `phone_number`, `profile_picture`, `is_verified`, `warning_count`, `is_suspended`, `created_at`, `updated_at`) VALUES
 (12323780, 'camille_erika_sarabia@dlsu.edu.ph', '$2y$10$1evMpDD1mNlRpp3hLiUxne4atiVeQGYXEbUK4Ehf3k0lJcsM/yO1C', 'Camille Erika', 'Sarabia', 'BS-IT', 'Student', '09685706073', 'default_pfp.jpg', 0, 0, 0, '2026-03-11 00:39:10', '2026-03-11 00:39:10'),
-(12415537, 'giancarlo_lawan@dlsu.edu.ph', '$2y$10$Xs9Piy/bZQxRmfytQjPDruMqTR0aJ/BCmqe8NQcX1.kUXCtTPsq9.', 'Giancarlo', 'Lawan', 'BS-IT', 'Student', '09285170610', 'default_pfp.jpg', 0, 0, 0, '2026-03-11 00:38:42', '2026-03-14 19:36:29');
+(12410012, 'gian_enriquez@dlsu.edu.ph', '$2y$10$tIqsLGExCeBZAGDMzKjZsuwpcrX4SO2ZoTCw1ZLWx.xu3SKLDfDhG', 'Gian Patrick', 'Enriquez', 'BS-IT', 'Student', '09458676744', 'default_pfp.jpg', 0, 0, 0, '2026-03-18 08:04:55', '2026-03-18 08:04:55'),
+(12413178, 'sky_parado@dlsu.edu.ph', '$2y$10$TDVmMCBJ3GMQlLmYIK9IYuI/Zh8e6kY9h1q4UedoqYR1.HayBGJS6', 'Sky Hannah', 'Parado', 'BSCS-NIS', 'Student', '09762447493', 'default_pfp.jpg', 0, 0, 0, '2026-03-18 08:10:14', '2026-03-18 08:10:14'),
+(12415421, 'andie_woo@dlsu.edu.ph', '$2y$10$7hyMz6zNUoZjGBC2Dx3ovOXYGk/DQ1Q0YoDlt.nzLVL6o5y08oV.i', 'Andie Kirsten', 'Woo', 'BSCS-ST', 'Student', '09171588460', 'default_pfp.jpg', 0, 0, 0, '2026-03-18 08:08:18', '2026-03-18 08:24:11'),
+(12415537, 'giancarlo_lawan@dlsu.edu.ph', '$2y$10$tIqsLGExCeBZAGDMzKjZsuwpcrX4SO2ZoTCw1ZLWx.xu3SKLDfDhG', 'Giancarlo', 'Lawan', 'BS-IT', 'Student', '09285170610', 'default_pfp.jpg', 0, 0, 0, '2026-03-11 00:38:42', '2026-03-16 18:47:02');
 
 -- --------------------------------------------------------
 
@@ -289,7 +321,7 @@ ALTER TABLE `admin_roles`
 --
 ALTER TABLE `cart`
   ADD PRIMARY KEY (`cart_id`),
-  ADD KEY `user_id` (`user_id`),
+  ADD KEY `user_id` (`buyer_id`),
   ADD KEY `listing_id` (`listing_id`);
 
 --
@@ -396,7 +428,7 @@ ALTER TABLE `admin_roles`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `cart_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `cart_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -414,13 +446,13 @@ ALTER TABLE `claims`
 -- AUTO_INCREMENT for table `listings`
 --
 ALTER TABLE `listings`
-  MODIFY `listing_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `listing_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `listing_images`
 --
 ALTER TABLE `listing_images`
-  MODIFY `image_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `image_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `ratings`
@@ -468,7 +500,7 @@ ALTER TABLE `admin_accounts`
 -- Constraints for table `cart`
 --
 ALTER TABLE `cart`
-  ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`buyer_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `cart_ibfk_2` FOREIGN KEY (`listing_id`) REFERENCES `listings` (`listing_id`) ON DELETE CASCADE;
 
 --
