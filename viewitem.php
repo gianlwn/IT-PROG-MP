@@ -50,11 +50,11 @@ $images = [];
 $image_query = "SELECT image_path
                 FROM listing_images
                 WHERE listing_id = '$listing_id'";
-$image_result = $conn->query($item_query);
+$image_result = $conn->query($image_query);
 
 if ($image_result == TRUE && $image_result->num_rows > 0) {
     while ($img_row = $image_result->fetch_assoc()) {
-        $images[] = $img_row['image_path'];
+        $images[] = $img_row["image_path"];
     }
 }
 
@@ -73,7 +73,7 @@ $category_display = implode(', ', $categories);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="stylesheets/viewitem.css" />
-    <title><?php echo ""; ?> | DLSU Marketplace</title>
+    <title><?php echo $item["product_name"]; ?> | DLSU Marketplace</title>
 </head>
 
 <body>
