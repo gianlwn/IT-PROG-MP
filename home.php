@@ -34,9 +34,21 @@ $listing_query = "SELECT l.listing_id, c1.category_name AS cat1, c2.category_nam
 $listing_result = $conn->query($listing_query);
 
 if ($listing_result == TRUE && $listing_result->num_rows > 0) {
-    while ($row = $listing_result->fetch_assoc()) {
-        $listings[] = $row;
+    while ($listings_row = $listing_result->fetch_assoc()) {
+        $listings[] = $listings_row;
     }
+}
+
+// get all items in the cart
+$cart_query = "SELECT SUM(quantity) AS cart_total
+               FROM cart
+               WHERE buyer_id = '$user_id'
+               GROUP BY cart_id";
+
+$cart_result = $conn->query($cart_query);
+
+if ($cart_result == TRUE && $cart_result->num_rows === 1) {
+    $cart_row = $cart_result->fetch_assoc();
 }
 
 // handle action for createlisting.php, viewcart.php, and viewitem.php
@@ -91,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <input type="text" placeholder="Search for items...">
                     </div>
                     <div class="header-actions">
-                        <button class="cart-btn" name="action" value="viewcart">Cart (0)</button>
+                        <button class="cart-btn" name="action" value="viewcart">Cart (<?php echo !empty($cart_row["cart_total"]) ? $cart_row["cart_total"] : 0 ; ?>)</button>
                         <button class="create-listing-btn" name="action" value="createlisting">+ Create Listing</button>
                     </div>
                 </header>
