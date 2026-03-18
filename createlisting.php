@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $price = floatval($_POST["price"]);
 
         $insert_listing = "INSERT INTO listings (seller_id, product_name, description, price, quantity, category1_id, category2_id, category3_id) 
-                           VALUES ($seller_id, '$product_name', '$description', $price, $quantity, $category1_id, $category2_id, $category3_id)";
+                           VALUES ('$seller_id', '$product_name', '$description', '$price', '$quantity', '$category1_id', '$category2_id', '$category3_id')";
 
         if ($conn->query($insert_listing) === TRUE) {
             $new_listing_id = $conn->insert_id;
