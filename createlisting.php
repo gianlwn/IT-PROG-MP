@@ -32,9 +32,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $seller_id = $_SESSION["user_id"];
         $product_name = $conn->real_escape_string($_POST["product_name"]);
         $description = $conn->real_escape_string($_POST["description"]);
-        $category1_id = !empty($_POST['category1_id']) ? intval($_POST["category1_id"]) : "NULL";
-        $category2_id = !empty($_POST['category2_id']) ? intval($_POST["category2_id"]) : "NULL";
-        $category3_id = !empty($_POST['category3_id']) ? intval($_POST["category3_id"]) : "NULL";
+        $category1_id = !empty($_POST["category1_id"]) ? intval($_POST["category1_id"]) : "NULL";
+        $category2_id = !empty($_POST["category2_id"]) ? intval($_POST["category2_id"]) : "NULL";
+        $category3_id = !empty($_POST["category3_id"]) ? intval($_POST["category3_id"]) : "NULL";
         $quantity = intval($_POST["quantity"]);
         $price = floatval($_POST["price"]);
 
@@ -53,14 +53,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $images = ["image1", "image2", "image3"];
 
             foreach ($images as $img_field) {
-                if (isset($_FILES[$img_field]) && $_FILES[$img_field]['error'] == 0) {
-                    $file_extension = pathinfo($_FILES[$img_field]['name'], PATHINFO_EXTENSION);
+                if (isset($_FILES[$img_field]) && $_FILES[$img_field]["error"] == 0) {
+                    $file_extension = pathinfo($_FILES[$img_field]["name"], PATHINFO_EXTENSION);
                     // create a unique file name in this format: listing_ID_randomstring.jpg
                     $new_file_name = "listing_" . $new_listing_id . "_" . uniqid() . "." . $file_extension;
                     $target_path = $upload_dir . $new_file_name;
 
                     // move from temporary storage to the uploads folder
-                    if (move_uploaded_file($_FILES[$img_field]['tmp_name'], $target_path)) {
+                    if (move_uploaded_file($_FILES[$img_field]["tmp_name"], $target_path)) {
                         // insert the image path into the listing_images table
                         $insert_img = "INSERT INTO listing_images (listing_id, image_path) VALUES ('$new_listing_id', '$target_path')";
                         $conn->query($insert_img);
