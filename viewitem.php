@@ -101,20 +101,54 @@ $category_display = implode(', ', $categories);
         <main class="item-container">
             <div class="image-section">
                 <div class="main-image-box">
+                    <?php if (!empty($main_image)): ?>
+                        <img src="<?php echo $main_image; ?>" alt="Main Product Image" class="main-img" id="mainImage">
+                    <?php else: ?>
+                        <div class="no-image-large">No Image Available</div>
+                    <?php endif; ?>
                 </div>
-                <!-- other images (if any) -->
+
+                <?php if (!empty($images)): ?>
+                    <div class="thumbnail-row">
+                        <?php foreach ($images as $img): ?>
+                            <img src="<?php echo $img; ?>" alt="Thumbnail" class="thumbnail" onclick="document.getElementById('mainImage').src=this.src;">
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
             </div>
             <div class="details-section">
+                <div class="category-wrapper">
+                    <?php foreach ($categories as $cat): ?>
+                        <span class="category-badge"><?php echo $cat; ?></span>
+                    <?php endforeach; ?>
+                </div>
+                <h1 class="product-title"><?php echo $item["product_name"]; ?></h1>
                 <div class="seller-info">
-
+                    <span>Sold by: <strong><?php echo $item["seller_name"]; ?></strong></span>
+                    <?php if ($item["avg_rating"] > 0): ?>
+                        <span class="seller-rating">★ <?php echo number_format($item["avg_rating"], 1); ?></span>
+                    <?php else: ?>
+                        <span class="seller-rating">★ N/A</span>
+                    <?php endif; ?>
                 </div>
                 <div class="price-box">
-
+                    <h2 class="price">₱<?php echo number_format($item['price'], 2); ?></h2>
+                    <span class="stock">Stock: <?php echo intval($item['quantity']); ?></span>
                 </div>
                 <div class="description-box">
-
+                    <h3>Description</h3>
+                    <p><?php echo nl2br($item["description"]); ?></p>
                 </div>
-                <form action="viewitem.php" method="post">
+                <form action="cart_action.php" method="POST" class="purchase-form">
+                    <input type="hidden" name="action" value="addtocart">
+                    <input type="hidden" name="listing_id" value="<?php echo $item["listing_id"]; ?>">
+
+                    <div class="qty-input">
+                        <label for="buy_qty">Quantity to buy:</label>
+                        <input type="number" id="buy_qty" name="buy_qty" min="1" max="<?php echo intval($item["quantity"]); ?>" value="1" required>
+                    </div>
+
+                    <button type="submit" class="add-cart-btn">Add to Cart</button>
                 </form>
             </div>
         </main>
