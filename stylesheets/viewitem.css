@@ -109,7 +109,6 @@ body {
     font-weight: bold;
 }
 
-/* --- TOAST COLORS --- */
 .toast.success {
     background-color: #4a543e;
     color: #eeece0;
@@ -135,15 +134,21 @@ body {
     width: 100%;
 }
 
+.top-bar-form {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Item container is now inside main-content, so margin-left is removed */
 .item-container {
-    flex: 1;
-    margin: 20px 20px 20px 300px;
     background: #fff;
     border-radius: 15px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.05);
     display: flex;
     overflow: hidden;
-    min-height: calc(100vh - 40px);
+    min-height: calc(100vh - 140px);
 }
 
 /* --- LEFT SIDE: IMAGES --- */

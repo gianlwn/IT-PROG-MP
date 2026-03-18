@@ -23,6 +23,31 @@ $profile_pic = $_SESSION["profile_picture"] ?? "login-icon.png";
 $pic_path = "images/" . $profile_pic;
 
 $listing_id = intval($_GET["listing_id"]);
+
+// handle top nav bar actions
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST["action"]) && $_POST["action"] === "createlisting") {
+        header("Location: createlisting.php");
+        exit();
+    } else if (isset($_POST["action"]) && $_POST["action"] === "viewcart") {
+        header("Location: viewcart.php");
+        exit();
+    }
+}
+
+// get cart count for the top nav bar
+$cart_count_query = "SELECT COUNT(*) AS count
+                     FROM cart
+                     WHERE buyer_id = '$user_id'";
+
+$cart_count_result = $conn->query($cart_count_query);
+$cart_count = 0;
+
+if ($cart_count_result && $cart_count_result->num_rows > 0) {
+    $count_row = $cart_count_result->fetch_assoc();
+    $cart_count = $count_row["count"];
+}
+
 $item_query = "SELECT c1.category_name AS cat1, c2.category_name AS cat2, c3.category_name AS cat3,
                       CONCAT(u.first_name, ' ', u.last_name) AS seller_name, IFNULL(ROUND(AVG(r.rating_value), 1), 0) AS avg_rating,
                       l.listing_id, l.seller_id, l.product_name, l.price, l.quantity, l.description, l.status
@@ -75,6 +100,7 @@ $category_display = implode(', ', $categories);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheets/home.css" />
     <link rel="stylesheet" href="stylesheets/viewitem.css" />
     <title>DLSU Marketplace | <?php echo $item["product_name"]; ?></title>
 </head>
@@ -124,61 +150,74 @@ $category_display = implode(', ', $categories);
                 <a href="destroy.php" class="logout-link">Logout</a>
             </nav>
         </aside>
-        <main class="item-container">
-            <div class="image-section">
-                <div class="main-image-box">
-                    <?php if (!empty($main_image)): ?>
-                        <img src="<?php echo $main_image; ?>" alt="Main Product Image" class="main-img" id="mainImage">
-                    <?php else: ?>
-                        <div class="no-image-large">No Image Available</div>
+        <main class="main-content">
+            <header class="top-bar" style="margin-bottom: 20px;">
+                <form action="viewitem.php?listing_id=<?php echo $listing_id; ?>" method="POST" class="top-bar-form">
+                    <div class="search-wrapper">
+                        <input type="text" placeholder="Search for items...">
+                    </div>
+                    <div class="header-actions">
+                        <button type="submit" class="cart-btn" name="action" value="viewcart">Cart (<?php echo $cart_count; ?>)</button>
+                        <button type="submit" class="create-listing-btn" name="action" value="createlisting">+ Create Listing</button>
+                    </div>
+                </form>
+            </header>
+            <div class="item-container">
+                <div class="image-section">
+                    <div class="main-image-box">
+                        <?php if (!empty($main_image)): ?>
+                            <img src="<?php echo $main_image; ?>" alt="Main Product Image" class="main-img" id="mainImage">
+                        <?php else: ?>
+                            <div class="no-image-large">No Image Available</div>
+                        <?php endif; ?>
+                    </div>
+                    <?php if (!empty($images)): ?>
+                        <div class="thumbnail-row">
+                            <?php foreach ($images as $img): ?>
+                                <img src="<?php echo $img; ?>" alt="Thumbnail" class="thumbnail" onclick="document.getElementById('mainImage').src=this.src;">
+                            <?php endforeach; ?>
+                        </div>
                     <?php endif; ?>
                 </div>
-                <?php if (!empty($images)): ?>
-                    <div class="thumbnail-row">
-                        <?php foreach ($images as $img): ?>
-                            <img src="<?php echo $img; ?>" alt="Thumbnail" class="thumbnail" onclick="document.getElementById('mainImage').src=this.src;">
+                <div class="details-section">
+                    <div class="category-wrapper">
+                        <?php foreach ($categories as $cat): ?>
+                            <span class="category-badge"><?php echo $cat; ?></span>
                         <?php endforeach; ?>
                     </div>
-                <?php endif; ?>
-            </div>
-            <div class="details-section">
-                <div class="category-wrapper">
-                    <?php foreach ($categories as $cat): ?>
-                        <span class="category-badge"><?php echo $cat; ?></span>
-                    <?php endforeach; ?>
-                </div>
-                <h1 class="product-title"><?php echo $item["product_name"]; ?></h1>
-                <div class="seller-info">
-                    <span>Sold by: <strong><?php echo $item["seller_name"]; ?></strong></span>
-                    <?php if ($item["avg_rating"] > 0): ?>
-                        <span class="seller-rating">★ <?php echo number_format($item["avg_rating"], 1); ?></span>
+                    <h1 class="product-title"><?php echo $item["product_name"]; ?></h1>
+                    <div class="seller-info">
+                        <span>Sold by: <strong><?php echo $item["seller_name"]; ?></strong></span>
+                        <?php if ($item["avg_rating"] > 0): ?>
+                            <span class="seller-rating">★ <?php echo number_format($item["avg_rating"], 1); ?></span>
+                        <?php else: ?>
+                            <span class="seller-rating">★ N/A</span>
+                        <?php endif; ?>
+                    </div>
+                    <div class="price-box">
+                        <h2 class="price">₱<?php echo number_format($item["price"], 2); ?></h2>
+                        <span class="stock">Stock: <?php echo intval($item["quantity"]); ?></span>
+                    </div>
+                    <div class="description-box">
+                        <h3>Description</h3>
+                        <p><?php echo nl2br($item["description"]); ?></p>
+                    </div>
+                    <?php if ($item["seller_id"] == $user_id): ?>
+                        <div style="background: #e8e6d9; color: #4a543e; padding: 15px; border-radius: 10px; text-align: center; font-weight: bold; border: 1px dashed #798367;">
+                            This is your own listing!
+                        </div>
                     <?php else: ?>
-                        <span class="seller-rating">★ N/A</span>
+                        <form action="cart_action.php" method="POST" class="purchase-form">
+                            <input type="hidden" name="action" value="addtocart">
+                            <input type="hidden" name="listing_id" value="<?php echo $item["listing_id"]; ?>">
+                            <div class="qty-input">
+                                <label for="buy_qty">Quantity to buy:</label>
+                                <input type="number" id="buy_qty" name="buy_qty" min="1" max="<?php echo intval($item["quantity"]); ?>" value="1" required>
+                            </div>
+                            <button type="submit" class="add-cart-btn">Add to Cart</button>
+                        </form>
                     <?php endif; ?>
                 </div>
-                <div class="price-box">
-                    <h2 class="price">₱<?php echo number_format($item["price"], 2); ?></h2>
-                    <span class="stock">Stock: <?php echo intval($item["quantity"]); ?></span>
-                </div>
-                <div class="description-box">
-                    <h3>Description</h3>
-                    <p><?php echo nl2br($item["description"]); ?></p>
-                </div>
-                <?php if ($item["seller_id"] == $user_id): ?>
-                    <div style="background: #e8e6d9; color: #4a543e; padding: 15px; border-radius: 10px; text-align: center; font-weight: bold; border: 1px dashed #798367;">
-                        This is your own listing!
-                    </div>
-                <?php else: ?>
-                    <form action="cart_action.php" method="POST" class="purchase-form">
-                        <input type="hidden" name="action" value="addtocart">
-                        <input type="hidden" name="listing_id" value="<?php echo $item["listing_id"]; ?>">
-                        <div class="qty-input">
-                            <label for="buy_qty">Quantity to buy:</label>
-                            <input type="number" id="buy_qty" name="buy_qty" min="1" max="<?php echo intval($item["quantity"]); ?>" value="1" required>
-                        </div>
-                        <button type="submit" class="add-cart-btn">Add to Cart</button>
-                    </form>
-                <?php endif; ?>
             </div>
         </main>
     </div>
