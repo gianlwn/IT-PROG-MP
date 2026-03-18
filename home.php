@@ -113,7 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="category-scroll">
                             <button class="filter-chip active">All</button>
                             <button class="filter-chip">Books</button>
-                            <button class="filter-chip">Uniforms</button>
+                            <button class="filter-chip">Clothes</button>
                             <button class="filter-chip">Electronics</button>
                             <button class="filter-chip">School Supplies</button>
                             <button class="filter-chip">Laboratory Gear</button>
