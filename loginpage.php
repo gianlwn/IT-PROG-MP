@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   $result = $conn->query($sql);
 
-  if ($result->num_rows === 1) {
+  if ($result == TRUE && $result->num_rows === 1) {
     $user = $result->fetch_assoc();
 
     if (password_verify($password, $user["password_hash"])) {
