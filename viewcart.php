@@ -16,7 +16,7 @@ $user_id = $_SESSION["user_id"];
 $profile_pic = $_SESSION["profile_picture"] ?? "login-icon.png";
 $pic_path = "images/" . $profile_pic;
 
-// handle top-bar actions
+// handle top nav bar actions
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["action"]) && $_POST["action"] === "createlisting") {
         header("Location: createlisting.php");
