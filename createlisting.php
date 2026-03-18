@@ -32,14 +32,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $seller_id = $_SESSION["user_id"];
         $product_name = $conn->real_escape_string($_POST["product_name"]);
         $description = $conn->real_escape_string($_POST["description"]);
-        $category1_id = intval($_POST["category1_id"]);
+        $category1_id = !empty($_POST['category1_id']) ? intval($_POST["category1_id"]) : "NULL";
         $category2_id = !empty($_POST['category2_id']) ? intval($_POST["category2_id"]) : "NULL";
         $category3_id = !empty($_POST['category3_id']) ? intval($_POST["category3_id"]) : "NULL";
         $quantity = intval($_POST["quantity"]);
         $price = floatval($_POST["price"]);
 
         $insert_listing = "INSERT INTO listings (seller_id, product_name, description, price, quantity, category1_id, category2_id, category3_id) 
-                           VALUES ('$seller_id', '$product_name', '$description', '$price', '$quantity', '$category1_id', '$category2_id', '$category3_id')";
+                           VALUES ('$seller_id', '$product_name', '$description', '$price', '$quantity', $category1_id, $category2_id, $category3_id)";
 
         if ($conn->query($insert_listing) === TRUE) {
             $new_listing_id = $conn->insert_id;
@@ -62,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // move from temporary storage to the uploads folder
                     if (move_uploaded_file($_FILES[$img_field]['tmp_name'], $target_path)) {
                         // insert the image path into the listing_images table
-                        $insert_img = "INSERT INTO listing_images (listing_id, image_path) VALUES ($new_listing_id, '$target_path')";
+                        $insert_img = "INSERT INTO listing_images (listing_id, image_path) VALUES ('$new_listing_id', '$target_path')";
                         $conn->query($insert_img);
                     }
                 }
