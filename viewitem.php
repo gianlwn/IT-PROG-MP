@@ -25,7 +25,7 @@ $pic_path = "images/" . $profile_pic;
 $listing_id = intval($_GET["listing_id"]);
 $item_query = "SELECT c1.category_name AS cat1, c2.category_name AS cat2, c3.category_name AS cat3,
                       CONCAT(u.first_name, ' ', u.last_name) AS seller_name, IFNULL(ROUND(AVG(r.rating_value), 1), 0) AS avg_rating,
-                      l.listing_id, l.product_name, l.price, l.quantity, l.description, l.status
+                      l.listing_id, l.seller_id, l.product_name, l.price, l.quantity, l.description, l.status
                 FROM listings l
                 LEFT JOIN users u ON u.user_id = l.seller_id
                 LEFT JOIN ratings r ON r.rated_user_id = u.user_id
@@ -80,6 +80,33 @@ $category_display = implode(', ', $categories);
 </head>
 
 <body>
+    <?php if (isset($_GET["success"]) && $_GET["success"] == "added"): ?>
+        <div id="toast-notification" class="toast success show">
+            <span class="toast-icon">✓</span>
+            Item successfully added to your cart!
+        </div>
+    <?php elseif (isset($_GET["error"])): ?>
+        <div id="toast-notification" class="toast error show">
+            <span class="toast-icon">✕</span>
+            <?php
+            if ($_GET["error"] == "exceeds") echo "Cannot add more than available stock!";
+            elseif ($_GET["error"] == "nostock") echo "Sorry, this item is currently out of stock.";
+            else echo "Something went wrong. Please try again.";
+            ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET["success"]) || isset($_GET["error"])): ?>
+        <script>
+            setTimeout(function() {
+                var toast = document.getElementById("toast-notification");
+                if (toast) {
+                    toast.classList.remove("show");
+                }
+                window.history.replaceState(null, null, window.location.pathname + "?listing_id=<?php echo $listing_id; ?>");
+            }, 3000);
+        </script>
+    <?php endif; ?>
     <div class="dashboard-container">
         <aside class="sidebar">
             <div class="user-profile-section">
@@ -132,24 +159,30 @@ $category_display = implode(', ', $categories);
                     <?php endif; ?>
                 </div>
                 <div class="price-box">
-                    <h2 class="price">₱<?php echo number_format($item['price'], 2); ?></h2>
-                    <span class="stock">Stock: <?php echo intval($item['quantity']); ?></span>
+                    <h2 class="price">₱<?php echo number_format($item["price"], 2); ?></h2>
+                    <span class="stock">Stock: <?php echo intval($item["quantity"]); ?></span>
                 </div>
                 <div class="description-box">
                     <h3>Description</h3>
                     <p><?php echo nl2br($item["description"]); ?></p>
                 </div>
-                <form action="cart_action.php" method="POST" class="purchase-form">
-                    <input type="hidden" name="action" value="addtocart">
-                    <input type="hidden" name="listing_id" value="<?php echo $item["listing_id"]; ?>">
-
-                    <div class="qty-input">
-                        <label for="buy_qty">Quantity to buy:</label>
-                        <input type="number" id="buy_qty" name="buy_qty" min="1" max="<?php echo intval($item["quantity"]); ?>" value="1" required>
+                <?php if ($item["seller_id"] == $user_id): ?>
+                    <div style="background: #e8e6d9; color: #4a543e; padding: 15px; border-radius: 10px; text-align: center; font-weight: bold; border: 1px dashed #798367;">
+                        This is your own listing!
                     </div>
+                <?php else: ?>
+                    <form action="cart_action.php" method="POST" class="purchase-form">
+                        <input type="hidden" name="action" value="addtocart">
+                        <input type="hidden" name="listing_id" value="<?php echo $item["listing_id"]; ?>">
 
-                    <button type="submit" class="add-cart-btn">Add to Cart</button>
-                </form>
+                        <div class="qty-input">
+                            <label for="buy_qty">Quantity to buy:</label>
+                            <input type="number" id="buy_qty" name="buy_qty" min="1" max="<?php echo intval($item["quantity"]); ?>" value="1" required>
+                        </div>
+
+                        <button type="submit" class="add-cart-btn">Add to Cart</button>
+                    </form>
+                <?php endif; ?>
             </div>
         </main>
     </div>
