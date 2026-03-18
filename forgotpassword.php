@@ -97,11 +97,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else {
                 $password_hash = password_hash($new_password, PASSWORD_BCRYPT);
                 $email_clean = $conn->real_escape_string($_SESSION["forgot_email"]);
-                $sql = "UPDATE users
-                        SET password_hash = '$password_hash'
-                        WHERE dlsu_email = '$email_clean'";
+                $reset_query = "UPDATE users
+                                SET password_hash = '$password_hash'
+                                WHERE dlsu_email = '$email_clean'";
 
-                if ($conn->query($sql) === TRUE) {
+                if ($conn->query($reset_query) === TRUE) {
                     $success_message_reset = "Password resetted successfully! Redirecting to login...";
                     unset($_SESSION["forgot_email"], $_SESSION["forgot_verified"], $_POST["verify_code"]);
                 } else {
