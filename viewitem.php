@@ -58,6 +58,9 @@ if ($image_result == TRUE && $image_result->num_rows > 0) {
     }
 }
 
+// get the first image
+$main_image = !empty($images) ? $images[0] : null;
+
 // get all the categories for this listng
 $categories = [];
 if (!empty($item["cat1"])) $categories[] = $item["cat1"];
@@ -77,27 +80,45 @@ $category_display = implode(', ', $categories);
 </head>
 
 <body>
-    <form action="viewitem.php" method="post">
-        <div class="dashboard-container">
-            <aside class="sidebar">
-                <div class="user-profile-section">
-                    <img src="<?php echo $pic_path; ?>" alt="Profile" class="nav-logo">
-                    <div class="user-info-display">
-                        <h2 class="user-name"><?php echo $full_name; ?></h2>
-                        <p class="user-id">ID: <?php echo $user_id; ?></p>
-                    </div>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="user-profile-section">
+                <img src="<?php echo $pic_path; ?>" alt="Profile" class="nav-logo">
+                <div class="user-info-display">
+                    <h2 class="user-name"><?php echo $full_name; ?></h2>
+                    <p class="user-id">ID: <?php echo $user_id; ?></p>
                 </div>
-                <nav class="nav-menu">
-                    <a href="home.php" class="active">Home</a>
-                    <a href="mylistings.php">My Listings</a>
-                    <a href="myclaims.php">My Claims</a>
-                    <a href="editprofile.php">Edit Profile</a>
-                    <hr class="nav-divider">
-                    <a href="destroy.php" class="logout-link">Logout</a>
-                </nav>
-            </aside>
-        </div>
-    </form>
+            </div>
+            <nav class="nav-menu">
+                <a href="home.php" class="active">Home</a>
+                <a href="mylistings.php">My Listings</a>
+                <a href="myclaims.php">My Claims</a>
+                <a href="editprofile.php">Edit Profile</a>
+                <hr class="nav-divider">
+                <a href="destroy.php" class="logout-link">Logout</a>
+            </nav>
+        </aside>
+        <main class="item-container">
+            <div class="image-section">
+                <div class="main-image-box">
+                </div>
+                <!-- other images (if any) -->
+            </div>
+            <div class="details-section">
+                <div class="seller-info">
+
+                </div>
+                <div class="price-box">
+
+                </div>
+                <div class="description-box">
+
+                </div>
+                <form action="viewitem.php" method="post">
+                </form>
+            </div>
+        </main>
+    </div>
 </body>
 
 </html>
