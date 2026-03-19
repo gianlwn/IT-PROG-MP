@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $password_hash = password_hash($password, PASSWORD_BCRYPT);
         $create_query = "INSERT INTO users (user_id, dlsu_email, password_hash, first_name, last_name, course_code, role, phone_number)
-                VALUES ('$id_number', '$dlsu_email', '$password_hash', '$first_name', '$last_name', '$course_code', '$role', '$phone_number')";
+                         VALUES ('$id_number', '$dlsu_email', '$password_hash', '$first_name', '$last_name', '$course_code', '$role', '$phone_number')";
 
         try {
             if ($conn->query($create_query) === TRUE) {
