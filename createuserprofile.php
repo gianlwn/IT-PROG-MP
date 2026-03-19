@@ -12,15 +12,15 @@ $error_message = "";
 $success_message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id_number = trim($_POST["id_number"]);
+    $id_number = $conn->real_escape_string(trim($_POST["id_number"]));
     $dlsu_email = $_SESSION["verification_email"];
-    $password = $_POST["password"];
+    $password = $conn->real_escape_string($_POST["password"]);
     $confirm_password = $_POST["confirm_password"];
-    $first_name = trim($_POST["first_name"]);
-    $last_name = trim($_POST["last_name"]);
-    $course_code = trim($_POST["course_code"]);
+    $first_name = $conn->real_escape_string(trim($_POST["first_name"]));
+    $last_name = $conn->real_escape_string(trim($_POST["last_name"]));
+    $course_code = $conn->real_escape_string(trim($_POST["course_code"]));
     $role = $_POST["role"];
-    $phone_number = trim($_POST["phone_number"]);
+    $phone_number = $conn->real_escape_string(trim($_POST["phone_number"]));
 
 
     if (empty($id_number) || empty($first_name) || empty($last_name) || empty($role) || empty($password)) {
@@ -29,15 +29,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error_message = "Passwords do not match!";
     } else {
         $password_hash = password_hash($password, PASSWORD_BCRYPT);
-
-        $first_name_clean = $conn->real_escape_string($first_name);
-        $last_name_clean = $conn->real_escape_string($last_name);
-
-        $sql = "INSERT INTO users (user_id, dlsu_email, password_hash, first_name, last_name, course_code, role, phone_number)
-                VALUES ('$id_number', '$dlsu_email', '$password_hash', '$first_name_clean', '$last_name_clean', '$course_code', '$role', '$phone_number')";
+        $create_query = "INSERT INTO users (user_id, dlsu_email, password_hash, first_name, last_name, course_code, role, phone_number)
+                VALUES ('$id_number', '$dlsu_email', '$password_hash', '$first_name', '$last_name', '$course_code', '$role', '$phone_number')";
 
         try {
-            if ($conn->query($sql) === TRUE) {
+            if ($conn->query($create_query) === TRUE) {
                 // ask user to login again
                 $success_message = "Profile created successfully! Redirecting to login...";
 
