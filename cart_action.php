@@ -16,8 +16,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
 
         // get max available stock
         $stock_query = "SELECT quantity
-                    FROM listings
-                    WHERE listing_id = '$listing_id'";
+                        FROM listings
+                        WHERE listing_id = '$listing_id'";
         $stock_result = $conn->query($stock_query);
         $item_data = $stock_result->fetch_assoc();
         $max_stock = intval($item_data["quantity"]);
@@ -29,8 +29,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
         }
 
         $check_query = "SELECT cart_id, quantity
-                    FROM cart
-                    WHERE buyer_id = '$buyer_id' AND listing_id = '$listing_id'";
+                        FROM cart
+                        WHERE buyer_id = '$buyer_id' AND listing_id = '$listing_id'";
         $check_result = $conn->query($check_query);
 
         if ($check_result && $check_result->num_rows > 0) {
@@ -44,8 +44,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
             }
 
             $update_query = "UPDATE cart
-                         SET quantity = '$new_qty'
-                         WHERE buyer_id = '$buyer_id' AND listing_id = '$listing_id'";
+                             SET quantity = '$new_qty'
+                             WHERE buyer_id = '$buyer_id' AND listing_id = '$listing_id'";
             $conn->query($update_query);
         } else {
             // error: trying to add more than available stock on first add
@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
             }
 
             $insert_query = "INSERT INTO cart (buyer_id, listing_id, quantity)
-                         VALUES ('$buyer_id', '$listing_id', '$buy_qty')";
+                             VALUES ('$buyer_id', '$listing_id', '$buy_qty')";
             $conn->query($insert_query);
         }
 
@@ -86,7 +86,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
         $cart_id = isset($_POST["cart_id"]) ? intval($_POST["cart_id"]) : 0;
 
         if ($cart_id > 0) {
-            $delete_query = "DELETE FROM cart WHERE cart_id = '$cart_id' AND buyer_id = '$buyer_id'";
+            $delete_query = "DELETE FROM cart
+                             WHERE cart_id = '$cart_id' AND buyer_id = '$buyer_id'";
             $conn->query($delete_query);
 
             // success
