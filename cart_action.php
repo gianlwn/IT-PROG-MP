@@ -28,14 +28,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
             exit();
         }
 
-        $check_query = "SELECT cart_id, quantity
-                        FROM cart
-                        WHERE buyer_id = '$buyer_id' AND listing_id = '$listing_id'";
-        $check_result = $conn->query($check_query);
+        $cart_query = "SELECT cart_id, quantity
+                       FROM cart
+                       WHERE buyer_id = '$buyer_id' AND listing_id = '$listing_id'";
+        $cart_result = $conn->query($cart_query);
 
-        if ($check_result && $check_result->num_rows > 0) {
-            $row = $check_result->fetch_assoc();
-            $new_qty = $row["quantity"] + $buy_qty;
+        if ($cart_result == TRUE && $cart_result->num_rows > 0) {
+            $cart_row = $cart_result->fetch_assoc();
+            $new_qty = $cart_row["quantity"] + $buy_qty;
 
             // error: trying to add more than available stock
             if ($new_qty > $max_stock) {
@@ -43,10 +43,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
                 exit();
             }
 
-            $update_query = "UPDATE cart
-                             SET quantity = '$new_qty'
-                             WHERE buyer_id = '$buyer_id' AND listing_id = '$listing_id'";
-            $conn->query($update_query);
+            $updatecart_query = "UPDATE cart
+                                 SET quantity = '$new_qty'
+                                 WHERE buyer_id = '$buyer_id' AND listing_id = '$listing_id'";
+            $conn->query($updatecart_query);
         } else {
             // error: trying to add more than available stock on first add
             if ($buy_qty > $max_stock) {
