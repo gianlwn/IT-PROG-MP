@@ -12,7 +12,7 @@ $error_message = "";
 $success_message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id_number = $conn->real_escape_string(trim($_POST["id_number"]));
+    $id_number = intval(trim($_POST["id_number"]));
     $dlsu_email = $_SESSION["verification_email"];
     $password = $conn->real_escape_string($_POST["password"]);
     $confirm_password = $_POST["confirm_password"];

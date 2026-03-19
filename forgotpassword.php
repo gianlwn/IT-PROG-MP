@@ -17,15 +17,14 @@ $flag = true;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // send the code
     if (isset($_POST["send_code"])) {
-        $email = trim($_POST["email"]);
+        $email = $conn->real_escape_string(trim($_POST["email"]));
 
         if (!preg_match('/^[a-z._]+@dlsu\.edu\.ph$/', $email)) {
             $error_message = "Invalid DLSU email format.";
         } else {
-            $email_clean = $conn->real_escape_string($email);
             $forgot_query = "SELECT dlsu_email
                              FROM users
-                             WHERE dlsu_email = '$email_clean'";
+                             WHERE dlsu_email = '$email'";
             $forgot_result = $conn->query($forgot_query);
 
             // check if the email is already registered

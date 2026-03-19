@@ -15,18 +15,17 @@ $success_message = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // send the code via email
     if (isset($_POST["send_code"])) {
-        $email = trim($_POST["email"]);
+        $email = $conn->real_escape_string(trim($_POST["email"]));
 
         if (!preg_match('/^[a-z._]+@dlsu\.edu\.ph$/', $email)) {
             $error_message = "Invalid DLSU email format.";
         } else {
-            $email_clean = $conn->real_escape_string($email);
             $verify_query = "SELECT dlsu_email
                              FROM users
-                             WHERE dlsu_email = '$email_clean'";
+                             WHERE dlsu_email = '$email'";
             $verify_result = $conn->query($verify_query);
 
-            if ($verify_result && $verify_result->num_rows > 0) {
+            if ($verify_result == TRUE && $verify_result->num_rows > 0) {
                 $error_message = "This email is already registered. Please log in.";
             } else {
                 $verification_code = rand(100000, 999999);
@@ -59,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
     // verify the code
-    elseif (isset($_POST["verify_code"])) {
+    else if (isset($_POST["verify_code"])) {
         $email = trim($_POST["email"]);
         $code = trim($_POST["code"]);
 
