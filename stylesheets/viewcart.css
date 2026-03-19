@@ -1,12 +1,4 @@
-/* --- MAIN LAYOUT & TOP BAR --- */
-.cart-content {
-    padding: 40px;
-}
-
-.cart-top-bar {
-    margin-bottom: 30px;
-}
-
+/* --- TOP BAR --- */
 .top-bar-form {
     display: flex;
     width: 100%;
@@ -102,11 +94,6 @@
     font-size: 0.9rem;
     color: #798367;
     margin-bottom: 10px;
-}
-
-.item-price {
-    font-weight: bold;
-    color: #4a543e;
 }
 
 .item-subtotal {
