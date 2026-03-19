@@ -29,7 +29,8 @@ $listing_query = "SELECT l.listing_id, c1.category_name AS cat1, c2.category_nam
                   LEFT JOIN categories c2 ON c2.category_id = l.category2_id
                   LEFT JOIN categories c3 ON c3.category_id = l.category3_id
                   WHERE l.status = 'Available'
-                  GROUP BY l.listing_id";
+                  GROUP BY l.listing_id
+                  ORDER BY l.created_at DESC";
 
 $listing_result = $conn->query($listing_query);
 
