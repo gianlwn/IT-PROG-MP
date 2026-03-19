@@ -42,7 +42,7 @@ $cart_query = "SELECT c.cart_id, c.quantity AS cart_qty,
 
 $cart_result = $conn->query($cart_query);
 
-if ($cart_result && $cart_result->num_rows > 0) {
+if ($cart_result == TRUE && $cart_result->num_rows > 0) {
     while ($cart_row = $cart_result->fetch_assoc()) {
         $cart_items[] = $cart_row;
     }
