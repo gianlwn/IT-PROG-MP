@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $first_name = $conn->real_escape_string(trim($_POST["first_name"]));
     $last_name = $conn->real_escape_string(trim($_POST["last_name"]));
     $course_code = $conn->real_escape_string(trim($_POST["course_code"]));
-    $role = $_POST["role"];
+    $role = $conn->real_escape_string($_POST["role"]);
     $phone_number = $conn->real_escape_string(trim($_POST["phone_number"]));
 
 
