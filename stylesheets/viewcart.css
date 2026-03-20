@@ -41,6 +41,12 @@
     gap: 20px;
 }
 
+.cart-item-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
 .cart-item-card {
     background: #fff;
     border-radius: 12px;

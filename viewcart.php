@@ -105,47 +105,49 @@ if ($cart_result == TRUE && $cart_result->num_rows > 0) {
                         </div>
                     <?php else: ?>
                         <?php foreach ($cart_items as $item): ?>
-                            <div class="cart-item-card">
-                                <div class="item-img-box">
-                                    <?php if (!empty($item["main_image_path"])): ?>
-                                        <img src="<?php echo $item["main_image_path"]; ?>" alt="Product">
-                                    <?php else: ?>
-                                        <div class="no-img">No Image</div>
-                                    <?php endif; ?>
+                            <a href="<?php echo "viewitem.php?listing_id=" . $item["listing_id"]?>" class="cart-item-link">
+                                <div class="cart-item-card">
+                                    <div class="item-img-box">
+                                        <?php if (!empty($item["main_image_path"])): ?>
+                                            <img src="<?php echo $item["main_image_path"]; ?>" alt="Product">
+                                        <?php else: ?>
+                                            <div class="no-img">No Image</div>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="item-details">
+                                        <h3 class="item-title"><?php echo $item["product_name"]; ?></h3>
+                                        <p class="item-seller">
+                                            Sold by: <?php echo $item["seller_name"]; ?>
+                                            <span class="seller-rating">
+                                                <?php if ($item["avg_rating"] > 0): ?>
+                                                    ★ <?php echo $item["avg_rating"]; ?>
+                                                <?php else: ?>
+                                                    <span class="no-rating">★ N/A</span>
+                                                <?php endif; ?>
+                                            </span>
+                                        </p>
+                                        <p class="item-price">₱<?php echo number_format($item["price"], 2); ?></p>
+                                        <p class="item-subtotal">Subtotal: ₱<?php echo number_format($item["price"] * $item["cart_qty"], 2); ?></p>
+                                    </div>
+                                    <div class="item-actions-panel">
+                                        <form action="cart_action.php" method="POST" class="action-form">
+                                            <input type="hidden" name="cart_id" value="<?php echo $item["cart_id"]; ?>">
+                                            <div class="qty-control">
+                                                <input type="number" name="new_qty" min="1" max="<?php echo $item["quantity"]; ?>" value="<?php echo $item["cart_qty"]; ?>" class="qty-input">
+                                                <button type="submit" name="action" value="updatecart" class="btn update-btn">Update</button>
+                                            </div>
+                                        </form>
+                                        <form action="contact_seller.php" method="POST" class="action-form">
+                                            <input type="hidden" name="listing_id" value="<?php echo $item["listing_id"]; ?>">
+                                            <button type="submit" class="btn contact-btn">Contact Seller</button>
+                                        </form>
+                                        <form action="cart_action.php" method="POST" class="action-form">
+                                            <input type="hidden" name="cart_id" value="<?php echo $item["cart_id"]; ?>">
+                                            <button type="submit" name="action" value="removefromcart" class="btn remove-btn">Remove</button>
+                                        </form>
+                                    </div>
                                 </div>
-                                <div class="item-details">
-                                    <h3 class="item-title"><?php echo $item["product_name"]; ?></h3>
-                                    <p class="item-seller">
-                                        Sold by: <?php echo $item["seller_name"]; ?>
-                                        <span class="seller-rating">
-                                            <?php if ($item["avg_rating"] > 0): ?>
-                                                ★ <?php echo $item["avg_rating"]; ?>
-                                            <?php else: ?>
-                                                <span class="no-rating">★ N/A</span>
-                                            <?php endif; ?>
-                                        </span>
-                                    </p>
-                                    <p class="item-price">₱<?php echo number_format($item["price"], 2); ?></p>
-                                    <p class="item-subtotal">Subtotal: ₱<?php echo number_format($item["price"] * $item["cart_qty"], 2); ?></p>
-                                </div>
-                                <div class="item-actions-panel">
-                                    <form action="cart_action.php" method="POST" class="action-form">
-                                        <input type="hidden" name="cart_id" value="<?php echo $item["cart_id"]; ?>">
-                                        <div class="qty-control">
-                                            <input type="number" name="new_qty" min="1" max="<?php echo $item["quantity"]; ?>" value="<?php echo $item["cart_qty"]; ?>" class="qty-input">
-                                            <button type="submit" name="action" value="updatecart" class="btn update-btn">Update</button>
-                                        </div>
-                                    </form>
-                                    <form action="contact_seller.php" method="POST" class="action-form">
-                                        <input type="hidden" name="listing_id" value="<?php echo $item["listing_id"]; ?>">
-                                        <button type="submit" class="btn contact-btn">Contact Seller</button>
-                                    </form>
-                                    <form action="cart_action.php" method="POST" class="action-form">
-                                        <input type="hidden" name="cart_id" value="<?php echo $item["cart_id"]; ?>">
-                                        <button type="submit" name="action" value="removefromcart" class="btn remove-btn">Remove</button>
-                                    </form>
-                                </div>
-                            </div>
+                            </a>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </div>
