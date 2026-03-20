@@ -38,7 +38,8 @@ $cart_query = "SELECT c.cart_id, c.quantity AS cart_qty,
                FROM cart c
                JOIN listings l ON c.listing_id = l.listing_id
                JOIN users u ON l.seller_id = u.user_id
-               WHERE c.buyer_id = '$user_id'";
+               WHERE c.buyer_id = '$user_id'
+               ORDER BY c.added_at DESC";
 
 $cart_result = $conn->query($cart_query);
 
