@@ -130,37 +130,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <h3 class="section-title">All Items</h3>
                         <div class="product-grid">
                             <?php foreach ($listings as $l): ?>
-                                <div class="product-card">
-                                    <?php if (!empty($l["image_path"])): ?>
-                                        <img src="<?php echo $l["image_path"]; ?>" alt="Product Image" class="product-image">
-                                    <?php else: ?>
-                                        <div class="product-image-placeholder">No Image</div>
-                                    <?php endif; ?>
-                                    <div class="product-info">
-                                        <?php
-                                        $categories = [];
-                                        if (!empty($l["cat1"])) $categories[] = $l["cat1"];
-                                        if (!empty($l["cat2"])) $categories[] = $l["cat2"];
-                                        if (!empty($l["cat3"])) $categories[] = $l["cat3"];
-                                        $category_display = implode(', ', $categories);
-                                        ?>
-                                        <span class="category-tag"><?php echo $category_display; ?></span>
-                                        <h4 class="item-name"><?php echo $l["product_name"]; ?></h4>
-                                        <div class="seller-row">
-                                            <span class="seller-name"><?php echo $l["full_name"]; ?></span>
-                                            <?php if ($l["avg_rating"] > 0): ?>
-                                                <span class="seller-rating">★ <?php echo $l["avg_rating"]; ?></span>
-                                            <?php else: ?>
-                                                <span class="seller-rating">★ N/A</span>
-                                            <?php endif; ?>
+                                <a href="<?php echo "viewitem.php?listing_id=" . $l["listing_id"]?>" class="cart-item-link">
+                                    <div class="product-card">
+                                        <?php if (!empty($l["image_path"])): ?>
+                                            <img src="<?php echo $l["image_path"]; ?>" alt="Product Image" class="product-image">
+                                        <?php else: ?>
+                                            <div class="product-image-placeholder">No Image</div>
+                                        <?php endif; ?>
+                                        <div class="product-info">
+                                            <?php
+                                            $categories = [];
+                                            if (!empty($l["cat1"])) $categories[] = $l["cat1"];
+                                            if (!empty($l["cat2"])) $categories[] = $l["cat2"];
+                                            if (!empty($l["cat3"])) $categories[] = $l["cat3"];
+                                            $category_display = implode(', ', $categories);
+                                            ?>
+                                            <span class="category-tag"><?php echo $category_display; ?></span>
+                                            <h4 class="item-name"><?php echo $l["product_name"]; ?></h4>
+                                            <div class="seller-row">
+                                                <span class="seller-name"><?php echo $l["full_name"]; ?></span>
+                                                <?php if ($l["avg_rating"] > 0): ?>
+                                                    <span class="seller-rating">★ <?php echo $l["avg_rating"]; ?></span>
+                                                <?php else: ?>
+                                                    <span class="seller-rating">★ N/A</span>
+                                                <?php endif; ?>
+                                            </div>
+                                            <div class="price-qty-row">
+                                                <p class="item-price">₱<?php echo $l["price"]; ?></p>
+                                                <span class="item-quantity">Qty: <?php echo $l["quantity"]; ?></span>
+                                            </div>
+                                            <button class="view-item-btn" name="viewitem" value="<?php echo $l["listing_id"]; ?>">View Details</button>
                                         </div>
-                                        <div class="price-qty-row">
-                                            <p class="item-price">₱<?php echo $l["price"]; ?></p>
-                                            <span class="item-quantity">Qty: <?php echo $l["quantity"]; ?></span>
-                                        </div>
-                                        <button class="view-item-btn" name="viewitem" value="<?php echo $l["listing_id"]; ?>">View Details</button>
                                     </div>
-                                </div>
+                                </a>
                             <?php endforeach; ?>
                         </div>
                     </div>
