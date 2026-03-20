@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db.php';
+require 'db.php';
 
 // prevent people from accessing this without getting verified
 if (!isset($_SESSION["email_verified"]) || $_SESSION["email_verified"] !== true) {
