@@ -10,12 +10,13 @@ if (!isset($_SESSION["user_id"])) {
 
 
 // user data for display
+$user_id = intval($_SESSION["user_id"]);
 $first_name = $_SESSION["first_name"];
 $last_name = $_SESSION["last_name"];
 $full_name = trim($first_name . " " . $last_name);
-$user_id = $_SESSION["user_id"];
-$profile_pic = $_SESSION["profile_picture"] ?? "login-icon.png";
-$pic_path = "images/" . $profile_pic;
+$role = $_SESSION["role"];
+$profile_pic = "images/" . $_SESSION["profile_picture"];
+$admin_role_id = intval($_SESSION["admin_role_id"]);
 
 // get all listings
 $listings = [];
@@ -81,10 +82,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="dashboard-container">
             <aside class="sidebar">
                 <div class="user-profile-section">
-                    <img src="<?php echo $pic_path; ?>" alt="Profile" class="nav-logo">
+                    <img src="<?php echo $profile_pic; ?>" alt="Profile" class="nav-logo">
                     <div class="user-info-display">
                         <h2 class="user-name"><?php echo $full_name; ?></h2>
-                        <p class="user-id">ID: <?php echo $user_id; ?></p>
+                        <p class="user-id"><?php echo "$role, ID: $user_id"; ?></p>
                     </div>
                 </div>
                 <nav class="nav-menu">
@@ -92,6 +93,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <a href="mylistings.php">My Listings</a>
                     <a href="myclaims.php">My Claims</a>
                     <a href="editprofile.php">Edit Profile</a>
+                    <?php if ($admin_role_id == 1 || $admin_role_id == 2): ?>
+                        <a href="#">Admin Dashboard</a>
+                    <?php endif; ?>
+                    <?php if ($admin_role_id == 1): ?>
+                        <a href="#">Assign Admins</a>
+                    <?php endif; ?>
                     <hr class="nav-divider">
                     <a href="logout.php" class="logout-link">Logout</a>
                 </nav>

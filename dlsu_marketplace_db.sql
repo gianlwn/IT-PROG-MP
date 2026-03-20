@@ -263,7 +263,7 @@ CREATE TABLE `users` (
   `course_code` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `role` enum('Student','Faculty','Staff') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `phone_number` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `profile_picture` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'default_pfp.jpg',
+  `profile_picture` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'default-pfp.jpg',
   `is_verified` tinyint(1) DEFAULT '0',
   `warning_count` int DEFAULT '0',
   `is_suspended` tinyint(1) DEFAULT '0',
@@ -276,11 +276,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `dlsu_email`, `password_hash`, `first_name`, `last_name`, `course_code`, `role`, `phone_number`, `profile_picture`, `is_verified`, `warning_count`, `is_suspended`, `created_at`, `updated_at`) VALUES
-(12323780, 'camille_erika_sarabia@dlsu.edu.ph', '$2y$10$1evMpDD1mNlRpp3hLiUxne4atiVeQGYXEbUK4Ehf3k0lJcsM/yO1C', 'Camille Erika', 'Sarabia', 'BS-IT', 'Student', '09685706073', 'default_pfp.jpg', 0, 0, 0, '2026-03-11 00:39:10', '2026-03-11 00:39:10'),
-(12410012, 'gian_enriquez@dlsu.edu.ph', '$2y$10$tIqsLGExCeBZAGDMzKjZsuwpcrX4SO2ZoTCw1ZLWx.xu3SKLDfDhG', 'Gian Patrick', 'Enriquez', 'BS-IT', 'Student', '09458676744', 'default_pfp.jpg', 0, 0, 0, '2026-03-18 08:04:55', '2026-03-18 08:04:55'),
-(12413178, 'sky_parado@dlsu.edu.ph', '$2y$10$TDVmMCBJ3GMQlLmYIK9IYuI/Zh8e6kY9h1q4UedoqYR1.HayBGJS6', 'Sky Hannah', 'Parado', 'BSCS-NIS', 'Student', '09762447493', 'default_pfp.jpg', 0, 0, 0, '2026-03-18 08:10:14', '2026-03-18 08:10:14'),
-(12415421, 'andie_woo@dlsu.edu.ph', '$2y$10$7hyMz6zNUoZjGBC2Dx3ovOXYGk/DQ1Q0YoDlt.nzLVL6o5y08oV.i', 'Andie Kirsten', 'Woo', 'BSCS-ST', 'Student', '09171588460', 'default_pfp.jpg', 0, 0, 0, '2026-03-18 08:08:18', '2026-03-18 08:24:11'),
-(12415537, 'giancarlo_lawan@dlsu.edu.ph', '$2y$10$tIqsLGExCeBZAGDMzKjZsuwpcrX4SO2ZoTCw1ZLWx.xu3SKLDfDhG', 'Giancarlo', 'Lawan', 'BS-IT', 'Student', '09285170610', 'default_pfp.jpg', 0, 0, 0, '2026-03-11 00:38:42', '2026-03-16 18:47:02');
+(12323780, 'camille_erika_sarabia@dlsu.edu.ph', '$2y$10$1evMpDD1mNlRpp3hLiUxne4atiVeQGYXEbUK4Ehf3k0lJcsM/yO1C', 'Camille Erika', 'Sarabia', 'BS-IT', 'Student', '09685706073', 'default-pfp.jpg', 0, 0, 0, '2026-03-11 00:39:10', '2026-03-11 00:39:10'),
+(12410012, 'gian_enriquez@dlsu.edu.ph', '$2y$10$tIqsLGExCeBZAGDMzKjZsuwpcrX4SO2ZoTCw1ZLWx.xu3SKLDfDhG', 'Gian Patrick', 'Enriquez', 'BS-IT', 'Student', '09458676744', 'default-pfp.jpg', 0, 0, 0, '2026-03-18 08:04:55', '2026-03-18 08:04:55'),
+(12413178, 'sky_parado@dlsu.edu.ph', '$2y$10$TDVmMCBJ3GMQlLmYIK9IYuI/Zh8e6kY9h1q4UedoqYR1.HayBGJS6', 'Sky Hannah', 'Parado', 'BSCS-NIS', 'Student', '09762447493', 'default-pfp.jpg', 0, 0, 0, '2026-03-18 08:10:14', '2026-03-18 08:10:14'),
+(12415421, 'andie_woo@dlsu.edu.ph', '$2y$10$7hyMz6zNUoZjGBC2Dx3ovOXYGk/DQ1Q0YoDlt.nzLVL6o5y08oV.i', 'Andie Kirsten', 'Woo', 'BSCS-ST', 'Student', '09171588460', 'default-pfp.jpg', 0, 0, 0, '2026-03-18 08:08:18', '2026-03-18 08:24:11'),
+(12415537, 'giancarlo_lawan@dlsu.edu.ph', '$2y$10$tIqsLGExCeBZAGDMzKjZsuwpcrX4SO2ZoTCw1ZLWx.xu3SKLDfDhG', 'Giancarlo', 'Lawan', 'BS-IT', 'Student', '09285170610', 'default-pfp.jpg', 0, 0, 0, '2026-03-11 00:38:42', '2026-03-16 18:47:02');
 
 -- --------------------------------------------------------
 

@@ -8,8 +8,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $email = $conn->real_escape_string(trim($_POST["email"]));
   $password = $conn->real_escape_string($_POST["password"]);
 
-  $login_query = "SELECT user_id, password_hash, first_name, last_name, role, dlsu_email, profile_picture
-                  FROM users
+  $login_query = "SELECT u.user_id, u.password_hash, u.first_name, u.last_name, u.role, u.dlsu_email, u.profile_picture, a.admin_role_id, ar.role_name
+                  FROM users u
+                  LEFT JOIN admin_accounts a ON a.user_id = u.user_id
+                  LEFT JOIN admin_roles ar ON ar.admin_role_id = a.admin_role_id
                   WHERE dlsu_email = '$email'";
 
   $login_result = $conn->query($login_query);
@@ -18,12 +20,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user = $login_result->fetch_assoc();
 
     if (password_verify($password, $user["password_hash"])) {
-      $_SESSION["dlsu_email"] = $user["dlsu_email"];
       $_SESSION["user_id"] = $user["user_id"];
-      $_SESSION["profile_picture"] = $user["profile_picture"];
       $_SESSION["first_name"] = $user["first_name"];
       $_SESSION["last_name"] = $user["last_name"];
-      $_SESSION["role"] = $user["role"];
+      
+      if ($user["admin_role_id"] == 1 || $user["admin_role_id"] == 2) {
+        $_SESSION["role"] = $user["role_name"];
+      } else {
+        $_SESSION["role"] = $user["role"];
+      }
+
+      $_SESSION["dlsu_email"] = $user["dlsu_email"];
+      $_SESSION["profile_picture"] = $user["profile_picture"];
+      $_SESSION["admin_role_id"] = !empty($user["admin_role_id"]) ? $user["admin_role_id"] : "";
       header("Location: home.php");
       exit();
     } else {
