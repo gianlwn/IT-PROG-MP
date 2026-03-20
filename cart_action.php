@@ -15,13 +15,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
         $buy_qty = intval($_POST["buy_qty"]);
 
         // get max available stock
+        $max_stock = 0;
         $stock_query = "SELECT quantity
                         FROM listings
                         WHERE listing_id = '$listing_id'";
         $stock_result = $conn->query($stock_query);
-        $item_data = $stock_result->fetch_assoc();
-        $max_stock = intval($item_data["quantity"]);
 
+        if ($stock_result == TRUE && $stock_result->num_rows === 1) {
+            $item_data = $stock_result->fetch_assoc();
+            $max_stock = intval($item_data["quantity"]);
+        }
+        
         // check if the item is already out of stock
         if ($max_stock <= 0) {
             header("Location: viewitem.php?listing_id=" . $listing_id . "&error=nostock");

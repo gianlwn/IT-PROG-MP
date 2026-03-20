@@ -105,8 +105,8 @@ if ($cart_result == TRUE && $cart_result->num_rows > 0) {
                         </div>
                     <?php else: ?>
                         <?php foreach ($cart_items as $item): ?>
-                            <a href="<?php echo "viewitem.php?listing_id=" . $item["listing_id"]?>" class="cart-item-link">
-                                <div class="cart-item-card">
+                            <div href="<?php echo "viewitem.php?listing_id=" . $item["listing_id"] ?>" class="cart-item-link">
+                                <div class="cart-item-card clickable-card" data-link="<?php echo "viewitem.php?listing_id=" . $item["listing_id"]; ?>">
                                     <div class="item-img-box">
                                         <?php if (!empty($item["main_image_path"])): ?>
                                             <img src="<?php echo $item["main_image_path"]; ?>" alt="Product">
@@ -147,13 +147,24 @@ if ($cart_result == TRUE && $cart_result->num_rows > 0) {
                                         </form>
                                     </div>
                                 </div>
-                            </a>
+                            </div>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </div>
             </div>
         </main>
     </div>
+    <script>
+        document.querySelectorAll(".clickable-card").forEach(function(card) {
+            card.addEventListener("click", function(e) {
+                // prevent redirect if clicking buttons, inputs, forms
+                if (e.target.closest("button, input, form")) {
+                    return;
+                }
+                window.location.href = card.dataset.link;
+            });
+        });
+    </script>
 </body>
 
 </html>
