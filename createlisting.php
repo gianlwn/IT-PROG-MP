@@ -16,9 +16,17 @@ $categories = [];
 $cat_query = "SELECT category_id, category_name
               FROM categories
               ORDER BY category_id ASC";
-$cat_result = $conn->query($cat_query);
 
-if ($cat_result == TRUE && $cat_result->num_rows > 0) {
+$stmt = $conn->prepare($cat_query);
+
+if (!$stmt) {
+    die("Prepare failed: " . $conn->error);
+}
+
+$stmt->execute();
+$cat_result = $stmt->get_result();
+
+if ($cat_result->num_rows > 0) {
     while ($row = $cat_result->fetch_assoc()) {
         $categories[] = $row;
     }
@@ -86,6 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="stylesheets/createlisting.css" />
     <title>DLSU Marketplace | Add New Product</title>
 </head>
+
 <body>
     <div class="card-container">
         <div class="header">

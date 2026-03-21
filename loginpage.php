@@ -5,26 +5,34 @@ require 'db.php';
 $error_message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $email = $conn->real_escape_string(trim($_POST["email"]));
-  $password = $conn->real_escape_string($_POST["password"]);
+  $email = trim($_POST["email"]);
+  $password = $_POST["password"];
 
   $login_query = "SELECT u.user_id, u.password_hash, u.first_name, u.last_name, u.role, u.dlsu_email, u.profile_picture, a.admin_role_id, ar.role_name
                   FROM users u
                   LEFT JOIN admin_accounts a ON a.user_id = u.user_id
                   LEFT JOIN admin_roles ar ON ar.admin_role_id = a.admin_role_id
-                  WHERE dlsu_email = '$email'";
+                  WHERE dlsu_email = ?";
 
-  $login_result = $conn->query($login_query);
+  $stmt = $conn->prepare($login_query);
 
-  if ($login_result == TRUE && $login_result->num_rows === 1) {
+  if (!$stmt) {
+    die("Prepare failed: " . $conn->error);
+  }
+
+  $stmt->bind_param("s", $email);
+  $stmt->execute();
+  $login_result = $stmt->get_result();
+
+  if ($login_result->num_rows === 1) {
     $user = $login_result->fetch_assoc();
 
     if (password_verify($password, $user["password_hash"])) {
-      $_SESSION["user_id"] = $user["user_id"];
+      $_SESSION["user_id"] = intval($user["user_id"]);
       $_SESSION["first_name"] = $user["first_name"];
       $_SESSION["last_name"] = $user["last_name"];
 
-      if ($user["admin_role_id"] == 1 || $user["admin_role_id"] == 2) {
+      if (!empty($user["admin_role_id"])) {
         $_SESSION["role"] = $user["role_name"];
       } else {
         $_SESSION["role"] = $user["role"];

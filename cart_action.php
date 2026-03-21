@@ -16,16 +16,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
 
         // get max available stock
         $max_stock = 0;
+
         $stock_query = "SELECT quantity
                         FROM listings
-                        WHERE listing_id = '$listing_id'";
-        $stock_result = $conn->query($stock_query);
+                        WHERE listing_id = ?";
 
-        if ($stock_result == TRUE && $stock_result->num_rows === 1) {
+        $stmt = $conn->prepare($stock_query);
+
+        if (!$stmt) {
+            die("Prepare failed: " . $conn->error);
+        }
+
+        $stmt->bind_param("i", $listing_id);
+        $stmt->execute();
+        $stock_result = $stmt->get_result();
+
+        if ($stock_result->num_rows === 1) {
             $item_data = $stock_result->fetch_assoc();
             $max_stock = intval($item_data["quantity"]);
         }
-        
+
         // check if the item is already out of stock
         if ($max_stock <= 0) {
             header("Location: viewitem.php?listing_id=" . $listing_id . "&error=nostock");
@@ -34,10 +44,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
 
         $cart_query = "SELECT cart_id, quantity
                        FROM cart
-                       WHERE buyer_id = '$buyer_id' AND listing_id = '$listing_id'";
-        $cart_result = $conn->query($cart_query);
+                       WHERE buyer_id = ? AND listing_id = ?";
 
-        if ($cart_result == TRUE && $cart_result->num_rows > 0) {
+        $stmt = $conn->prepare($cart_query);
+
+        if (!$stmt) {
+            die("Prepare failed: " . $conn->error);
+        }
+
+        $stmt->bind_param("ii", $buyer_id, $listing_id);
+        $stmt->execute();
+        $cart_result = $stmt->get_result();
+
+        if ($cart_result->num_rows > 0) {
             $cart_row = $cart_result->fetch_assoc();
             $new_qty = $cart_row["quantity"] + $buy_qty;
 
@@ -48,9 +67,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
             }
 
             $updatecart_query = "UPDATE cart
-                                 SET quantity = '$new_qty'
-                                 WHERE buyer_id = '$buyer_id' AND listing_id = '$listing_id'";
-            $conn->query($updatecart_query);
+                                 SET quantity = ?
+                                 WHERE buyer_id = ? AND listing_id = ?";
+
+            $stmt = $conn->prepare($updatecart_query);
+
+            if (!$stmt) {
+                die("Prepare failed: " . $conn->error);
+            }
+
+            $stmt->bind_param("iii", $new_qty, $buyer_id, $listing_id);
+            $stmt->execute();
         } else {
             // error: trying to add more than available stock on first add
             if ($buy_qty > $max_stock) {
@@ -59,8 +86,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
             }
 
             $insert_query = "INSERT INTO cart (buyer_id, listing_id, quantity)
-                             VALUES ('$buyer_id', '$listing_id', '$buy_qty')";
-            $conn->query($insert_query);
+                             VALUES (?, ?, ?)";
+
+            $stmt = $conn->prepare($insert_query);
+
+            if (!$stmt) {
+                die("Prepare failed: " . $conn->error);
+            }
+
+            $stmt->bind_param("iii", $buyer_id, $listing_id, $buy_qty);
+            $stmt->execute();
         }
 
         // success
@@ -75,9 +110,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
 
         if ($cart_id > 0 && $new_qty > 0) {
             $update_query = "UPDATE cart
-                             SET quantity = '$new_qty'
-                             WHERE cart_id = '$cart_id' AND buyer_id = '$buyer_id'";
-            $conn->query($update_query);
+                             SET quantity = ?
+                             WHERE cart_id = ? AND buyer_id = ?";
+
+            $stmt = $conn->prepare($update_query);
+
+            if (!$stmt) {
+                die("Prepare failed: " . $conn->error);
+            }
+
+            $stmt->bind_param("iii", $new_qty, $cart_id, $buyer_id);
+            $stmt->execute();
 
             // success
             header("Location: viewcart.php");
@@ -91,8 +134,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
 
         if ($cart_id > 0) {
             $delete_query = "DELETE FROM cart
-                             WHERE cart_id = '$cart_id' AND buyer_id = '$buyer_id'";
-            $conn->query($delete_query);
+                             WHERE cart_id = ? AND buyer_id = ?";
+
+            $stmt = $conn->prepare($delete_query);
+
+            if (!$stmt) {
+                die("Prepare failed: " . $conn->error);
+            }
+
+            $stmt->bind_param("ii", $cart_id, $buyer_id);
+            $stmt->execute();
 
             // success
             header("Location: viewcart.php");

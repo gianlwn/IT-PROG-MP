@@ -17,18 +17,27 @@ $flag = true;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // send the code
     if (isset($_POST["send_code"])) {
-        $email = $conn->real_escape_string(trim($_POST["email"]));
+        $email = trim($_POST["email"]);
 
         if (!preg_match('/^[a-z._]+@dlsu\.edu\.ph$/', $email)) {
             $error_message = "Invalid DLSU email format.";
         } else {
             $forgot_query = "SELECT dlsu_email
                              FROM users
-                             WHERE dlsu_email = '$email'";
-            $forgot_result = $conn->query($forgot_query);
+                             WHERE dlsu_email = ?";
+
+            $stmt = $conn->prepare($forgot_query);
+
+            if (!$stmt) {
+                die("Prepare failed: " . $conn->error);
+            }
+
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $forgot_result = $stmt->get_result();
 
             // check if the email is already registered
-            if ($forgot_result == TRUE && $forgot_result->num_rows === 0) {
+            if ($forgot_result->num_rows === 0) {
                 $error_message = "This email is not registered. Please create an account.";
             } else {
                 $forgot_code = rand(100000, 999999);
@@ -95,12 +104,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $error_message = "Passwords do not match!";
             } else {
                 $password_hash = password_hash($new_password, PASSWORD_BCRYPT);
-                $email_clean = $conn->real_escape_string($_SESSION["forgot_email"]);
-                $reset_query = "UPDATE users
-                                SET password_hash = '$password_hash'
-                                WHERE dlsu_email = '$email_clean'";
+                $forgot_email = $conn->real_escape_string($_SESSION["forgot_email"]);
 
-                if ($conn->query($reset_query) === TRUE) {
+                $reset_query = "UPDATE users
+                                SET password_hash = ?
+                                WHERE dlsu_email = ?";
+
+                $stmt = $conn->prepare($reset_query);
+
+                if (!$stmt) {
+                    die("Prepare failed: " . $conn->error);
+                }
+
+                $stmt->bind_param("ss", $password_hash, $forgot_email);
+                $stmt->execute();
+
+                if ($stmt->affected_rows > 0) {
                     $success_message_reset = "Password resetted successfully! Redirecting to login...";
                     unset($_SESSION["forgot_email"], $_SESSION["forgot_verified"], $_POST["verify_code"]);
                 } else {
@@ -120,9 +139,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="stylesheets/verifypage.css">
     <?php if (empty($success_message_reset) && (!isset($_SESSION["forgot_verified"]) || $_SESSION["forgot_verified"] !== true) && $flag): ?>
-    <title>DLSU Marketplace | Forgot Password</title>
+        <title>DLSU Marketplace | Forgot Password</title>
     <?php else: ?>
-    <title>DLSU Marketplace | Reset Password</title>
+        <title>DLSU Marketplace | Reset Password</title>
     <?php endif; ?>
 </head>
 

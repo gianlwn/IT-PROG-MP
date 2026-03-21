@@ -14,13 +14,13 @@ $success_message = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_number = intval(trim($_POST["id_number"]));
     $dlsu_email = $_SESSION["verification_email"];
-    $password = $conn->real_escape_string($_POST["password"]);
+    $password = $_POST["password"];
     $confirm_password = $_POST["confirm_password"];
-    $first_name = $conn->real_escape_string(trim($_POST["first_name"]));
-    $last_name = $conn->real_escape_string(trim($_POST["last_name"]));
-    $course_code = $conn->real_escape_string(trim($_POST["course_code"]));
-    $role = $conn->real_escape_string($_POST["role"]);
-    $phone_number = $conn->real_escape_string(trim($_POST["phone_number"]));
+    $first_name = trim($_POST["first_name"]);
+    $last_name = trim($_POST["last_name"]);
+    $course_code = trim($_POST["course_code"]);
+    $role = $_POST["role"];
+    $phone_number = trim($_POST["phone_number"]);
 
 
     if (empty($id_number) || empty($first_name) || empty($last_name) || empty($role) || empty($password)) {
@@ -29,16 +29,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error_message = "Passwords do not match!";
     } else {
         $password_hash = password_hash($password, PASSWORD_BCRYPT);
+
         $create_query = "INSERT INTO users (user_id, dlsu_email, password_hash, first_name, last_name, course_code, role, phone_number)
-                         VALUES ('$id_number', '$dlsu_email', '$password_hash', '$first_name', '$last_name', '$course_code', '$role', '$phone_number')";
+                         VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
-            if ($conn->query($create_query) === TRUE) {
+            $stmt = $conn->prepare($create_query);
+
+            if (!$stmt) {
+                die("Prepare failed: " . $conn->error);
+            }
+
+            $stmt->bind_param("isssssss", $id_number, $dlsu_email, $password_hash, $first_name, $last_name, $course_code, $role, $phone_number);
+            $stmt->execute();
+
+            if ($stmt->affected_rows > 0) {
                 // ask user to login again
                 $success_message = "Profile created successfully! Redirecting to login...";
 
                 // unset email_verified
-                unset($_SESSION["email_verified"],);
+                unset($_SESSION["email_verified"]);
             }
         } catch (mysqli_sql_exception $e) {
             if ($conn->errno == 1062) {

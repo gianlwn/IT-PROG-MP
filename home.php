@@ -10,7 +10,7 @@ if (!isset($_SESSION["user_id"])) {
 
 
 // user data for display
-$user_id = intval($_SESSION["user_id"]);
+$user_id = $_SESSION["user_id"];
 $first_name = $_SESSION["first_name"];
 $last_name = $_SESSION["last_name"];
 $full_name = trim($first_name . " " . $last_name);
@@ -33,22 +33,37 @@ $listing_query = "SELECT l.listing_id, c1.category_name AS cat1, c2.category_nam
                   GROUP BY l.listing_id
                   ORDER BY l.created_at DESC";
 
-$listing_result = $conn->query($listing_query);
+$stmt = $conn->prepare($listing_query);
 
-if ($listing_result == TRUE && $listing_result->num_rows > 0) {
+if (!$stmt) {
+    die("Prepare failed: " . $conn->error);
+}
+
+$stmt->execute();
+$listing_result = $stmt->get_result();
+
+if ($listing_result->num_rows > 0) {
     while ($listings_row = $listing_result->fetch_assoc()) {
         $listings[] = $listings_row;
     }
 }
 
 // get all items in the cart
-$cart_query = "SELECT COUNT(quantity) AS cart_total
+$cart_query = "SELECT COUNT(*) AS cart_total
                FROM cart
-               WHERE buyer_id = '$user_id'";
+               WHERE buyer_id = ?";
 
-$cart_result = $conn->query($cart_query);
+$stmt = $conn->prepare($cart_query);
 
-if ($cart_result == TRUE && $cart_result->num_rows > 0) {
+if (!$stmt) {
+    die("Prepare failed: " . $conn->error);
+}
+
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$cart_result = $stmt->get_result();
+
+if ($cart_result->num_rows > 0) {
     $cart_row = $cart_result->fetch_assoc();
 }
 
@@ -130,7 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <h3 class="section-title">All Items</h3>
                         <div class="product-grid">
                             <?php foreach ($listings as $l): ?>
-                                <a href="<?php echo "viewitem.php?listing_id=" . $l["listing_id"]?>" class="cart-item-link">
+                                <a href="<?php echo "viewitem.php?listing_id=" . $l["listing_id"] ?>" class="cart-item-link">
                                     <div class="product-card">
                                         <?php if (!empty($l["image_path"])): ?>
                                             <img src="<?php echo $l["image_path"]; ?>" alt="Product Image" class="product-image">

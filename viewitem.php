@@ -15,12 +15,13 @@ if (!isset($_GET["listing_id"]) || empty($_GET["listing_id"])) {
 }
 
 // user data for display
+$user_id = $_SESSION["user_id"];
 $first_name = $_SESSION["first_name"];
 $last_name = $_SESSION["last_name"];
 $full_name = trim($first_name . " " . $last_name);
-$user_id = $_SESSION["user_id"];
-$profile_pic = $_SESSION["profile_picture"] ?? "login-icon.png";
-$pic_path = "images/" . $profile_pic;
+$role = $_SESSION["role"];
+$profile_pic = "images/" . $_SESSION["profile_picture"];
+$admin_role_id = intval($_SESSION["admin_role_id"]);
 
 $listing_id = intval($_GET["listing_id"]);
 
@@ -38,12 +39,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // get cart count for the top nav bar
 $cart_count_query = "SELECT COUNT(*) AS count
                      FROM cart
-                     WHERE buyer_id = '$user_id'";
+                     WHERE buyer_id = ?";
 
-$cart_count_result = $conn->query($cart_count_query);
+$stmt = $conn->prepare($cart_count_query);
+
+if (!$stmt) {
+    die("Prepare failed: " . $conn->error);
+}
+
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$cart_count_result = $stmt->get_result();
+
 $cart_count = 0;
 
-if ($cart_count_result && $cart_count_result->num_rows > 0) {
+if ($cart_count_result->num_rows > 0) {
     $count_row = $cart_count_result->fetch_assoc();
     $cart_count = $count_row["count"];
 }
@@ -57,10 +67,18 @@ $item_query = "SELECT c1.category_name AS cat1, c2.category_name AS cat2, c3.cat
                 LEFT JOIN categories c1 ON c1.category_id = l.category1_id
                 LEFT JOIN categories c2 ON c2.category_id = l.category2_id
                 LEFT JOIN categories c3 ON c3.category_id = l.category3_id
-                WHERE l.listing_id = '$listing_id'
+                WHERE l.listing_id = ?
                 GROUP BY l.listing_id";
 
-$item_result = $conn->query($item_query);
+$stmt = $conn->prepare($item_query);
+
+if (!$stmt) {
+    die("Prepare failed: " . $conn->error);
+}
+
+$stmt->bind_param("i", $listing_id);
+$stmt->execute();
+$item_result = $stmt->get_result();
 
 // if the item doesnt exist, go back to home
 if ($item_result->num_rows == 0) {
@@ -72,12 +90,22 @@ $item = $item_result->fetch_assoc();
 
 // get all images for this listing
 $images = [];
+
 $image_query = "SELECT image_path
                 FROM listing_images
-                WHERE listing_id = '$listing_id'";
-$image_result = $conn->query($image_query);
+                WHERE listing_id = ?";
 
-if ($image_result == TRUE && $image_result->num_rows > 0) {
+$stmt = $conn->prepare($image_query);
+
+if (!$stmt) {
+    die("Prepare failed: " . $conn->error);
+}
+
+$stmt->bind_param("i", $listing_id);
+$stmt->execute();
+$image_result = $stmt->get_result();
+
+if ($image_result->num_rows > 0) {
     while ($img_row = $image_result->fetch_assoc()) {
         $images[] = $img_row["image_path"];
     }
@@ -135,10 +163,10 @@ $category_display = implode(', ', $categories);
     <div class="dashboard-container">
         <aside class="sidebar">
             <div class="user-profile-section">
-                <img src="<?php echo $pic_path; ?>" alt="Profile" class="nav-logo">
+                <img src="<?php echo $profile_pic; ?>" alt="Profile" class="nav-logo">
                 <div class="user-info-display">
                     <h2 class="user-name"><?php echo $full_name; ?></h2>
-                    <p class="user-id">ID: <?php echo $user_id; ?></p>
+                    <p class="user-id"><?php echo "$role, ID: $user_id"; ?></p>
                 </div>
             </div>
             <nav class="nav-menu">
@@ -146,6 +174,12 @@ $category_display = implode(', ', $categories);
                 <a href="mylistings.php">My Listings</a>
                 <a href="myclaims.php">My Claims</a>
                 <a href="editprofile.php">Edit Profile</a>
+                <?php if ($admin_role_id == 1 || $admin_role_id == 2): ?>
+                    <a href="#">Admin Dashboard</a>
+                <?php endif; ?>
+                <?php if ($admin_role_id == 1): ?>
+                    <a href="#">Assign Admins</a>
+                <?php endif; ?>
                 <hr class="nav-divider">
                 <a href="logout.php" class="logout-link">Logout</a>
             </nav>
