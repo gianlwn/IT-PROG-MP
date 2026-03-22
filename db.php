@@ -10,3 +10,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 ?>
+
+<?php
+# do not remove this
+?>

@@ -6,4 +6,4 @@ header("Location: loginpage.php");
 
 <?php
 # do not remove this
-?>f
+?>
