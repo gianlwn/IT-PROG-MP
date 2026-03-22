@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 22, 2026 at 06:52 PM
+-- Generation Time: Mar 22, 2026 at 06:53 PM
 -- Server version: 8.0.43
 -- PHP Version: 8.2.12
 
@@ -163,7 +163,7 @@ CREATE TABLE `listings` (
 INSERT INTO `listings` (`listing_id`, `seller_id`, `product_name`, `description`, `price`, `quantity`, `category1_id`, `category2_id`, `category3_id`, `status`, `is_removed`, `created_at`, `updated_at`) VALUES
 (1, 1, 'Ryzen 7 5700X Processor', 'Item number: VKE4U\r\n\r\nEAN: 730143314275\r\n\r\nE.A.N: 7 3 0 1 4 3 3 1 4 2 7 5\r\nAMD Ryzen 7 5700X Processor\r\nAMD Ryzen 7 5700X Retail - (AM4/8 Core/GHz/65MB/65W) - 100-100000926WOF\r\nDongle Required: N\r\nHeight: 13 CM', 20766.00, 1, 3, NULL, NULL, 'Available', 0, '2026-03-22 17:45:51', '2026-03-22 17:45:51'),
 (2, 4, 'Women Pleated Skirt A-Line Short Mini Basic Skirt School Uniform Cheerleader Skirts Skater Skirt', '🎈Size: 7 sizes from XS to 3XL. Please refer to our size chart. If your size is between two sizes, please choose a size up.\r\n🎈DRESS NICES mini skirt featured elastic waist, comfy stretchy band, pleated style, mini length and colors in solid and white striped, easy to match.\r\n🎈This pleated skirt for women can be paired with t shirt, blouses, crop top, ect. Suitable for many occasions: school, roleplay, dates, clubwear, parties and more.\r\n🎈Washing Care: Machine Wash and Hand Wash Acceptable, do not bleach, hang dry.\r\n🎈Our pleated skirt is made of high elastic fabric, very comfortable to wear, which is different from others.', 200.00, 6, 10, NULL, NULL, 'Available', 0, '2026-03-22 17:47:11', '2026-03-22 17:51:52'),
-(3, 5, 'Men Horse Head Embroidery Polo Shirt', 'Available Sizes:\r\n36 (S)\r\n38 (M)\r\n40 (L)\r\n42 (XL)\r\n44 (XXL)', 300.00, 4, 3, NULL, NULL, 'Available', 0, '2026-03-22 17:48:43', '2026-03-22 17:51:39'),
+(3, 5, 'Men Horse Head Embroidery Polo Shirt', 'Available Sizes:\r\n36 (S)\r\n38 (M)\r\n40 (L)\r\n42 (XL)\r\n44 (XXL)', 300.00, 4, 10, NULL, NULL, 'Available', 0, '2026-03-22 17:48:43', '2026-03-22 17:53:43'),
 (4, 3, 'European And American Ins Style Black Pleated Sexy Bodycon Spaghetti Strap Mini Dress For Women', 'RFS: declogging', 450.00, 2, 10, NULL, NULL, 'Available', 0, '2026-03-22 17:50:13', '2026-03-22 17:51:54');
 
 -- --------------------------------------------------------
