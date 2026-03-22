@@ -22,7 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $role = $_POST['role'];
     $phone_number = trim($_POST['phone_number']);
 
-
     if (empty($id_number) || empty($first_name) || empty($last_name) || empty($role) || empty($password)) {
         $error_message = "Please fill in all required fields.";
     } else if ($password !== $confirm_password) {
