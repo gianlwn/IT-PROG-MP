@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
                 $stmt = $conn->prepare($user_query);
                 if (!$stmt) die("Prepare failed: " . $conn->error);
-                
+
                 $stmt->bind_param("i", $user_id);
                 $stmt->execute();
                 $user_result = $stmt->get_result();
@@ -132,7 +132,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="stylesheets/createuserprofile.css">
-    <link rel="stylesheet" href="stylesheets/profile_upload.css"> <title>DLSU Marketplace | Edit User Profile</title>
+    <link rel="stylesheet" href="stylesheets/profile_upload.css">
+    <title>DLSU Marketplace | Edit User Profile</title>
 </head>
 
 <body>
@@ -158,7 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         </div>
                     </div>
                 </div>
-                
+
                 <?php if (!empty($error_message)): ?>
                     <div class="error-msg"><?php echo htmlspecialchars($error_message); ?></div>
                 <?php endif; ?>
@@ -170,7 +171,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         }, 3000);
                     </script>
                 <?php endif; ?>
-                
+
                 <div class="input-container">
                     <div class="form-column">
                         <div class="section-header">Personal Information</div>
@@ -222,11 +223,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     <script>
         function previewImage(event) {
             const reader = new FileReader();
-            reader.onload = function(){
+            reader.onload = function() {
                 const output = document.getElementById('profilePreview');
                 output.src = reader.result;
             };
-            if(event.target.files[0]) {
+            if (event.target.files[0]) {
                 reader.readAsDataURL(event.target.files[0]);
             }
         }
