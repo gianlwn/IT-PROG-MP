@@ -10,8 +10,8 @@ if (!isset($_SESSION['user_id'])) {
 
 $error_message = "";
 $success_message = "";
-$email_type = "";
 
+$user_id = intval($_SESSION['user_id']);
 $dlsu_id_number = intval(trim($_SESSION['dlsu_id_number']));
 $dlsu_email = $_SESSION['dlsu_email'];
 $first_name = trim($_SESSION['first_name']);
@@ -27,6 +27,80 @@ if (preg_match('/^[a-z]+(_[a-z]+)*@dlsu\.edu\.ph$/', $dlsu_email)) {
     // check if the code matches and is a faculty account
 } else if (preg_match('/^[a-z]+(\.[a-z]+)*@dlsu\.edu\.ph$/', $dlsu_email)) {
     $email_type = "faculty";
+}
+
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    $dlsu_id_number = intval(trim($_POST['dlsu_id_number']));
+    $password = $_POST['password'];
+    $confirm_password = $_POST['confirm_password'];
+    $first_name = trim($_POST['first_name']);
+    $last_name = trim($_POST['last_name']);
+    $course_code = trim($_POST['course_code']);
+    $role = $_POST['role'];
+    $phone_number = trim($_POST['phone_number']);
+
+    if ((empty($password) && !empty($confirm_password)) || (!empty($password) && empty($confirm_password))) {
+        $error_message = "Please fill both password fields.";
+    } else if ($password !== $confirm_password) {
+        $error_message = "Passwords do not match!";
+    } else {
+        if (!empty($password) && !empty($confirm_password) && $password === $confirm_password) {
+            $password_hash = password_hash($password, PASSWORD_BCRYPT);
+            $edit_query = "UPDATE users
+                           SET dlsu_id_number = ?, password_hash = ?, first_name = ?, last_name = ?, course_code = ?, role = ?, phone_number = ?
+                           WHERE user_id = ?";
+
+            $stmt = $conn->prepare($edit_query);
+
+            if (!$stmt) {
+                die("Prepare failed: " . $conn->error);
+            }
+
+            $stmt->bind_param("issssssi", $dlsu_id_number, $password_hash, $first_name, $last_name, $course_code, $role, $phone_number, $user_id);
+        } else {
+            $edit_query = "UPDATE users
+                           SET dlsu_id_number = ?, first_name = ?, last_name = ?, course_code = ?, role = ?, phone_number = ?
+                           WHERE user_id = ?";
+
+            $stmt = $conn->prepare($edit_query);
+
+            if (!$stmt) {
+                die("Prepare failed: " . $conn->error);
+            }
+
+            $stmt->bind_param("isssssi", $dlsu_id_number, $first_name, $last_name, $course_code, $role, $phone_number, $user_id);
+        }
+
+        if ($stmt->execute()) {
+            $user_query = "SELECT *
+                           FROM users
+                           WHERE user_id = ?";
+
+            $stmt = $conn->prepare($user_query);
+
+            if (!$stmt) {
+                die("Prepare failed: " . $conn->error);
+            }
+
+            $stmt->bind_param("i", $user_id);
+            $stmt->execute();
+            $user_result = $stmt->get_result();
+
+            if ($user_result->num_rows === 1) {
+                $user = $user_result->fetch_assoc();
+                $_SESSION['dlsu_id_number'] = intval($user['dlsu_id_number']);
+                $_SESSION['dlsu_email'] = $user['dlsu_email'];
+                $_SESSION['first_name'] = $user['first_name'];
+                $_SESSION['last_name'] = $user['last_name'];
+                $_SESSION['course_code'] = $user['course_code'];
+                $_SESSION['role'] = $user['role'];
+                $_SESSION['phone_number'] = $user['phone_number'];
+                $_SESSION['profile_picture'] = $user['profile_picture'];
+            }
+
+            $success_message = "Edited profile successfully!";
+        }
+    }
 }
 
 ?>
@@ -52,10 +126,10 @@ if (preg_match('/^[a-z]+(_[a-z]+)*@dlsu\.edu\.ph$/', $dlsu_email)) {
                     <div class="profile-info">
                         <div class="id-container">
                             <label for="id_number">ID Number</label>
-                            <input type="text" name="id_number" value="<?php echo htmlspecialchars($dlsu_id_number) ?>" class="input-field" minlength="8" maxlength="8" pattern="[0-9]{8}" placeholder="e.g. 12345678">
+                            <input type="text" name="dlsu_id_number" value="<?php echo htmlspecialchars($dlsu_id_number) ?>" class="input-field" minlength="8" maxlength="8" pattern="[0-9]{8}" placeholder="e.g. 12345678">
                         </div>
                         <div class="email-display">
-                            Email: <?php echo $_SESSION['dlsu_email']; ?>
+                            Email: <?php echo $dlsu_email; ?>
                         </div>
                     </div>
                 </div>
@@ -66,7 +140,7 @@ if (preg_match('/^[a-z]+(_[a-z]+)*@dlsu\.edu\.ph$/', $dlsu_email)) {
                     <div class="success-msg"><?php echo htmlspecialchars($success_message); ?></div>
                     <script>
                         setTimeout(() => {
-                            window.location.href = 'loginpage.php?create=success';
+                            window.location.href = 'editprofile.php?test=success';
                         }, 3000);
                     </script>
                 <?php endif; ?>

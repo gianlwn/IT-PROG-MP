@@ -9,6 +9,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 // user data for display
+$user_id = $_SESSION['user_id'];
 $dlsu_id_number = $_SESSION['dlsu_id_number'];
 $first_name = $_SESSION['first_name'];
 $last_name = $_SESSION['last_name'];
