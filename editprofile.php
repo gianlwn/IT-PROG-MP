@@ -11,6 +11,7 @@ if (!isset($_SESSION['user_id'])) {
 $error_message = "";
 $success_message = "";
 
+// get current user_data
 $user_id = intval($_SESSION['user_id']);
 $dlsu_id_number = intval(trim($_SESSION['dlsu_id_number']));
 $dlsu_email = $_SESSION['dlsu_email'];
@@ -19,12 +20,11 @@ $last_name = trim($_SESSION['last_name']);
 $course_code = trim($_SESSION['course_code']);
 $role = $_SESSION['role'];
 $phone_number = trim($_SESSION['phone_number']);
+$current_pic = $_SESSION['profile_picture'];
 
-// check if the code matches and is a faculty account
+// check if the email matches and determine email type (faculty/student/staff)
 if (preg_match('/^[a-z]+(_[a-z]+)*@dlsu\.edu\.ph$/', $dlsu_email)) {
     $email_type = "student/staff";
-
-    // check if the code matches and is a faculty account
 } else if (preg_match('/^[a-z]+(\.[a-z]+)*@dlsu\.edu\.ph$/', $dlsu_email)) {
     $email_type = "faculty";
 }
@@ -38,71 +38,91 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $course_code = trim($_POST['course_code']);
     $role = $_POST['role'];
     $phone_number = trim($_POST['phone_number']);
+    $profile_picture_name = $current_pic;
 
-    if ((empty($password) && !empty($confirm_password)) || (!empty($password) && empty($confirm_password))) {
-        $error_message = "Please fill both password fields.";
-    } else if ($password !== $confirm_password) {
-        $error_message = "Passwords do not match!";
-    } else {
-        if (!empty($password) && !empty($confirm_password) && $password === $confirm_password) {
-            $password_hash = password_hash($password, PASSWORD_BCRYPT);
-            $edit_query = "UPDATE users
-                           SET dlsu_id_number = ?, password_hash = ?, first_name = ?, last_name = ?, course_code = ?, role = ?, phone_number = ?
-                           WHERE user_id = ?";
+    // handle profile picture upload
+    if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == UPLOAD_ERR_OK) {
+        $upload_dir = "profile_pictures/";
 
-            $stmt = $conn->prepare($edit_query);
-
-            if (!$stmt) {
-                die("Prepare failed: " . $conn->error);
-            }
-
-            $stmt->bind_param("issssssi", $dlsu_id_number, $password_hash, $first_name, $last_name, $course_code, $role, $phone_number, $user_id);
-        } else {
-            $edit_query = "UPDATE users
-                           SET dlsu_id_number = ?, first_name = ?, last_name = ?, course_code = ?, role = ?, phone_number = ?
-                           WHERE user_id = ?";
-
-            $stmt = $conn->prepare($edit_query);
-
-            if (!$stmt) {
-                die("Prepare failed: " . $conn->error);
-            }
-
-            $stmt->bind_param("isssssi", $dlsu_id_number, $first_name, $last_name, $course_code, $role, $phone_number, $user_id);
+        // automatically create the folder if it doesn't exist yet
+        if (!is_dir($upload_dir)) {
+            mkdir($upload_dir, 0777, true);
         }
 
-        if ($stmt->execute()) {
-            $user_query = "SELECT *
-                           FROM users
-                           WHERE user_id = ?";
+        $file_extension = strtolower(pathinfo($_FILES['profile_picture']['name'], PATHINFO_EXTENSION));
+        $allowed_ext = ["jpg", "jpeg", "png", "gif"];
 
-            $stmt = $conn->prepare($user_query);
+        if (in_array($file_extension, $allowed_ext)) {
+            // create a unique file name to prevent overwriting
+            $new_file_name = "user_" . $user_id . "_" . time() . "." . $file_extension;
+            $dest_path = $upload_dir . $new_file_name;
 
-            if (!$stmt) {
-                die("Prepare failed: " . $conn->error);
+            if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $dest_path)) {
+                $profile_picture_name = $new_file_name;
+            } else {
+                $error_message = "Failed to move uploaded image.";
+            }
+        } else {
+            $error_message = "Invalid file type. Only JPG, JPEG, PNG, and GIF are allowed.";
+        }
+    }
+
+    // proceed with update if there were no upload errors
+    if (empty($error_message)) {
+        if ((empty($password) && !empty($confirm_password)) || (!empty($password) && empty($confirm_password))) {
+            $error_message = "Please fill both password fields.";
+        } else if ($password !== $confirm_password) {
+            $error_message = "Passwords do not match!";
+        } else {
+            if (!empty($password) && !empty($confirm_password) && $password === $confirm_password) {
+                $password_hash = password_hash($password, PASSWORD_BCRYPT);
+                $edit_query = "UPDATE users
+                               SET dlsu_id_number = ?, password_hash = ?, first_name = ?, last_name = ?, course_code = ?, role = ?, phone_number = ?, profile_picture = ?
+                               WHERE user_id = ?";
+
+                $stmt = $conn->prepare($edit_query);
+                if (!$stmt) die("Prepare failed: " . $conn->error);
+                $stmt->bind_param("isssssssi", $dlsu_id_number, $password_hash, $first_name, $last_name, $course_code, $role, $phone_number, $profile_picture_name, $user_id);
+            } else {
+                $edit_query = "UPDATE users
+                               SET dlsu_id_number = ?, first_name = ?, last_name = ?, course_code = ?, role = ?, phone_number = ?, profile_picture = ?
+                               WHERE user_id = ?";
+
+                $stmt = $conn->prepare($edit_query);
+                if (!$stmt) die("Prepare failed: " . $conn->error);
+                $stmt->bind_param("issssssi", $dlsu_id_number, $first_name, $last_name, $course_code, $role, $phone_number, $profile_picture_name, $user_id);
             }
 
-            $stmt->bind_param("i", $user_id);
-            $stmt->execute();
-            $user_result = $stmt->get_result();
+            if ($stmt->execute()) {
+                $user_query = "SELECT *
+                               FROM users
+                               WHERE user_id = ?";
 
-            if ($user_result->num_rows === 1) {
-                $user = $user_result->fetch_assoc();
-                $_SESSION['dlsu_id_number'] = intval($user['dlsu_id_number']);
-                $_SESSION['dlsu_email'] = $user['dlsu_email'];
-                $_SESSION['first_name'] = $user['first_name'];
-                $_SESSION['last_name'] = $user['last_name'];
-                $_SESSION['course_code'] = $user['course_code'];
-                $_SESSION['role'] = $user['role'];
-                $_SESSION['phone_number'] = $user['phone_number'];
-                $_SESSION['profile_picture'] = $user['profile_picture'];
+                $stmt = $conn->prepare($user_query);
+                if (!$stmt) die("Prepare failed: " . $conn->error);
+                
+                $stmt->bind_param("i", $user_id);
+                $stmt->execute();
+                $user_result = $stmt->get_result();
+
+                if ($user_result->num_rows === 1) {
+                    $user = $user_result->fetch_assoc();
+                    $_SESSION['dlsu_id_number'] = intval($user['dlsu_id_number']);
+                    $_SESSION['dlsu_email'] = $user['dlsu_email'];
+                    $_SESSION['first_name'] = $user['first_name'];
+                    $_SESSION['last_name'] = $user['last_name'];
+                    $_SESSION['course_code'] = $user['course_code'];
+                    $_SESSION['role'] = $user['role'];
+                    $_SESSION['phone_number'] = $user['phone_number'];
+                    $_SESSION['profile_picture'] = $user['profile_picture'];
+                    $current_pic = $user['profile_picture'];
+                }
+
+                $success_message = "Edited profile successfully!";
             }
-
-            $success_message = "Edited profile successfully!";
         }
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -112,17 +132,22 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="stylesheets/createuserprofile.css">
-    <title>DLSU Marketplace | Create User Profile</title>
+    <link rel="stylesheet" href="stylesheets/profile_upload.css"> <title>DLSU Marketplace | Edit User Profile</title>
 </head>
 
 <body>
     <form action="editprofile.php" method="post" enctype="multipart/form-data">
         <div class="container">
             <div class="header">
-                <h1>Create Profile</h1>
+                <h1>Edit Profile</h1>
                 <hr>
                 <div class="profile-top">
-                    <img src="images/login-icon.png" class="profile-image">
+                    <div class="profile-img-wrapper">
+                        <img src="profile_pictures/<?php echo htmlspecialchars($current_pic); ?>" class="profile-image" id="profilePreview" alt="Profile Picture">
+                        <label for="profile_picture" class="upload-btn">Change Picture</label>
+                        <input type="file" name="profile_picture" id="profile_picture" accept="image/png, image/jpeg, image/jpg, image/gif" class="file-input" onchange="previewImage(event)">
+                    </div>
+
                     <div class="profile-info">
                         <div class="id-container">
                             <label for="id_number">ID Number</label>
@@ -133,6 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         </div>
                     </div>
                 </div>
+                
                 <?php if (!empty($error_message)): ?>
                     <div class="error-msg"><?php echo htmlspecialchars($error_message); ?></div>
                 <?php endif; ?>
@@ -144,6 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         }, 3000);
                     </script>
                 <?php endif; ?>
+                
                 <div class="input-container">
                     <div class="form-column">
                         <div class="section-header">Personal Information</div>
@@ -189,7 +216,21 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         </div>
                     </div>
                 </div>
+            </div>
     </form>
+
+    <script>
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function(){
+                const output = document.getElementById('profilePreview');
+                output.src = reader.result;
+            };
+            if(event.target.files[0]) {
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        }
+    </script>
 </body>
 
 </html>

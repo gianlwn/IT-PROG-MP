@@ -177,3 +177,43 @@ body {
     color: #798367;
     text-decoration: underline;
 }
+
+/* --- PROFILE UPLOAD STYLES --- */
+.profile-img-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.file-input {
+    display: none;
+}
+
+.upload-btn {
+    background-color: #eeece0;
+    color: #4a543e;
+    border: 2px solid #4a543e;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: 0.2s ease;
+}
+
+.upload-btn:hover {
+    background-color: #4a543e;
+    color: #eeece0;
+}
+
+.profile-image {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #798367;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}

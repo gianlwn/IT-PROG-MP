@@ -15,7 +15,7 @@ $first_name = $_SESSION['first_name'];
 $last_name = $_SESSION['last_name'];
 $full_name = trim($first_name . " " . $last_name);
 $role = $_SESSION['role'];
-$profile_pic = "images/" . $_SESSION['profile_picture'];
+$profile_pic = "profile_pictures/" . $_SESSION['profile_picture'];
 $admin_role_id = intval($_SESSION['admin_role_id']);
 
 // get all listings

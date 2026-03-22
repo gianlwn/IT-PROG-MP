@@ -21,7 +21,7 @@ $first_name = $_SESSION['first_name'];
 $last_name = $_SESSION['last_name'];
 $full_name = trim($first_name . " " . $last_name);
 $role = $_SESSION['role'];
-$profile_pic = "images/" . $_SESSION['profile_picture'];
+$profile_pic = "profile_pictures/" . $_SESSION['profile_picture'];
 $admin_role_id = intval($_SESSION['admin_role_id']);
 
 $listing_id = intval($_GET['listing_id']);
@@ -89,8 +89,8 @@ if ($item_result->num_rows == 0) {
 
 $item = $item_result->fetch_assoc();
 
-// get all images for this listing
-$images = [];
+// get all profile_pictures for this listing
+$profile_pictures = [];
 
 $image_query = "SELECT image_path
                 FROM listing_images
@@ -108,12 +108,12 @@ $image_result = $stmt->get_result();
 
 if ($image_result->num_rows > 0) {
     while ($img_row = $image_result->fetch_assoc()) {
-        $images[] = $img_row['image_path'];
+        $profile_pictures[] = $img_row['image_path'];
     }
 }
 
 // get the first image
-$main_image = !empty($images) ? $images[0] : null;
+$main_image = !empty($profile_pictures) ? $profile_pictures[0] : null;
 
 // get all the categories for this listng
 $categories = [];
@@ -206,9 +206,9 @@ $category_display = implode(', ', $categories);
                             <div class="no-image-large">No Image Available</div>
                         <?php endif; ?>
                     </div>
-                    <?php if (!empty($images)): ?>
+                    <?php if (!empty($profile_pictures)): ?>
                         <div class="thumbnail-row">
-                            <?php foreach ($images as $img): ?>
+                            <?php foreach ($profile_pictures as $img): ?>
                                 <img src="<?php echo $img; ?>" alt="Thumbnail" class="thumbnail" onclick="document.getElementById('mainImage').src=this.src;">
                             <?php endforeach; ?>
                         </div>
