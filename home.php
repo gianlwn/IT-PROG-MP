@@ -67,7 +67,7 @@ if ($cart_result->num_rows > 0) {
 }
 
 // handle action for createlisting.php, viewcart.php, and viewitem.php
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
     if (isset($_POST['action']) && $_POST['action'] === "createlisting") {
         header("Location: createlisting.php");
         exit();
@@ -144,7 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         <h3 class="section-title">All Items</h3>
                         <div class="product-grid">
                             <?php foreach ($listings as $l): ?>
-                                <a href="<?php echo "viewitem.php?listing_id=" . $l['listing_id'] ?>" class="cart-item-link">
+                                <a href="<?php echo "viewitem.php?listing_id=" . $l['listing_id']; ?>" class="cart-item-link">
                                     <div class="product-card">
                                         <?php if (!empty($l['image_path'])): ?>
                                             <img src="<?php echo $l['image_path']; ?>" alt="Product Image" class="product-image">

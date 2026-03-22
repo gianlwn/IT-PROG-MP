@@ -11,7 +11,7 @@ if (!isset($_SESSION['email_verified']) || $_SESSION['email_verified'] !== true)
 $error_message = "";
 $success_message = "";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $dlsu_id_number = intval(trim($_POST['dlsu_id_number']));
     $dlsu_email = $_SESSION['verification_email'];
     $password = $_POST['password'];

@@ -18,7 +18,7 @@ $profile_pic = "images/" . $_SESSION['profile_picture'];
 $admin_role_id = intval($_SESSION['admin_role_id']);
 
 // handle top nav bar actions
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
     if (isset($_POST['action']) && $_POST['action'] === "createlisting") {
         header("Location: createlisting.php");
         exit();
@@ -121,7 +121,7 @@ if ($cart_result->num_rows > 0) {
                         </div>
                     <?php else: ?>
                         <?php foreach ($cart_items as $item): ?>
-                            <div href="<?php echo "viewitem.php?listing_id=" . $item['listing_id'] ?>" class="cart-item-link">
+                            <div href="<?php echo "viewitem.php?listing_id=" . $item['listing_id']; ?>" class="cart-item-link">
                                 <div class="cart-item-card clickable-card" data-link="<?php echo "viewitem.php?listing_id=" . $item['listing_id']; ?>">
                                     <div class="item-img-box">
                                         <?php if (!empty($item['main_image_path'])): ?>

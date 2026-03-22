@@ -108,16 +108,16 @@ if (empty($id_number) || empty($first_name) || empty($last_name) || empty($role)
                     <div class="form-column">
                         <div class="section-header">Personal Information</div>
                         <label for="first_name">First Name</label>
-                        <input type="text" name="first_name" value="<?php echo htmlspecialchars($first_name) ?>" class="input-field" placeholder="e.g. Juan" required>
+                        <input type="text" name="first_name" value="<?php echo htmlspecialchars($first_name); ?>" class="input-field" placeholder="e.g. Juan" required>
                         <label for="last_name">Last Name</label>
-                        <input type="text" name="last_name" value="<?php echo htmlspecialchars($last_name) ?>" class="input-field" placeholder="e.g. Dela Cruz" required>
+                        <input type="text" name="last_name" value="<?php echo htmlspecialchars($last_name); ?>" class="input-field" placeholder="e.g. Dela Cruz" required>
                         <label for="course_code">Course Code</label>
-                        <input type="text" name="course_code" value="<?php echo htmlspecialchars($course_code) ?>" class="input-field" placeholder="e.g. BS-IT" required>
+                        <input type="text" name="course_code" value="<?php echo htmlspecialchars($course_code); ?>" class="input-field" placeholder="e.g. BS-IT" required>
                         <?php if ($email_type === "student/staff"): ?>
                             <div class="role-group">
                                 <div class="section-header">Role</div>
-                                <label><input type="radio" name="role" value="Student" <?php echo $role === 'Student' ? 'checked' : ''?> > Student</label>
-                                <label><input type="radio" name="role" value="Staff" <?php echo $role === 'Staff' ? 'checked' : ''?> > Staff</label>
+                                <label><input type="radio" name="role" value="Student" <?php echo $role === "Student" ? "checked" : ""; ?> > Student</label>
+                                <label><input type="radio" name="role" value="Staff" <?php echo $role === "Staff" ? "checked" : ""; ?> > Staff</label>
                             </div>
                         <?php elseif ($email_type === "faculty"): ?>
                             <div class="role-group">
@@ -131,7 +131,7 @@ if (empty($id_number) || empty($first_name) || empty($last_name) || empty($role)
                         <label for="phone_number">Phone Number</label>
                         <input type="text"
                             name="phone_number"
-                            value="<?php echo htmlspecialchars($phone_number) ?>"
+                            value="<?php echo htmlspecialchars($phone_number); ?>"
                             class="input-field"
                             pattern="09[0-9]{9}"
                             minlength="11"

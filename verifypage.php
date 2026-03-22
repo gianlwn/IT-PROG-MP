@@ -12,7 +12,7 @@ require 'PHPMailer/src/SMTP.php';
 $error_message = "";
 $success_message = "";
 
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
     // send the code via email
     if (isset($_POST['send_code'])) {
         $email = trim($_POST['email']);

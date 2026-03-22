@@ -14,7 +14,7 @@ $success_message = "";
 $success_message_reset = "";
 $flag = true;
 
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
     // send the code
     if (isset($_POST['send_code'])) {
         $email = trim($_POST['email']);

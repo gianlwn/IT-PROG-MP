@@ -9,7 +9,7 @@ if (!isset($_SESSION['user_id'])) {
 
 $buyer_id = $_SESSION['user_id'];
 
-if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['action'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     if ($_POST['action'] == "addtocart") {
         $listing_id = intval($_POST['listing_id']);
         $buy_qty = intval($_POST['buy_qty']);

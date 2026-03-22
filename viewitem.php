@@ -26,7 +26,7 @@ $admin_role_id = intval($_SESSION['admin_role_id']);
 $listing_id = intval($_GET['listing_id']);
 
 // handle top nav bar actions
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
     if (isset($_POST['action']) && $_POST['action'] === "createlisting") {
         header("Location: createlisting.php");
         exit();
@@ -144,7 +144,7 @@ $category_display = implode(', ', $categories);
             <span class="toast-icon">✕</span>
             <?php
             if ($_GET['error'] == "exceeds") echo "Cannot add more than available stock!";
-            elseif ($_GET['error'] == "nostock") echo "Sorry, this item is currently out of stock.";
+            else if ($_GET['error'] == "nostock") echo "Sorry, this item is currently out of stock.";
             else echo "Something went wrong. Please try again.";
             ?>
         </div>
