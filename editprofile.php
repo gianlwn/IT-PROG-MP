@@ -51,18 +51,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         $file_extension = strtolower(pathinfo($_FILES['profile_picture']['name'], PATHINFO_EXTENSION));
 
-        if (in_array($file_extension, $allowed_ext)) {
-            // create a unique file name to prevent overwriting
-            $new_file_name = "user_" . $user_id . "_" . time() . "." . $file_extension;
-            $dest_path = $upload_dir . $new_file_name;
+        // create a unique file name to prevent overwriting
+        $new_file_name = "user_" . $user_id . "_" . time() . "." . $file_extension;
+        $dest_path = $upload_dir . $new_file_name;
 
-            if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $dest_path)) {
-                $profile_picture_name = $new_file_name;
-            } else {
-                $error_message = "Failed to move uploaded image.";
-            }
+        if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $dest_path)) {
+            $profile_picture_name = $new_file_name;
         } else {
-            $error_message = "Invalid file type. Only JPG, JPEG, PNG, and GIF are allowed.";
+            $error_message = "Failed to move uploaded image.";
         }
     }
 
