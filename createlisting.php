@@ -36,50 +36,75 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["action"]) && $_POST["action"] === "discard") {
         header("Location: home.php");
         exit();
-    } else if (isset($_POST["action"]) && $_POST["action"] === "add") {
+    } else if (isset($_POST["action"]) && $_POST["action"] === "add" && !empty($_POST["product_name"]) && !empty($_POST["description"]) && !empty($_POST["category1_id"]) && !empty($_POST["quantity"]) && !empty($_POST["price"])) {
         $seller_id = $_SESSION["user_id"];
-        $product_name = $conn->real_escape_string($_POST["product_name"]);
-        $description = $conn->real_escape_string($_POST["description"]);
-        $category1_id = !empty($_POST["category1_id"]) ? intval($_POST["category1_id"]) : "NULL";
-        $category2_id = !empty($_POST["category2_id"]) ? intval($_POST["category2_id"]) : "NULL";
-        $category3_id = !empty($_POST["category3_id"]) ? intval($_POST["category3_id"]) : "NULL";
+        $product_name = $_POST["product_name"];
+        $description = $_POST["description"];
         $quantity = intval($_POST["quantity"]);
         $price = floatval($_POST["price"]);
 
-        $insert_listing = "INSERT INTO listings (seller_id, product_name, description, price, quantity, category1_id, category2_id, category3_id) 
-                           VALUES ('$seller_id', '$product_name', '$description', '$price', '$quantity', $category1_id, $category2_id, $category3_id)";
+        $category1_id = intval($_POST["category1_id"]);
+        $category2_id = !empty($_POST["category2_id"]) ? intval($_POST["category2_id"]) : NULL;
+        $category3_id = !empty($_POST["category3_id"]) ? intval($_POST["category3_id"]) : NULL;
 
-        if ($conn->query($insert_listing) === TRUE) {
-            $new_listing_id = $conn->insert_id;
-            $upload_dir = "uploads/";
+        // prevent duplicate categories
+        $cats = [$category1_id, $category2_id, $category3_id];
+        $cats = array_filter($cats);
 
-            // creates the folder if it doesnt exist
-            if (!is_dir($upload_dir)) {
-                mkdir($upload_dir, 0777, true);
+        if (count($cats) !== count(array_unique($cats))) {
+            $error_msg = "Duplicate categories selected.";
+        } else {
+            $insert_query = "INSERT INTO listings (seller_id, product_name, description, price, quantity, category1_id, category2_id, category3_id) 
+                             VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+            $stmt = $conn->prepare($insert_query);
+
+            if (!$stmt) {
+                die("Prepare failed: " . $conn->error);
             }
 
-            $images = ["image1", "image2", "image3"];
+            $stmt->bind_param("issdiiii", $seller_id, $product_name, $description, $price, $quantity, $category1_id, $category2_id, $category3_id);
 
-            foreach ($images as $img_field) {
-                if (isset($_FILES[$img_field]) && $_FILES[$img_field]["error"] == 0) {
-                    $file_extension = pathinfo($_FILES[$img_field]["name"], PATHINFO_EXTENSION);
-                    // create a unique file name in this format: listing_ID_randomstring.jpg
-                    $new_file_name = "listing_" . $new_listing_id . "_" . uniqid() . "." . $file_extension;
-                    $target_path = $upload_dir . $new_file_name;
+            if ($stmt->execute()) {
+                $new_listing_id = $stmt->insert_id;
+                $upload_dir = "uploads/";
 
-                    // move from temporary storage to the uploads folder
-                    if (move_uploaded_file($_FILES[$img_field]["tmp_name"], $target_path)) {
-                        // insert the image path into the listing_images table
-                        $insert_img = "INSERT INTO listing_images (listing_id, image_path) VALUES ('$new_listing_id', '$target_path')";
-                        $conn->query($insert_img);
+                // creates the folder if it doesnt exist
+                if (!is_dir($upload_dir)) {
+                    mkdir($upload_dir, 0777, true);
+                }
+
+                $images = ["image1", "image2", "image3"];
+
+                foreach ($images as $img_field) {
+                    if (isset($_FILES[$img_field]) && $_FILES[$img_field]["error"] == 0) {
+                        $file_extension = pathinfo($_FILES[$img_field]["name"], PATHINFO_EXTENSION);
+                        // create a unique file name in this format: listing_ID_randomstring.jpg
+                        $new_file_name = "listing_" . $new_listing_id . "_" . uniqid() . "." . $file_extension;
+                        $target_path = $upload_dir . $new_file_name;
+
+                        // move from temporary storage to the uploads folder
+                        if (move_uploaded_file($_FILES[$img_field]["tmp_name"], $target_path)) {
+                            // insert the image path into the listing_images table
+                            $insert_img_query = "INSERT INTO listing_images (listing_id, image_path)
+                                                 VALUES (?, ?)";
+
+                            $stmt = $conn->prepare($insert_img_query);
+
+                            if (!$stmt) {
+                                die("Prepare failed: " . $conn->error);
+                            }
+
+                            $stmt->bind_param("ss", $new_listing_id, $target_path);
+                            $stmt->execute();
+                        }
                     }
                 }
-            }
 
-            $success_msg = "Product listed successfully!";
-            $conn->close();
-        } else {
-            $error_msg = "Error creating listing: " . $conn->error;
+                $success_msg = "Product listed successfully!";
+            } else {
+                $error_msg = "Error creating listing: " . $conn->error;
+            }
         }
     }
 }
@@ -102,7 +127,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <hr>
         </div>
         <?php if ($success_msg): ?>
-            <div class="alert success"><?php echo $success_msg; ?></div>
+            <div class="alert success"><?php echo htmlspecialchars($success_msg); ?></div>
             <script>
                 setTimeout(() => {
                     window.location.href = 'home.php?createlisting=success';
@@ -110,7 +135,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </script>
         <?php endif; ?>
         <?php if ($error_msg): ?>
-            <div class="alert error"><?php echo $error_msg; ?></div>
+            <div class="alert error"><?php echo htmlspecialchars($error_msg); ?></div>
         <?php endif; ?>
         <form action="createlisting.php" method="POST" enctype="multipart/form-data">
             <div class="form-box">

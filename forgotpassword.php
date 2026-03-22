@@ -95,8 +95,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (!isset($_SESSION["forgot_verified"]) || $_SESSION["forgot_verified"] !== true) {
             $error_message = "Please verify your email first.";
         } else {
-            $new_password = $conn->real_escape_string($_POST["new_password"]);
-            $confirm_password = $conn->real_escape_string($_POST["confirm_password"]);
+            $new_password = $_POST["new_password"];
+            $confirm_password = $_POST["confirm_password"];
 
             if (empty($new_password) || empty($confirm_password)) {
                 $error_message = "Please fill in all fields.";
@@ -104,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $error_message = "Passwords do not match!";
             } else {
                 $password_hash = password_hash($new_password, PASSWORD_BCRYPT);
-                $forgot_email = $conn->real_escape_string($_SESSION["forgot_email"]);
+                $forgot_email = $_SESSION["forgot_email"];
 
                 $reset_query = "UPDATE users
                                 SET password_hash = ?
