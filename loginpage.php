@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   $email = trim($_POST['email']);
   $password = $_POST['password'];
 
-  $login_query = "SELECT u.user_id, u.dlsu_id_number, u.password_hash, u.first_name, u.last_name, u.role, u.dlsu_email, u.profile_picture, a.admin_role_id, ar.role_name
+  $login_query = "SELECT u.*, a.admin_role_id, ar.role_name
                   FROM users u
                   LEFT JOIN admin_accounts a ON a.user_id = u.user_id
                   LEFT JOIN admin_roles ar ON ar.admin_role_id = a.admin_role_id
@@ -30,16 +30,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (password_verify($password, $user['password_hash'])) {
       $_SESSION['user_id'] = intval($user['user_id']);
       $_SESSION['dlsu_id_number'] = intval($user['dlsu_id_number']);
+      $_SESSION['dlsu_email'] = $user['dlsu_email'];
       $_SESSION['first_name'] = $user['first_name'];
       $_SESSION['last_name'] = $user['last_name'];
-
-      if (!empty($user['admin_role_id'])) {
-        $_SESSION['role'] = $user['role_name'];
-      } else {
-        $_SESSION['role'] = $user['role'];
-      }
-
-      $_SESSION['dlsu_email'] = $user['dlsu_email'];
+      $_SESSION['course_code'] = $user['course_code'];
+      $_SESSION['role'] = $user['role'];
+      $_SESSION['phone_number'] = $user['phone_number'];
       $_SESSION['profile_picture'] = $user['profile_picture'];
       $_SESSION['admin_role_id'] = !empty($user['admin_role_id']) ? $user['admin_role_id'] : "";
       header("Location: home.php");

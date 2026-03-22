@@ -11,8 +11,8 @@ if (!isset($_SESSION['email_verified']) || $_SESSION['email_verified'] !== true)
 $error_message = "";
 $success_message = "";
 
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    $dlsu_id_number = intval(trim($_POST['id_number']));
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $dlsu_id_number = intval(trim($_POST['dlsu_id_number']));
     $dlsu_email = $_SESSION['verification_email'];
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
@@ -21,14 +21,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $course_code = trim($_POST['course_code']);
     $role = $_POST['role'];
     $phone_number = trim($_POST['phone_number']);
+    $password_hash = password_hash($password, PASSWORD_BCRYPT);
 
-    if (empty($id_number) || empty($first_name) || empty($last_name) || empty($role) || empty($password)) {
+    if (empty($dlsu_id_number) || empty($first_name) || empty($last_name) || empty($course_code) || empty($role) || empty($phone_number) || empty($password) || empty($confirm_password)) {
         $error_message = "Please fill in all required fields.";
     } else if ($password !== $confirm_password) {
         $error_message = "Passwords do not match!";
     } else {
-        $password_hash = password_hash($password, PASSWORD_BCRYPT);
-
         $create_query = "INSERT INTO users (dlsu_id_number, dlsu_email, password_hash, first_name, last_name, course_code, role, phone_number)
                          VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -79,8 +78,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     <img src="images/login-icon.png" class="profile-image">
                     <div class="profile-info">
                         <div class="id-container">
-                            <label for="id_number">ID Number</label>
-                            <input type="text" name="id_number" class="input-field" minlength="8" maxlength="8" pattern="[0-9]{8}" placeholder="e.g. 12345678" required>
+                            <label for="dlsu_id_number">ID Number</label>
+                            <input type="text" name="dlsu_id_number" class="input-field" minlength="8" maxlength="8" pattern="[0-9]{8}" placeholder="e.g. 12345678" required>
                         </div>
                         <div class="email-display">
                             Email: <?php echo $_SESSION['verification_email']; ?>
@@ -110,39 +109,39 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         <?php if ($_SESSION['email_type'] === "student/staff"): ?>
                             <div class="role-group">
                                 <div class="section-header">Role</div>
-                                <label><input type="radio" name="role" value="Student"> Student</label>
-                                <label><input type="radio" name="role" value="Staff"> Staff</label>
-                            </div
-                                <?php elseif ($_SESSION['email_type'] === "faculty"): ?>
-                                <div class="role-group">
-                            <div class="section-header">Role</div>
-                            <label><input type="radio" name="role" value="Faculty"> Faculty</label>
+                                <label><input type="radio" name="role" value="Student" required> Student</label>
+                                <label><input type="radio" name="role" value="Staff" required> Staff</label>
+                            </div>
+                        <?php elseif ($_SESSION['email_type'] === "faculty"): ?>
+                            <div class="role-group">
+                                <div class="section-header">Role</div>
+                                <label><input type="radio" name="role" value="Faculty" checked required> Faculty</label>
+                            </div>
+                        <?php endif; ?>
                     </div>
-                <?php endif; ?>
-                </div>
-                <div class="form-column">
-                    <div class="section-header">Contact Information</div>
-                    <label for="phone_number">Phone Number</label>
-                    <input type="text"
-                        name="phone_number"
-                        class="input-field"
-                        pattern="09[0-9]{9}"
-                        minlength="11"
-                        maxlength="11"
-                        placeholder="e.g. 09685706073"
-                        required>
-                    <div class="password-group">
-                        <div class="section-header">Create Password</div>
-                        <label for="password">New Password:</label>
-                        <input type="password" name="password" class="input-field" placeholder="Create a password" required>
-                        <br>
-                        <label for="confirm_password">Confirm Password:</label>
-                        <input type="password" name="confirm_password" class="input-field" placeholder="Confirm your password" required>
-                        <input type="submit" value="Complete Profile" class="submit-btn">
-                        <a href="logout.php">Cancel</a>
+                    <div class="form-column">
+                        <div class="section-header">Contact Information</div>
+                        <label for="phone_number">Phone Number</label>
+                        <input type="text"
+                            name="phone_number"
+                            class="input-field"
+                            pattern="09[0-9]{9}"
+                            minlength="11"
+                            maxlength="11"
+                            placeholder="e.g. 09685706073"
+                            required>
+                        <div class="password-group">
+                            <div class="section-header">Create Password</div>
+                            <label for="password">New Password:</label>
+                            <input type="password" name="password" class="input-field" placeholder="Create a password" required>
+                            <br>
+                            <label for="confirm_password">Confirm Password:</label>
+                            <input type="password" name="confirm_password" class="input-field" placeholder="Confirm your password" required>
+                            <input type="submit" value="Complete Profile" class="submit-btn">
+                            <a href="logout.php">Cancel</a>
+                        </div>
                     </div>
                 </div>
-            </div>
     </form>
 </body>
 
