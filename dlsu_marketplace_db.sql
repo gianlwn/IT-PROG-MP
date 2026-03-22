@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 22, 2026 at 02:49 PM
+-- Generation Time: Mar 22, 2026 at 05:22 PM
 -- Server version: 8.0.43
 -- PHP Version: 8.2.12
 
@@ -40,8 +40,8 @@ CREATE TABLE `admin_accounts` (
 --
 
 INSERT INTO `admin_accounts` (`admin_id`, `user_id`, `admin_role_id`, `assigned_by`, `assigned_at`) VALUES
-(1, 5, 1, 5, '2026-03-11 00:39:28'),
-(2, 1, 2, 5, '2026-03-11 00:39:35');
+(1, 5, 1, 5, '2026-03-10 16:39:28'),
+(2, 1, 2, 5, '2026-03-10 16:39:35');
 
 -- --------------------------------------------------------
 
@@ -81,11 +81,11 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`cart_id`, `buyer_id`, `listing_id`, `quantity`, `added_at`) VALUES
-(1, 5, 1, 1, '2026-03-18 08:00:30'),
 (2, 2, 1, 1, '2026-03-18 08:05:44'),
 (3, 3, 1, 1, '2026-03-18 08:14:59'),
 (4, 4, 2, 3, '2026-03-18 08:32:32'),
-(5, 4, 1, 1, '2026-03-18 08:50:16');
+(5, 4, 1, 1, '2026-03-18 08:50:16'),
+(6, 5, 1, 1, '2026-03-22 15:45:22');
 
 -- --------------------------------------------------------
 
@@ -281,7 +281,7 @@ INSERT INTO `users` (`user_id`, `dlsu_id_number`, `dlsu_email`, `password_hash`,
 (2, 12410012, 'gian_enriquez@dlsu.edu.ph', '$2y$10$tIqsLGExCeBZAGDMzKjZsuwpcrX4SO2ZoTCw1ZLWx.xu3SKLDfDhG', 'Gian Patrick', 'Enriquez', 'BS-IT', 'Student', '09458676744', 'default-pfp.jpg', 0, 0, 0, '2026-03-18 08:04:55', '2026-03-18 08:04:55'),
 (3, 12413178, 'sky_parado@dlsu.edu.ph', '$2y$10$TDVmMCBJ3GMQlLmYIK9IYuI/Zh8e6kY9h1q4UedoqYR1.HayBGJS6', 'Sky Hannah', 'Parado', 'BSCS-NIS', 'Student', '09762447493', 'default-pfp.jpg', 0, 0, 0, '2026-03-18 08:10:14', '2026-03-18 08:10:14'),
 (4, 12415421, 'andie_woo@dlsu.edu.ph', '$2y$10$7hyMz6zNUoZjGBC2Dx3ovOXYGk/DQ1Q0YoDlt.nzLVL6o5y08oV.i', 'Andie Kirsten', 'Woo', 'BSCS-ST', 'Student', '09171588460', 'default-pfp.jpg', 0, 0, 0, '2026-03-18 08:08:18', '2026-03-18 08:24:11'),
-(5, 12415537, 'giancarlo_lawan@dlsu.edu.ph', '$2y$10$tIqsLGExCeBZAGDMzKjZsuwpcrX4SO2ZoTCw1ZLWx.xu3SKLDfDhG', 'Giancarlo', 'Lawan', 'BS-IT', 'Student', '09285170610', 'default-pfp.jpg', 0, 0, 0, '2026-03-11 00:38:42', '2026-03-16 18:47:02');
+(5, 12415537, 'giancarlo_lawan@dlsu.edu.ph', '$2y$10$ieieEv0tDKCPsPswqNocnOxj6ig.fktSAJqx8ykGeJkpgEOTv1gy6', 'Giancarlo', 'Lawan', 'BS-IT', 'Student', '09285170610', 'default-pfp.jpg', 0, 0, 0, '2026-03-22 14:34:49', '2026-03-22 16:17:24');
 
 -- --------------------------------------------------------
 
@@ -430,7 +430,7 @@ ALTER TABLE `admin_roles`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `cart_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `cart_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `categories`
