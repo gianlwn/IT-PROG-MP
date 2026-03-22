@@ -3,7 +3,7 @@ session_start();
 require 'db.php';
 
 // check if user is logged in
-if (!isset($_SESSION["user_id"])) {
+if (!isset($_SESSION['user_id'])) {
     header("Location: loginpage.php");
     exit();
 }

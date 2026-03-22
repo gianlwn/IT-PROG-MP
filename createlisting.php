@@ -3,7 +3,7 @@ session_start();
 require 'db.php';
 
 // check if user is logged in
-if (!isset($_SESSION["user_id"])) {
+if (!isset($_SESSION['user_id'])) {
     header("Location: loginpage.php");
     exit();
 }
@@ -32,20 +32,20 @@ if ($cat_result->num_rows > 0) {
     }
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST["action"]) && $_POST["action"] === "discard") {
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    if (isset($_POST['action']) && $_POST['action'] === "discard") {
         header("Location: home.php");
         exit();
-    } else if (isset($_POST["action"]) && $_POST["action"] === "add" && !empty($_POST["product_name"]) && !empty($_POST["description"]) && !empty($_POST["category1_id"]) && !empty($_POST["quantity"]) && !empty($_POST["price"])) {
-        $seller_id = $_SESSION["user_id"];
-        $product_name = $_POST["product_name"];
-        $description = $_POST["description"];
-        $quantity = intval($_POST["quantity"]);
-        $price = floatval($_POST["price"]);
+    } else if (isset($_POST['action']) && $_POST['action'] === "add" && !empty($_POST['product_name']) && !empty($_POST['description']) && !empty($_POST['category1_id']) && !empty($_POST['quantity']) && !empty($_POST['price'])) {
+        $seller_id = $_SESSION['user_id'];
+        $product_name = $_POST['product_name'];
+        $description = $_POST['description'];
+        $quantity = intval($_POST['quantity']);
+        $price = floatval($_POST['price']);
 
-        $category1_id = intval($_POST["category1_id"]);
-        $category2_id = !empty($_POST["category2_id"]) ? intval($_POST["category2_id"]) : NULL;
-        $category3_id = !empty($_POST["category3_id"]) ? intval($_POST["category3_id"]) : NULL;
+        $category1_id = intval($_POST['category1_id']);
+        $category2_id = !empty($_POST['category2_id']) ? intval($_POST['category2_id']) : NULL;
+        $category3_id = !empty($_POST['category3_id']) ? intval($_POST['category3_id']) : NULL;
 
         // prevent duplicate categories
         $cats = [$category1_id, $category2_id, $category3_id];
@@ -74,17 +74,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     mkdir($upload_dir, 0777, true);
                 }
 
-                $images = ["image1", "image2", "image3"];
+                $images = ['image1", "image2", "image3'];
 
                 foreach ($images as $img_field) {
-                    if (isset($_FILES[$img_field]) && $_FILES[$img_field]["error"] == 0) {
-                        $file_extension = pathinfo($_FILES[$img_field]["name"], PATHINFO_EXTENSION);
+                    if (isset($_FILES[$img_field]) && $_FILES[$img_field]['error'] == 0) {
+                        $file_extension = pathinfo($_FILES[$img_field]['name'], PATHINFO_EXTENSION);
                         // create a unique file name in this format: listing_ID_randomstring.jpg
                         $new_file_name = "listing_" . $new_listing_id . "_" . uniqid() . "." . $file_extension;
                         $target_path = $upload_dir . $new_file_name;
 
                         // move from temporary storage to the uploads folder
-                        if (move_uploaded_file($_FILES[$img_field]["tmp_name"], $target_path)) {
+                        if (move_uploaded_file($_FILES[$img_field]['tmp_name'], $target_path)) {
                             // insert the image path into the listing_images table
                             $insert_img_query = "INSERT INTO listing_images (listing_id, image_path)
                                                  VALUES (?, ?)";
@@ -148,19 +148,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <select name="category1_id" required>
                         <option value="">Choose Category (required)</option>
                         <?php foreach ($categories as $c): ?>
-                            <option value="<?php echo $c["category_id"] ?>"><?php echo $c["category_name"] ?></option>
+                            <option value="<?php echo $c['category_id'] ?>"><?php echo $c['category_name'] ?></option>
                         <?php endforeach; ?>
                     </select>
                     <select name="category2_id">
                         <option value="">Choose Category (optional)</option>
                         <?php foreach ($categories as $c): ?>
-                            <option value="<?php echo $c["category_id"] ?>"><?php echo $c["category_name"] ?></option>
+                            <option value="<?php echo $c['category_id'] ?>"><?php echo $c['category_name'] ?></option>
                         <?php endforeach; ?>
                     </select>
                     <select name="category3_id">
                         <option value="">Choose Category (optional)</option>
                         <?php foreach ($categories as $c): ?>
-                            <option value="<?php echo $c["category_id"] ?>"><?php echo $c["category_name"] ?></option>
+                            <option value="<?php echo $c['category_id'] ?>"><?php echo $c['category_name'] ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>

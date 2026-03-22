@@ -3,7 +3,7 @@ session_start();
 require 'db.php';
 
 // prevent people from accessing this without getting verified
-if (!isset($_SESSION["email_verified"]) || $_SESSION["email_verified"] !== true) {
+if (!isset($_SESSION['email_verified']) || $_SESSION['email_verified'] !== true) {
     header("Location: verifypage.php");
     exit();
 }
@@ -11,16 +11,16 @@ if (!isset($_SESSION["email_verified"]) || $_SESSION["email_verified"] !== true)
 $error_message = "";
 $success_message = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $dlsu_id_number = intval(trim($_POST["id_number"]));
-    $dlsu_email = $_SESSION["verification_email"];
-    $password = $_POST["password"];
-    $confirm_password = $_POST["confirm_password"];
-    $first_name = trim($_POST["first_name"]);
-    $last_name = trim($_POST["last_name"]);
-    $course_code = trim($_POST["course_code"]);
-    $role = $_POST["role"];
-    $phone_number = trim($_POST["phone_number"]);
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    $dlsu_id_number = intval(trim($_POST['id_number']));
+    $dlsu_email = $_SESSION['verification_email'];
+    $password = $_POST['password'];
+    $confirm_password = $_POST['confirm_password'];
+    $first_name = trim($_POST['first_name']);
+    $last_name = trim($_POST['last_name']);
+    $course_code = trim($_POST['course_code']);
+    $role = $_POST['role'];
+    $phone_number = trim($_POST['phone_number']);
 
 
     if (empty($id_number) || empty($first_name) || empty($last_name) || empty($role) || empty($password)) {
@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $success_message = "Profile created successfully! Redirecting to login...";
 
                 // unset email_verified
-                unset($_SESSION["email_verified"]);
+                unset($_SESSION['email_verified']);
             }
         } catch (mysqli_sql_exception $e) {
             if ($conn->errno == 1062) {
@@ -84,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <input type="text" name="id_number" class="input-field" minlength="8" maxlength="8" pattern="[0-9]{8}" placeholder="e.g. 12345678" required>
                         </div>
                         <div class="email-display">
-                            Email: <?php echo $_SESSION["verification_email"]; ?>
+                            Email: <?php echo $_SESSION['verification_email']; ?>
                         </div>
                     </div>
                 </div>
@@ -108,13 +108,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <input type="text" name="last_name" class="input-field" placeholder="e.g. Dela Cruz" required>
                         <label for="course_code">Course Code</label>
                         <input type="text" name="course_code" class="input-field" placeholder="e.g. BS-IT" required>
-                        <?php if ($_SESSION["email_type"] === "student/staff"): ?>
+                        <?php if ($_SESSION['email_type'] === "student/staff"): ?>
                             <div class="role-group">
                                 <div class="section-header">Role</div>
                                 <label><input type="radio" name="role" value="Student"> Student</label>
                                 <label><input type="radio" name="role" value="Staff"> Staff</label>
                             </div
-                                <?php elseif ($_SESSION["email_type"] === "faculty"): ?>
+                                <?php elseif ($_SESSION['email_type'] === "faculty"): ?>
                                 <div class="role-group">
                             <div class="section-header">Role</div>
                             <label><input type="radio" name="role" value="Faculty"> Faculty</label>

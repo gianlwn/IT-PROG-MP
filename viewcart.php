@@ -3,26 +3,26 @@ session_start();
 require 'db.php';
 
 // check if user is logged in
-if (!isset($_SESSION["user_id"])) {
+if (!isset($_SESSION['user_id'])) {
     header("Location: loginpage.php");
     exit();
 }
 
 // user data for display
-$dlsu_id_number = $_SESSION["dlsu_id_number"];
-$first_name = $_SESSION["first_name"];
-$last_name = $_SESSION["last_name"];
+$dlsu_id_number = $_SESSION['dlsu_id_number'];
+$first_name = $_SESSION['first_name'];
+$last_name = $_SESSION['last_name'];
 $full_name = trim($first_name . " " . $last_name);
-$role = $_SESSION["role"];
-$profile_pic = "images/" . $_SESSION["profile_picture"];
-$admin_role_id = intval($_SESSION["admin_role_id"]);
+$role = $_SESSION['role'];
+$profile_pic = "images/" . $_SESSION['profile_picture'];
+$admin_role_id = intval($_SESSION['admin_role_id']);
 
 // handle top nav bar actions
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST["action"]) && $_POST["action"] === "createlisting") {
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    if (isset($_POST['action']) && $_POST['action'] === "createlisting") {
         header("Location: createlisting.php");
         exit();
-    } else if (isset($_POST["action"]) && $_POST["action"] === "viewcart") {
+    } else if (isset($_POST['action']) && $_POST['action'] === "viewcart") {
         header("Location: viewcart.php");
         exit();
     }
@@ -121,44 +121,44 @@ if ($cart_result->num_rows > 0) {
                         </div>
                     <?php else: ?>
                         <?php foreach ($cart_items as $item): ?>
-                            <div href="<?php echo "viewitem.php?listing_id=" . $item["listing_id"] ?>" class="cart-item-link">
-                                <div class="cart-item-card clickable-card" data-link="<?php echo "viewitem.php?listing_id=" . $item["listing_id"]; ?>">
+                            <div href="<?php echo "viewitem.php?listing_id=" . $item['listing_id'] ?>" class="cart-item-link">
+                                <div class="cart-item-card clickable-card" data-link="<?php echo "viewitem.php?listing_id=" . $item['listing_id']; ?>">
                                     <div class="item-img-box">
-                                        <?php if (!empty($item["main_image_path"])): ?>
-                                            <img src="<?php echo $item["main_image_path"]; ?>" alt="Product">
+                                        <?php if (!empty($item['main_image_path'])): ?>
+                                            <img src="<?php echo $item['main_image_path']; ?>" alt="Product">
                                         <?php else: ?>
                                             <div class="no-img">No Image</div>
                                         <?php endif; ?>
                                     </div>
                                     <div class="item-details">
-                                        <h3 class="item-title"><?php echo $item["product_name"]; ?></h3>
+                                        <h3 class="item-title"><?php echo $item['product_name']; ?></h3>
                                         <p class="item-seller">
-                                            Sold by: <?php echo $item["seller_name"]; ?>
+                                            Sold by: <?php echo $item['seller_name']; ?>
                                             <span class="seller-rating">
-                                                <?php if ($item["avg_rating"] > 0): ?>
-                                                    ★ <?php echo $item["avg_rating"]; ?>
+                                                <?php if ($item['avg_rating'] > 0): ?>
+                                                    ★ <?php echo $item['avg_rating']; ?>
                                                 <?php else: ?>
                                                     <span class="no-rating">★ N/A</span>
                                                 <?php endif; ?>
                                             </span>
                                         </p>
-                                        <p class="item-price">₱<?php echo number_format($item["price"], 2); ?></p>
-                                        <p class="item-subtotal">Subtotal: ₱<?php echo number_format($item["price"] * $item["cart_qty"], 2); ?></p>
+                                        <p class="item-price">₱<?php echo number_format($item['price'], 2); ?></p>
+                                        <p class="item-subtotal">Subtotal: ₱<?php echo number_format($item['price'] * $item['cart_qty'], 2); ?></p>
                                     </div>
                                     <div class="item-actions-panel">
                                         <form action="cart_action.php" method="POST" class="action-form">
-                                            <input type="hidden" name="cart_id" value="<?php echo $item["cart_id"]; ?>">
+                                            <input type="hidden" name="cart_id" value="<?php echo $item['cart_id']; ?>">
                                             <div class="qty-control">
-                                                <input type="number" name="new_qty" min="1" max="<?php echo $item["quantity"]; ?>" value="<?php echo $item["cart_qty"]; ?>" class="qty-input">
+                                                <input type="number" name="new_qty" min="1" max="<?php echo $item['quantity']; ?>" value="<?php echo $item['cart_qty']; ?>" class="qty-input">
                                                 <button type="submit" name="action" value="updatecart" class="btn update-btn">Update</button>
                                             </div>
                                         </form>
                                         <form action="contact_seller.php" method="POST" class="action-form">
-                                            <input type="hidden" name="listing_id" value="<?php echo $item["listing_id"]; ?>">
+                                            <input type="hidden" name="listing_id" value="<?php echo $item['listing_id']; ?>">
                                             <button type="submit" class="btn contact-btn">Contact Seller</button>
                                         </form>
                                         <form action="cart_action.php" method="POST" class="action-form">
-                                            <input type="hidden" name="cart_id" value="<?php echo $item["cart_id"]; ?>">
+                                            <input type="hidden" name="cart_id" value="<?php echo $item['cart_id']; ?>">
                                             <button type="submit" name="action" value="removefromcart" class="btn remove-btn">Remove</button>
                                         </form>
                                     </div>

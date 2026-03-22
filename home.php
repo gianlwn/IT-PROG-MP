@@ -3,20 +3,20 @@ session_start();
 require 'db.php';
 
 // check if user is logged in
-if (!isset($_SESSION["user_id"])) {
+if (!isset($_SESSION['user_id'])) {
     header("Location: loginpage.php");
     exit();
 }
 
 
 // user data for display
-$dlsu_id_number = $_SESSION["dlsu_id_number"];
-$first_name = $_SESSION["first_name"];
-$last_name = $_SESSION["last_name"];
+$dlsu_id_number = $_SESSION['dlsu_id_number'];
+$first_name = $_SESSION['first_name'];
+$last_name = $_SESSION['last_name'];
 $full_name = trim($first_name . " " . $last_name);
-$role = $_SESSION["role"];
-$profile_pic = "images/" . $_SESSION["profile_picture"];
-$admin_role_id = intval($_SESSION["admin_role_id"]);
+$role = $_SESSION['role'];
+$profile_pic = "images/" . $_SESSION['profile_picture'];
+$admin_role_id = intval($_SESSION['admin_role_id']);
 
 // get all listings
 $listings = [];
@@ -68,15 +68,15 @@ if ($cart_result->num_rows > 0) {
 }
 
 // handle action for createlisting.php, viewcart.php, and viewitem.php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST["action"]) && $_POST["action"] === "createlisting") {
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    if (isset($_POST['action']) && $_POST['action'] === "createlisting") {
         header("Location: createlisting.php");
         exit();
-    } else if (isset($_POST["action"]) && $_POST["action"] === "viewcart") {
+    } else if (isset($_POST['action']) && $_POST['action'] === "viewcart") {
         header("Location: viewcart.php");
         exit();
-    } else if (isset($_POST["viewitem"])) {
-        header("Location: viewitem.php?listing_id=" . $_POST["viewitem"]);
+    } else if (isset($_POST['viewitem'])) {
+        header("Location: viewitem.php?listing_id=" . $_POST['viewitem']);
         exit();
     }
 }
@@ -124,7 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <input type="text" placeholder="Search for items...">
                     </div>
                     <div class="header-actions">
-                        <button class="cart-btn" name="action" value="viewcart">Cart (<?php echo !empty($cart_row["cart_total"]) ? $cart_row["cart_total"] : 0; ?>)</button>
+                        <button class="cart-btn" name="action" value="viewcart">Cart (<?php echo !empty($cart_row['cart_total']) ? $cart_row['cart_total'] : 0; ?>)</button>
                         <button class="create-listing-btn" name="action" value="createlisting">+ Create Listing</button>
                     </div>
                 </header>
@@ -145,36 +145,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <h3 class="section-title">All Items</h3>
                         <div class="product-grid">
                             <?php foreach ($listings as $l): ?>
-                                <a href="<?php echo "viewitem.php?listing_id=" . $l["listing_id"] ?>" class="cart-item-link">
+                                <a href="<?php echo "viewitem.php?listing_id=" . $l['listing_id'] ?>" class="cart-item-link">
                                     <div class="product-card">
-                                        <?php if (!empty($l["image_path"])): ?>
-                                            <img src="<?php echo $l["image_path"]; ?>" alt="Product Image" class="product-image">
+                                        <?php if (!empty($l['image_path'])): ?>
+                                            <img src="<?php echo $l['image_path']; ?>" alt="Product Image" class="product-image">
                                         <?php else: ?>
                                             <div class="product-image-placeholder">No Image</div>
                                         <?php endif; ?>
                                         <div class="product-info">
                                             <?php
                                             $categories = [];
-                                            if (!empty($l["cat1"])) $categories[] = $l["cat1"];
-                                            if (!empty($l["cat2"])) $categories[] = $l["cat2"];
-                                            if (!empty($l["cat3"])) $categories[] = $l["cat3"];
+                                            if (!empty($l['cat1'])) $categories[] = $l['cat1'];
+                                            if (!empty($l['cat2'])) $categories[] = $l['cat2'];
+                                            if (!empty($l['cat3'])) $categories[] = $l['cat3'];
                                             $category_display = implode(', ', $categories);
                                             ?>
                                             <span class="category-tag"><?php echo $category_display; ?></span>
-                                            <h4 class="item-name"><?php echo $l["product_name"]; ?></h4>
+                                            <h4 class="item-name"><?php echo $l['product_name']; ?></h4>
                                             <div class="seller-row">
-                                                <span class="seller-name"><?php echo $l["full_name"]; ?></span>
-                                                <?php if ($l["avg_rating"] > 0): ?>
-                                                    <span class="seller-rating">★ <?php echo $l["avg_rating"]; ?></span>
+                                                <span class="seller-name"><?php echo $l['full_name']; ?></span>
+                                                <?php if ($l['avg_rating'] > 0): ?>
+                                                    <span class="seller-rating">★ <?php echo $l['avg_rating']; ?></span>
                                                 <?php else: ?>
                                                     <span class="seller-rating">★ N/A</span>
                                                 <?php endif; ?>
                                             </div>
                                             <div class="price-qty-row">
-                                                <p class="item-price">₱<?php echo $l["price"]; ?></p>
-                                                <span class="item-quantity">Qty: <?php echo $l["quantity"]; ?></span>
+                                                <p class="item-price">₱<?php echo $l['price']; ?></p>
+                                                <span class="item-quantity">Qty: <?php echo $l['quantity']; ?></span>
                                             </div>
-                                            <button class="view-item-btn" name="viewitem" value="<?php echo $l["listing_id"]; ?>">View Details</button>
+                                            <button class="view-item-btn" name="viewitem" value="<?php echo $l['listing_id']; ?>">View Details</button>
                                         </div>
                                     </div>
                                 </a>
