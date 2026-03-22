@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                     mkdir($upload_dir, 0777, true);
                 }
 
-                $images = ['image1", "image2", "image3'];
+                $images = ["image1", "image2", "image3"];
 
                 foreach ($images as $img_field) {
                     if (isset($_FILES[$img_field]) && $_FILES[$img_field]['error'] == 0) {
@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                                 die("Prepare failed: " . $conn->error);
                             }
 
-                            $stmt->bind_param("ss", $new_listing_id, $target_path);
+                            $stmt->bind_param("is", $new_listing_id, $target_path);
                             $stmt->execute();
                         }
                     }
