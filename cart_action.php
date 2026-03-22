@@ -123,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $stmt->execute();
 
             // success
-            header("Location: viewcart.php");
+            header("Location: viewcart.php?update=success");
             exit();
         }
 
@@ -146,7 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $stmt->execute();
 
             // success
-            header("Location: viewcart.php");
+            header("Location: viewcart.php?remove=success");
             exit();
         }
     }
