@@ -145,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     <div class="profile-img-wrapper">
                         <img src="profile_pictures/<?php echo htmlspecialchars($current_pic); ?>" class="profile-image" id="profilePreview" alt="Profile Picture">
                         <label for="profile_picture" class="upload-btn">Change Picture</label>
-                        <input type="file" name="profile_picture" id="profile_picture" accept="image/*" onchange="previewImage(event)">
+                        <input type="file" name="profile_picture" id="profile_picture" accept="image/*" class="file-input" onchange="previewImage(event)">
                     </div>
 
                     <div class="profile-info">
