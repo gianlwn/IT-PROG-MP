@@ -79,6 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                 foreach ($images as $img_field) {
                     if (isset($_FILES[$img_field]) && $_FILES[$img_field]['error'] == 0) {
                         $file_extension = pathinfo($_FILES[$img_field]['name'], PATHINFO_EXTENSION);
+                        
                         // create a unique file name in this format: listing_ID_randomstring.jpg
                         $new_file_name = "listing_" . $new_listing_id . "_" . uniqid() . "." . $file_extension;
                         $target_path = $upload_dir . $new_file_name;
