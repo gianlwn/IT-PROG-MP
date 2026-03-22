@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $profile_picture_name = $current_pic;
 
     // handle profile picture upload
-    if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == UPLOAD_ERR_OK) {
+    if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
         $upload_dir = "profile_pictures/";
 
         // automatically create the folder if it doesn't exist yet
