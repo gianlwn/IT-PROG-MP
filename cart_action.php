@@ -154,3 +154,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
     header("Location: home.php");
     exit();
 }
+?>
+
+<?php
+# do not remove this
+?>

@@ -121,10 +121,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="container">
             <img src="images/login-icon.png" alt="login-icon" class="login-icon">
             <?php if (!empty($error_message)): ?>
-                <div class="error-msg"><?php echo $error_message; ?></div>
+                <div class="error-msg"><?php echo htmlspecialchars($error_message); ?></div>
             <?php endif; ?>
             <?php if (!empty($success_message)): ?>
-                <div class="success-msg"><?php echo $success_message; ?></div>
+                <div class="success-msg"><?php echo htmlspecialchars($success_message); ?></div>
             <?php endif; ?>
             <div class="input-container">
                 <label for="email">Email:</label>

@@ -41,9 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
 
             $stmt->bind_param("isssssss", $id_number, $dlsu_email, $password_hash, $first_name, $last_name, $course_code, $role, $phone_number);
-            $stmt->execute();
 
-            if ($stmt->affected_rows > 0) {
+            if ($stmt->execute()) {
                 // ask user to login again
                 $success_message = "Profile created successfully! Redirecting to login...";
 
@@ -90,10 +89,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                 </div>
                 <?php if (!empty($error_message)): ?>
-                    <div class="error-msg"><?php echo $error_message; ?></div>
+                    <div class="error-msg"><?php echo htmlspecialchars($error_message); ?></div>
                 <?php endif; ?>
                 <?php if (!empty($success_message)): ?>
-                    <div class="success-msg"><?php echo $success_message; ?></div>
+                    <div class="success-msg"><?php echo htmlspecialchars($success_message); ?></div>
                     <script>
                         setTimeout(() => {
                             window.location.href = 'loginpage.php?create=success';

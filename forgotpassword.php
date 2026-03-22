@@ -151,13 +151,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <img src="images/login-icon.png" alt="login-icon" class="login-icon">
 
             <?php if (!empty($error_message)): ?>
-                <div class="error-msg"><?php echo $error_message; ?></div>
+                <div class="error-msg"><?php echo htmlspecialchars($error_message); ?></div>
             <?php endif; ?>
             <?php if (!empty($success_message)): ?>
-                <div class="success-msg"><?php echo $success_message; ?></div>
+                <div class="success-msg"><?php echo htmlspecialchars($success_message); ?></div>
             <?php endif; ?>
             <?php if (!empty($success_message_reset)): ?>
-                <div class="success-msg"><?php echo $success_message_reset; ?></div>
+                <div class="success-msg"><?php echo htmlspecialchars($success_message_reset); ?></div>
                 <script>
                     setTimeout(() => {
                         window.location.href = 'loginpage.php?create=success';
