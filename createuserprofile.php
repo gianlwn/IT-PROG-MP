@@ -12,7 +12,7 @@ $error_message = "";
 $success_message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id_number = intval(trim($_POST["id_number"]));
+    $dlsu_id_number = intval(trim($_POST["id_number"]));
     $dlsu_email = $_SESSION["verification_email"];
     $password = $_POST["password"];
     $confirm_password = $_POST["confirm_password"];
@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $password_hash = password_hash($password, PASSWORD_BCRYPT);
 
-        $create_query = "INSERT INTO users (user_id, dlsu_email, password_hash, first_name, last_name, course_code, role, phone_number)
+        $create_query = "INSERT INTO users (dlsu_id_number, dlsu_email, password_hash, first_name, last_name, course_code, role, phone_number)
                          VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 die("Prepare failed: " . $conn->error);
             }
 
-            $stmt->bind_param("isssssss", $id_number, $dlsu_email, $password_hash, $first_name, $last_name, $course_code, $role, $phone_number);
+            $stmt->bind_param("isssssss", $dlsu_id_number, $dlsu_email, $password_hash, $first_name, $last_name, $course_code, $role, $phone_number);
 
             if ($stmt->execute()) {
                 // ask user to login again

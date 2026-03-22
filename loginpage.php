@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $email = trim($_POST["email"]);
   $password = $_POST["password"];
 
-  $login_query = "SELECT u.user_id, u.password_hash, u.first_name, u.last_name, u.role, u.dlsu_email, u.profile_picture, a.admin_role_id, ar.role_name
+  $login_query = "SELECT u.user_id, u.dlsu_id_number, u.password_hash, u.first_name, u.last_name, u.role, u.dlsu_email, u.profile_picture, a.admin_role_id, ar.role_name
                   FROM users u
                   LEFT JOIN admin_accounts a ON a.user_id = u.user_id
                   LEFT JOIN admin_roles ar ON ar.admin_role_id = a.admin_role_id
@@ -29,6 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (password_verify($password, $user["password_hash"])) {
       $_SESSION["user_id"] = intval($user["user_id"]);
+      $_SESSION["dlsu_id_number"] = intval($user["dlsu_id_number"]);
       $_SESSION["first_name"] = $user["first_name"];
       $_SESSION["last_name"] = $user["last_name"];
 

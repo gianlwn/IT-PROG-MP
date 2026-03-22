@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 18, 2026 at 02:12 PM
+-- Generation Time: Mar 22, 2026 at 02:49 PM
 -- Server version: 8.0.43
 -- PHP Version: 8.2.12
 
@@ -40,8 +40,8 @@ CREATE TABLE `admin_accounts` (
 --
 
 INSERT INTO `admin_accounts` (`admin_id`, `user_id`, `admin_role_id`, `assigned_by`, `assigned_at`) VALUES
-(1, 12415537, 1, 12415537, '2026-03-11 00:39:28'),
-(2, 12323780, 2, 12415537, '2026-03-11 00:39:35');
+(1, 5, 1, 5, '2026-03-11 00:39:28'),
+(2, 1, 2, 5, '2026-03-11 00:39:35');
 
 -- --------------------------------------------------------
 
@@ -81,11 +81,11 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`cart_id`, `buyer_id`, `listing_id`, `quantity`, `added_at`) VALUES
-(1, 12415537, 1, 1, '2026-03-18 08:00:30'),
-(2, 12410012, 1, 1, '2026-03-18 08:05:44'),
-(3, 12413178, 1, 1, '2026-03-18 08:14:59'),
-(4, 12415421, 2, 3, '2026-03-18 08:32:32'),
-(5, 12415421, 1, 1, '2026-03-18 08:50:16');
+(1, 5, 1, 1, '2026-03-18 08:00:30'),
+(2, 2, 1, 1, '2026-03-18 08:05:44'),
+(3, 3, 1, 1, '2026-03-18 08:14:59'),
+(4, 4, 2, 3, '2026-03-18 08:32:32'),
+(5, 4, 1, 1, '2026-03-18 08:50:16');
 
 -- --------------------------------------------------------
 
@@ -160,8 +160,8 @@ CREATE TABLE `listings` (
 --
 
 INSERT INTO `listings` (`listing_id`, `seller_id`, `product_name`, `description`, `price`, `quantity`, `category1_id`, `category2_id`, `category3_id`, `status`, `is_removed`, `created_at`, `updated_at`) VALUES
-(1, 12323780, 'New Trends in Computers', 'A book about new trends in computers', 180.00, 1, 3, 11, NULL, 'Available', 0, '2026-03-17 04:10:26', '2026-03-17 04:10:26'),
-(2, 12413178, 'Men Regular Fit Solid Button Down Collar Casual Shirt', 'Comes in different colors.\r\n- beige\r\n- light blue\r\n- black\r\n', 180.00, 3, 10, NULL, NULL, 'Available', 0, '2026-03-18 08:28:28', '2026-03-18 08:28:28');
+(1, 1, 'New Trends in Computers', 'A book about new trends in computers', 180.00, 1, 3, 11, NULL, 'Available', 0, '2026-03-17 04:10:26', '2026-03-17 04:10:26'),
+(2, 3, 'Men Regular Fit Solid Button Down Collar Casual Shirt', 'Comes in different colors.\r\n- beige\r\n- light blue\r\n- black\r\n', 180.00, 3, 10, NULL, NULL, 'Available', 0, '2026-03-18 08:28:28', '2026-03-18 08:28:28');
 
 -- --------------------------------------------------------
 
@@ -256,6 +256,7 @@ CREATE TABLE `transaction_proofs` (
 
 CREATE TABLE `users` (
   `user_id` int NOT NULL,
+  `dlsu_id_number` int NOT NULL,
   `dlsu_email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `password_hash` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `first_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
@@ -275,12 +276,12 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `dlsu_email`, `password_hash`, `first_name`, `last_name`, `course_code`, `role`, `phone_number`, `profile_picture`, `is_verified`, `warning_count`, `is_suspended`, `created_at`, `updated_at`) VALUES
-(12323780, 'camille_erika_sarabia@dlsu.edu.ph', '$2y$10$1evMpDD1mNlRpp3hLiUxne4atiVeQGYXEbUK4Ehf3k0lJcsM/yO1C', 'Camille Erika', 'Sarabia', 'BS-IT', 'Student', '09685706073', 'default-pfp.jpg', 0, 0, 0, '2026-03-11 00:39:10', '2026-03-11 00:39:10'),
-(12410012, 'gian_enriquez@dlsu.edu.ph', '$2y$10$tIqsLGExCeBZAGDMzKjZsuwpcrX4SO2ZoTCw1ZLWx.xu3SKLDfDhG', 'Gian Patrick', 'Enriquez', 'BS-IT', 'Student', '09458676744', 'default-pfp.jpg', 0, 0, 0, '2026-03-18 08:04:55', '2026-03-18 08:04:55'),
-(12413178, 'sky_parado@dlsu.edu.ph', '$2y$10$TDVmMCBJ3GMQlLmYIK9IYuI/Zh8e6kY9h1q4UedoqYR1.HayBGJS6', 'Sky Hannah', 'Parado', 'BSCS-NIS', 'Student', '09762447493', 'default-pfp.jpg', 0, 0, 0, '2026-03-18 08:10:14', '2026-03-18 08:10:14'),
-(12415421, 'andie_woo@dlsu.edu.ph', '$2y$10$7hyMz6zNUoZjGBC2Dx3ovOXYGk/DQ1Q0YoDlt.nzLVL6o5y08oV.i', 'Andie Kirsten', 'Woo', 'BSCS-ST', 'Student', '09171588460', 'default-pfp.jpg', 0, 0, 0, '2026-03-18 08:08:18', '2026-03-18 08:24:11'),
-(12415537, 'giancarlo_lawan@dlsu.edu.ph', '$2y$10$tIqsLGExCeBZAGDMzKjZsuwpcrX4SO2ZoTCw1ZLWx.xu3SKLDfDhG', 'Giancarlo', 'Lawan', 'BS-IT', 'Student', '09285170610', 'default-pfp.jpg', 0, 0, 0, '2026-03-11 00:38:42', '2026-03-16 18:47:02');
+INSERT INTO `users` (`user_id`, `dlsu_id_number`, `dlsu_email`, `password_hash`, `first_name`, `last_name`, `course_code`, `role`, `phone_number`, `profile_picture`, `is_verified`, `warning_count`, `is_suspended`, `created_at`, `updated_at`) VALUES
+(1, 12323780, 'camille_erika_sarabia@dlsu.edu.ph', '$2y$10$1evMpDD1mNlRpp3hLiUxne4atiVeQGYXEbUK4Ehf3k0lJcsM/yO1C', 'Camille Erika', 'Sarabia', 'BS-IT', 'Student', '09685706073', 'default-pfp.jpg', 0, 0, 0, '2026-03-11 00:39:10', '2026-03-11 00:39:10'),
+(2, 12410012, 'gian_enriquez@dlsu.edu.ph', '$2y$10$tIqsLGExCeBZAGDMzKjZsuwpcrX4SO2ZoTCw1ZLWx.xu3SKLDfDhG', 'Gian Patrick', 'Enriquez', 'BS-IT', 'Student', '09458676744', 'default-pfp.jpg', 0, 0, 0, '2026-03-18 08:04:55', '2026-03-18 08:04:55'),
+(3, 12413178, 'sky_parado@dlsu.edu.ph', '$2y$10$TDVmMCBJ3GMQlLmYIK9IYuI/Zh8e6kY9h1q4UedoqYR1.HayBGJS6', 'Sky Hannah', 'Parado', 'BSCS-NIS', 'Student', '09762447493', 'default-pfp.jpg', 0, 0, 0, '2026-03-18 08:10:14', '2026-03-18 08:10:14'),
+(4, 12415421, 'andie_woo@dlsu.edu.ph', '$2y$10$7hyMz6zNUoZjGBC2Dx3ovOXYGk/DQ1Q0YoDlt.nzLVL6o5y08oV.i', 'Andie Kirsten', 'Woo', 'BSCS-ST', 'Student', '09171588460', 'default-pfp.jpg', 0, 0, 0, '2026-03-18 08:08:18', '2026-03-18 08:24:11'),
+(5, 12415537, 'giancarlo_lawan@dlsu.edu.ph', '$2y$10$tIqsLGExCeBZAGDMzKjZsuwpcrX4SO2ZoTCw1ZLWx.xu3SKLDfDhG', 'Giancarlo', 'Lawan', 'BS-IT', 'Student', '09285170610', 'default-pfp.jpg', 0, 0, 0, '2026-03-11 00:38:42', '2026-03-16 18:47:02');
 
 -- --------------------------------------------------------
 
@@ -397,7 +398,8 @@ ALTER TABLE `transaction_proofs`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`user_id`),
-  ADD UNIQUE KEY `dlsu_email` (`dlsu_email`);
+  ADD UNIQUE KEY `dlsu_email` (`dlsu_email`),
+  ADD UNIQUE KEY `dlsu_id_number` (`dlsu_id_number`);
 
 --
 -- Indexes for table `warnings`
@@ -477,6 +479,12 @@ ALTER TABLE `system_logs`
 --
 ALTER TABLE `transaction_proofs`
   MODIFY `proof_id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `warnings`

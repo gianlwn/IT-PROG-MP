@@ -9,7 +9,7 @@ if (!isset($_SESSION["user_id"])) {
 }
 
 // user data for display
-$user_id = $_SESSION["user_id"];
+$dlsu_id_number = $_SESSION["dlsu_id_number"];
 $first_name = $_SESSION["first_name"];
 $last_name = $_SESSION["last_name"];
 $full_name = trim($first_name . " " . $last_name);
@@ -77,7 +77,7 @@ if ($cart_result->num_rows > 0) {
                 <img src="<?php echo $profile_pic; ?>" alt="Profile" class="nav-logo">
                 <div class="user-info-display">
                     <h2 class="user-name"><?php echo $full_name; ?></h2>
-                    <p class="user-id"><?php echo "$role, ID: $user_id"; ?></p>
+                    <p class="user-id"><?php echo "$role, ID: $dlsu_id_number"; ?></p>
                 </div>
             </div>
             <nav class="nav-menu">
