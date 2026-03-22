@@ -33,10 +33,10 @@ if ($cat_result->num_rows > 0) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
-    if (isset($_POST['action']) && $_POST['action'] === "discard") {
+    if (isset($_POST['action']) && $_POST['action'] == "discard") {
         header("Location: home.php");
         exit();
-    } else if (isset($_POST['action']) && $_POST['action'] === "add" && !empty($_POST['product_name']) && !empty($_POST['description']) && !empty($_POST['category1_id']) && !empty($_POST['quantity']) && !empty($_POST['price'])) {
+    } else if (isset($_POST['action']) && $_POST['action'] == "add" && !empty($_POST['product_name']) && !empty($_POST['description']) && !empty($_POST['category1_id']) && !empty($_POST['quantity']) && !empty($_POST['price'])) {
         $seller_id = $_SESSION['user_id'];
         $product_name = $_POST['product_name'];
         $description = $_POST['description'];

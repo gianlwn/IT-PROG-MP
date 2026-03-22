@@ -68,10 +68,10 @@ if ($cart_result->num_rows > 0) {
 
 // handle action for createlisting.php, viewcart.php, and viewitem.php
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
-    if (isset($_POST['action']) && $_POST['action'] === "createlisting") {
+    if (isset($_POST['action']) && $_POST['action'] == "createlisting") {
         header("Location: createlisting.php");
         exit();
-    } else if (isset($_POST['action']) && $_POST['action'] === "viewcart") {
+    } else if (isset($_POST['action']) && $_POST['action'] == "viewcart") {
         header("Location: viewcart.php");
         exit();
     } else if (isset($_POST['viewitem'])) {
@@ -107,10 +107,10 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                     <a href="mylistings.php">My Listings</a>
                     <a href="myclaims.php">My Claims</a>
                     <a href="editprofile.php">Edit Profile</a>
-                    <?php if ($admin_role_id == 1 || $admin_role_id == 2): ?>
+                    <?php if ($admin_role_id === 1 || $admin_role_id === 2): ?>
                         <a href="#">Admin Dashboard</a>
                     <?php endif; ?>
-                    <?php if ($admin_role_id == 1): ?>
+                    <?php if ($admin_role_id === 1): ?>
                         <a href="#">Assign Admins</a>
                     <?php endif; ?>
                     <hr class="nav-divider">

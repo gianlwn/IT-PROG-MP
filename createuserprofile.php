@@ -106,13 +106,13 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                         <input type="text" name="last_name" class="input-field" placeholder="e.g. Dela Cruz" required>
                         <label for="course_code">Course Code</label>
                         <input type="text" name="course_code" class="input-field" placeholder="e.g. BS-IT" required>
-                        <?php if ($_SESSION['email_type'] === "student/staff"): ?>
+                        <?php if ($_SESSION['email_type'] == "student/staff"): ?>
                             <div class="role-group">
                                 <div class="section-header">Role</div>
                                 <label><input type="radio" name="role" value="Student" required> Student</label>
                                 <label><input type="radio" name="role" value="Staff" required> Staff</label>
                             </div>
-                        <?php elseif ($_SESSION['email_type'] === "faculty"): ?>
+                        <?php elseif ($_SESSION['email_type'] == "faculty"): ?>
                             <div class="role-group">
                                 <div class="section-header">Role</div>
                                 <label><input type="radio" name="role" value="Faculty" checked required> Faculty</label>

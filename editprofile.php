@@ -20,6 +20,7 @@ $course_code = trim($_SESSION['course_code']);
 $role = $_SESSION['role'];
 $phone_number = trim($_SESSION['phone_number']);
 
+// check if the code matches and is a faculty account
 if (preg_match('/^[a-z]+(_[a-z]+)*@dlsu\.edu\.ph$/', $dlsu_email)) {
     $email_type = "student/staff";
 
@@ -27,42 +28,7 @@ if (preg_match('/^[a-z]+(_[a-z]+)*@dlsu\.edu\.ph$/', $dlsu_email)) {
 } else if (preg_match('/^[a-z]+(\.[a-z]+)*@dlsu\.edu\.ph$/', $dlsu_email)) {
     $email_type = "faculty";
 }
-/*
-if (empty($id_number) || empty($first_name) || empty($last_name) || empty($role) || empty($password)) {
-    $error_message = "Please fill in all required fields.";
-} else if ($password !== $confirm_password) {
-    $error_message = "Passwords do not match!";
-} else {
-    $password_hash = password_hash($password, PASSWORD_BCRYPT);
 
-    $create_query = "INSERT INTO users (dlsu_id_number, dlsu_email, password_hash, first_name, last_name, course_code, role, phone_number)
-                         VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-    try {
-        $stmt = $conn->prepare($create_query);
-
-        if (!$stmt) {
-            die("Prepare failed: " . $conn->error);
-        }
-
-        $stmt->bind_param("isssssss", $dlsu_id_number, $dlsu_email, $password_hash, $first_name, $last_name, $course_code, $role, $phone_number);
-
-        if ($stmt->execute()) {
-            // ask user to login again
-            $success_message = "Profile created successfully! Redirecting to login...";
-
-            // unset email_verified
-            unset($_SESSION['email_verified']);
-        }
-    } catch (mysqli_sql_exception $e) {
-        if ($conn->errno == 1062) {
-            $error_message = "This ID Number or Email is already registered.";
-        } else {
-            $error_message = "Database Error: " . $conn->error;
-        }
-    }
-}
-    */
 ?>
 
 <!DOCTYPE html>
@@ -86,7 +52,7 @@ if (empty($id_number) || empty($first_name) || empty($last_name) || empty($role)
                     <div class="profile-info">
                         <div class="id-container">
                             <label for="id_number">ID Number</label>
-                            <input type="text" name="id_number" value="<?php echo htmlspecialchars($dlsu_id_number) ?>" class="input-field" minlength="8" maxlength="8" pattern="[0-9]{8}" placeholder="e.g. 12345678" required>
+                            <input type="text" name="id_number" value="<?php echo htmlspecialchars($dlsu_id_number) ?>" class="input-field" minlength="8" maxlength="8" pattern="[0-9]{8}" placeholder="e.g. 12345678">
                         </div>
                         <div class="email-display">
                             Email: <?php echo $_SESSION['dlsu_email']; ?>
@@ -108,18 +74,18 @@ if (empty($id_number) || empty($first_name) || empty($last_name) || empty($role)
                     <div class="form-column">
                         <div class="section-header">Personal Information</div>
                         <label for="first_name">First Name</label>
-                        <input type="text" name="first_name" value="<?php echo htmlspecialchars($first_name); ?>" class="input-field" placeholder="e.g. Juan" required>
+                        <input type="text" name="first_name" value="<?php echo htmlspecialchars($first_name); ?>" class="input-field" placeholder="e.g. Juan">
                         <label for="last_name">Last Name</label>
-                        <input type="text" name="last_name" value="<?php echo htmlspecialchars($last_name); ?>" class="input-field" placeholder="e.g. Dela Cruz" required>
+                        <input type="text" name="last_name" value="<?php echo htmlspecialchars($last_name); ?>" class="input-field" placeholder="e.g. Dela Cruz">
                         <label for="course_code">Course Code</label>
-                        <input type="text" name="course_code" value="<?php echo htmlspecialchars($course_code); ?>" class="input-field" placeholder="e.g. BS-IT" required>
-                        <?php if ($email_type === "student/staff"): ?>
+                        <input type="text" name="course_code" value="<?php echo htmlspecialchars($course_code); ?>" class="input-field" placeholder="e.g. BS-IT">
+                        <?php if ($email_type == "student/staff"): ?>
                             <div class="role-group">
                                 <div class="section-header">Role</div>
-                                <label><input type="radio" name="role" value="Student" <?php echo $role === "Student" ? "checked" : ""; ?> > Student</label>
-                                <label><input type="radio" name="role" value="Staff" <?php echo $role === "Staff" ? "checked" : ""; ?> > Staff</label>
+                                <label><input type="radio" name="role" value="Student" <?php echo $role == "Student" ? "checked" : ""; ?>> Student</label>
+                                <label><input type="radio" name="role" value="Staff" <?php echo $role == "Staff" ? "checked" : ""; ?>> Staff</label>
                             </div>
-                        <?php elseif ($email_type === "faculty"): ?>
+                        <?php elseif ($email_type == "faculty"): ?>
                             <div class="role-group">
                                 <div class="section-header">Role</div>
                                 <label><input type="radio" name="role" value="Faculty"> Faculty</label>
@@ -136,8 +102,7 @@ if (empty($id_number) || empty($first_name) || empty($last_name) || empty($role)
                             pattern="09[0-9]{9}"
                             minlength="11"
                             maxlength="11"
-                            placeholder="e.g. 09685706073"
-                            required>
+                            placeholder="e.g. 09685706073">
                         <div class="password-group">
                             <div class="section-header">Edit Password</div>
                             <label for="password">New Password:</label>
