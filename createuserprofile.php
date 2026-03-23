@@ -34,10 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         try {
             $stmt = $conn->prepare($create_query);
 
-            if (!$stmt) {
-                die("Prepare failed: " . $conn->error);
-            }
-
+            if (!$stmt) die("Prepare failed: " . $conn->error);
             $stmt->bind_param("isssssss", $dlsu_id_number, $dlsu_email, $password_hash, $first_name, $last_name, $course_code, $role, $phone_number);
 
             if ($stmt->execute()) {

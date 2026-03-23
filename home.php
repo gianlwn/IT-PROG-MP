@@ -35,10 +35,7 @@ $listing_query = "SELECT l.listing_id, c1.category_name AS cat1, c2.category_nam
 
 $stmt = $conn->prepare($listing_query);
 
-if (!$stmt) {
-    die("Prepare failed: " . $conn->error);
-}
-
+if (!$stmt) die("Prepare failed: " . $conn->error);
 $stmt->execute();
 $listing_result = $stmt->get_result();
 
@@ -55,10 +52,7 @@ $cart_query = "SELECT COUNT(*) AS cart_total
 
 $stmt = $conn->prepare($cart_query);
 
-if (!$stmt) {
-    die("Prepare failed: " . $conn->error);
-}
-
+if (!$stmt) die("Prepare failed: " . $conn->error);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $cart_result = $stmt->get_result();

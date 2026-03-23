@@ -19,10 +19,7 @@ $cat_query = "SELECT category_id, category_name
 
 $stmt = $conn->prepare($cat_query);
 
-if (!$stmt) {
-    die("Prepare failed: " . $conn->error);
-}
-
+if (!$stmt) die("Prepare failed: " . $conn->error);
 $stmt->execute();
 $cat_result = $stmt->get_result();
 
@@ -59,10 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
             $stmt = $conn->prepare($insert_query);
 
-            if (!$stmt) {
-                die("Prepare failed: " . $conn->error);
-            }
-
+            if (!$stmt) die("Prepare failed: " . $conn->error);
             $stmt->bind_param("issdiiii", $seller_id, $product_name, $description, $price, $quantity, $category1_id, $category2_id, $category3_id);
 
             if ($stmt->execute()) {
@@ -92,10 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
                             $stmt = $conn->prepare($insert_img_query);
 
-                            if (!$stmt) {
-                                die("Prepare failed: " . $conn->error);
-                            }
-
+                            if (!$stmt) die("Prepare failed: " . $conn->error);
                             $stmt->bind_param("is", $new_listing_id, $target_path);
                             $stmt->execute();
                         }

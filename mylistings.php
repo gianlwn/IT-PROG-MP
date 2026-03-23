@@ -36,10 +36,7 @@ $cart_query = "SELECT COUNT(*) as cart_count
 
 $stmt = $conn->prepare($cart_query);
 
-if (!$stmt) {
-    die("Prepare failed: " . $conn->error);
-}
-
+if (!$stmt) die("Prepare failed: " . $conn->error);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $cart_result = $stmt->get_result();
@@ -65,10 +62,7 @@ $ml_query = "SELECT l.listing_id, l.product_name, l.price, l.quantity, li.image_
 
 $stmt = $conn->prepare($ml_query);
 
-if (!$stmt) {
-    die("Prepare failed: " . $conn->error);
-}
-
+if (!$stmt) die("Prepare failed: " . $conn->error);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $ml_result = $stmt->get_result();

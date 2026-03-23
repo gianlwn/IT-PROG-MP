@@ -45,10 +45,7 @@ $cart_query = "SELECT c.cart_id, c.quantity AS cart_qty,
 
 $stmt = $conn->prepare($cart_query);
 
-if (!$stmt) {
-    die("Prepare failed: " . $conn->error);
-}
-
+if (!$stmt) die("Prepare failed: " . $conn->error);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $cart_result = $stmt->get_result();

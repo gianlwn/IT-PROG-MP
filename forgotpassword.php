@@ -28,10 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
             $stmt = $conn->prepare($forgot_query);
 
-            if (!$stmt) {
-                die("Prepare failed: " . $conn->error);
-            }
-
+            if (!$stmt) die("Prepare failed: " . $conn->error);
             $stmt->bind_param("s", $email);
             $stmt->execute();
             $forgot_result = $stmt->get_result();
@@ -112,10 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
                 $stmt = $conn->prepare($reset_query);
 
-                if (!$stmt) {
-                    die("Prepare failed: " . $conn->error);
-                }
-
+                if (!$stmt) die("Prepare failed: " . $conn->error);
                 $stmt->bind_param("ss", $password_hash, $forgot_email);
                 $stmt->execute();
 

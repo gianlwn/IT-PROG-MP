@@ -23,10 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
         $stmt = $conn->prepare($stock_query);
 
-        if (!$stmt) {
-            die("Prepare failed: " . $conn->error);
-        }
-
+        if (!$stmt) die("Prepare failed: " . $conn->error);
         $stmt->bind_param("i", $listing_id);
         $stmt->execute();
         $stock_result = $stmt->get_result();
@@ -48,10 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
         $stmt = $conn->prepare($cart_query);
 
-        if (!$stmt) {
-            die("Prepare failed: " . $conn->error);
-        }
-
+        if (!$stmt) die("Prepare failed: " . $conn->error);
         $stmt->bind_param("ii", $buyer_id, $listing_id);
         $stmt->execute();
         $cart_result = $stmt->get_result();
@@ -72,10 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
             $stmt = $conn->prepare($updatecart_query);
 
-            if (!$stmt) {
-                die("Prepare failed: " . $conn->error);
-            }
-
+            if (!$stmt) die("Prepare failed: " . $conn->error);
             $stmt->bind_param("iii", $new_qty, $buyer_id, $listing_id);
             $stmt->execute();
         } else {
@@ -90,10 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
             $stmt = $conn->prepare($insert_query);
 
-            if (!$stmt) {
-                die("Prepare failed: " . $conn->error);
-            }
-
+            if (!$stmt) die("Prepare failed: " . $conn->error);
             $stmt->bind_param("iii", $buyer_id, $listing_id, $buy_qty);
             $stmt->execute();
         }
@@ -115,10 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
             $stmt = $conn->prepare($update_query);
 
-            if (!$stmt) {
-                die("Prepare failed: " . $conn->error);
-            }
-
+            if (!$stmt) die("Prepare failed: " . $conn->error);
             $stmt->bind_param("iii", $new_qty, $cart_id, $buyer_id);
             $stmt->execute();
 
@@ -138,10 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
             $stmt = $conn->prepare($delete_query);
 
-            if (!$stmt) {
-                die("Prepare failed: " . $conn->error);
-            }
-
+            if (!$stmt) die("Prepare failed: " . $conn->error);
             $stmt->bind_param("ii", $cart_id, $buyer_id);
             $stmt->execute();
 

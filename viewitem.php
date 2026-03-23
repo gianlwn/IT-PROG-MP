@@ -44,10 +44,7 @@ $cart_count_query = "SELECT COUNT(*) AS count
 
 $stmt = $conn->prepare($cart_count_query);
 
-if (!$stmt) {
-    die("Prepare failed: " . $conn->error);
-}
-
+if (!$stmt) die("Prepare failed: " . $conn->error);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $cart_count_result = $stmt->get_result();
@@ -73,10 +70,7 @@ $item_query = "SELECT c1.category_name AS cat1, c2.category_name AS cat2, c3.cat
 
 $stmt = $conn->prepare($item_query);
 
-if (!$stmt) {
-    die("Prepare failed: " . $conn->error);
-}
-
+if (!$stmt) die("Prepare failed: " . $conn->error);
 $stmt->bind_param("i", $listing_id);
 $stmt->execute();
 $item_result = $stmt->get_result();
@@ -98,10 +92,7 @@ $image_query = "SELECT image_path
 
 $stmt = $conn->prepare($image_query);
 
-if (!$stmt) {
-    die("Prepare failed: " . $conn->error);
-}
-
+if (!$stmt) die("Prepare failed: " . $conn->error);
 $stmt->bind_param("i", $listing_id);
 $stmt->execute();
 $image_result = $stmt->get_result();

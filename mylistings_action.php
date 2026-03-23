@@ -22,10 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
             $stmt = $conn->prepare($get_images);
 
-            if (!$stmt) {
-                die("Prepare failed: " . $conn->error);
-            }
-
+            if (!$stmt) die("Prepare failed: " . $conn->error);
             $stmt->bind_param("i", $listing_id);
             $stmt->execute();
             $result = $stmt->get_result();
@@ -45,10 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
             $stmt = $conn->prepare($delete_images);
 
-            if (!$stmt) {
-                die("Prepare failed: " . $conn->error);
-            }
-
+            if (!$stmt) die("Prepare failed: " . $conn->error);
             $stmt->bind_param("i", $listing_id);
             $stmt->execute();
 
@@ -58,10 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
             $stmt = $conn->prepare($delete_listing);
 
-            if (!$stmt) {
-                die("Prepare failed: " . $conn->error);
-            }
-
+            if (!$stmt) die("Prepare failed: " . $conn->error);
             $stmt->bind_param("ii", $listing_id, $user_id);
             $stmt->execute();
 
