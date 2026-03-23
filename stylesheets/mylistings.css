@@ -1,0 +1,27 @@
+.listing-status {
+    font-weight: bold;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: #fff;
+}
+
+.listing-status#pending {
+    color: #f39c12;
+    border: 1px solid #f39c12;
+}
+
+.listing-status#live {
+    color: #5cb85c;
+    border: 1px solid #5cb85c;
+}
+
+.listing-status#rejected {
+    color: #d9534f;
+    border: 1px solid #d9534f;
+}
+
+.listing-status#status {
+    color: #798367;
+    border: 1px solid #798367;
+}

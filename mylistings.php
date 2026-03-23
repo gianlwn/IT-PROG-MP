@@ -48,7 +48,7 @@ if ($cart_result->num_rows === 1) {
 // get all "my listings"
 $my_listings = [];
 
-$ml_query = "SELECT l.listing_id, l.product_name, l.price, l.quantity, li.image_path,
+$ml_query = "SELECT l.listing_id, l.product_name, l.price, l.status, l.quantity, li.image_path,
                     CONCAT(u.first_name, ' ', u.last_name) AS seller_name,
                     (SELECT IFNULL(ROUND(AVG(rating_value), 1), 0) FROM ratings WHERE rated_user_id = u.user_id) AS avg_rating
              FROM listings l
@@ -82,6 +82,7 @@ if ($ml_result->num_rows > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="stylesheets/home.css" />
     <link rel="stylesheet" href="stylesheets/viewcart.css" />
+    <link rel="stylesheet" href="stylesheets/mylistings.css" />
     <title>DLSU Marketplace | My Listings</title>
 </head>
 
@@ -157,6 +158,15 @@ if ($ml_result->num_rows > 0) {
                                                     <span class="no-rating">★ N/A</span>
                                                 <?php endif; ?>
                                             </span>
+                                            <?php if ($l['status'] === 'Pending'): ?>
+                                                <span class="listing-status" id="pending">Pending</span>
+                                            <?php elseif ($l['status'] === 'Available'): ?>
+                                                <span class="listing-status" id="live">Live</span>
+                                            <?php elseif ($l['status'] === 'Rejected'): ?>
+                                                <span class="listing-status" id="rejected">Rejected</span>
+                                            <?php else: ?>
+                                                <span class="listing-status" id="status"><?php echo $l['status']; ?></span>
+                                            <?php endif; ?>
                                         </p>
                                         <p class="item-price">₱<?php echo number_format($l['price'], 2); ?></p>
                                     </div>
