@@ -30,7 +30,7 @@ if ($cat_result->num_rows > 0) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['action']) && $_POST['action'] == 'discard') {
+    if (isset($_POST['action']) && $_POST['action'] == 'cancel') {
         header('Location: home.php');
         exit();
     } else if (isset($_POST['action']) && $_POST['action'] == 'add' && !empty($_POST['product_name']) && !empty($_POST['description']) && !empty($_POST['category1_id']) && !empty($_POST['quantity']) && !empty($_POST['price'])) {
@@ -183,7 +183,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <input type="number" id="price" name="price" step="0.01" value="180.00" min="0" required>
                     </div>
                     <div class="button-group">
-                        <button name="action" value="discard" class="btn-discard" formnovalidate>Discard</button>
+                        <button name="action" value="cancel" class="btn-cancel" formnovalidate>Cancel</button>
                         <button name="action" value="add" class="btn-add">Add Product</button>
                     </div>
                 </div>

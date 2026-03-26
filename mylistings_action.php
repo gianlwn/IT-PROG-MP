@@ -59,6 +59,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             header('Location: mylistings.php?remove=success');
             exit();
         }
+    } else if ($_POST['action'] == 'updatelisting') {
+        $listing_id = intval($_POST['listing_id']);
+        header("Location: editlisting.php?listing_id=" . $listing_id);
+        exit();
     }
 } else {
     header('Location: home.php');

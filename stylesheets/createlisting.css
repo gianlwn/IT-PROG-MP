@@ -181,13 +181,13 @@ button:active {
     transform: translateY(1px);
 }
 
-.btn-discard {
+.btn-cancel {
     background-color: transparent;
     border: 2px solid #4a543e;
     color: #4a543e;
 }
 
-.btn-discard:hover {
+.btn-cancel:hover {
     background-color: #4a543e;
     color: #eeece0;
 }
@@ -201,6 +201,16 @@ button:active {
 .btn-add:hover {
     background-color: #798367;
     transform: translateY(-1px);
+}
+
+.for-edit-container {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px dashed #ccc;
+    margin-top: 20px;
+    color: #666;
+    font-size: 0.9em;
 }
 
 .alert {
