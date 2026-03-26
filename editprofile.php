@@ -4,12 +4,12 @@ require 'db.php';
 
 // check if user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header("Location: loginpage.php");
+    header('Location: loginpage.php');
     exit();
 }
 
-$error_message = "";
-$success_message = "";
+$error_message = '';
+$success_message = '';
 
 // get current user_data
 $user_id = intval($_SESSION['user_id']);
@@ -24,12 +24,12 @@ $current_pic = $_SESSION['profile_picture'];
 
 // check if the email matches and determine email type (faculty/student/staff)
 if (preg_match('/^[a-z]+(_[a-z]+)*@dlsu\.edu\.ph$/', $dlsu_email)) {
-    $email_type = "student/staff";
+    $email_type = 'student/staff';
 } else if (preg_match('/^[a-z]+(\.[a-z]+)*@dlsu\.edu\.ph$/', $dlsu_email)) {
-    $email_type = "faculty";
+    $email_type = 'faculty';
 }
 
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $dlsu_id_number = intval(trim($_POST['dlsu_id_number']));
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     // handle profile picture upload
     if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
-        $upload_dir = "profile_pictures/";
+        $upload_dir = 'profile_pictures/';
 
         // automatically create the folder if it doesn't exist yet
         if (!is_dir($upload_dir)) {
@@ -52,22 +52,22 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $file_extension = strtolower(pathinfo($_FILES['profile_picture']['name'], PATHINFO_EXTENSION));
 
         // create a unique file name to prevent overwriting
-        $new_file_name = "user_" . $user_id . "_" . time() . "." . $file_extension;
+        $new_file_name = 'user_' . $user_id . '_' . time() . '.' . $file_extension;
         $dest_path = $upload_dir . $new_file_name;
 
         if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $dest_path)) {
             $profile_picture_name = $new_file_name;
         } else {
-            $error_message = "Failed to move uploaded image.";
+            $error_message = 'Failed to move uploaded image.';
         }
     }
 
     // proceed with update if there were no upload errors
     if (empty($error_message)) {
         if ((empty($password) && !empty($confirm_password)) || (!empty($password) && empty($confirm_password))) {
-            $error_message = "Please fill both password fields.";
+            $error_message = 'Please fill both password fields.';
         } else if ($password !== $confirm_password) {
-            $error_message = "Passwords do not match!";
+            $error_message = 'Passwords do not match!';
         } else {
             if (!empty($password) && !empty($confirm_password) && $password === $confirm_password) {
                 $password_hash = password_hash($password, PASSWORD_BCRYPT);
@@ -76,16 +76,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                WHERE user_id = ?";
 
                 $stmt = $conn->prepare($edit_query);
-                if (!$stmt) die("Prepare failed: " . $conn->error);
-                $stmt->bind_param("isssssssi", $dlsu_id_number, $password_hash, $first_name, $last_name, $course_code, $role, $phone_number, $profile_picture_name, $user_id);
+                if (!$stmt) die('Prepare failed: ' . $conn->error);
+                $stmt->bind_param('isssssssi', $dlsu_id_number, $password_hash, $first_name, $last_name, $course_code, $role, $phone_number, $profile_picture_name, $user_id);
             } else {
                 $edit_query = "UPDATE users
                                SET dlsu_id_number = ?, first_name = ?, last_name = ?, course_code = ?, role = ?, phone_number = ?, profile_picture = ?
                                WHERE user_id = ?";
 
                 $stmt = $conn->prepare($edit_query);
-                if (!$stmt) die("Prepare failed: " . $conn->error);
-                $stmt->bind_param("issssssi", $dlsu_id_number, $first_name, $last_name, $course_code, $role, $phone_number, $profile_picture_name, $user_id);
+                if (!$stmt) die('Prepare failed: ' . $conn->error);
+                $stmt->bind_param('issssssi', $dlsu_id_number, $first_name, $last_name, $course_code, $role, $phone_number, $profile_picture_name, $user_id);
             }
 
             if ($stmt->execute()) {
@@ -94,13 +94,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                WHERE user_id = ?";
 
                 $stmt = $conn->prepare($user_query);
-                if (!$stmt) die("Prepare failed: " . $conn->error);
+                if (!$stmt) die('Prepare failed: ' . $conn->error);
 
-                $stmt->bind_param("i", $user_id);
+                $stmt->bind_param('i', $user_id);
                 $stmt->execute();
                 $user_result = $stmt->get_result();
 
-                if ($user_result->num_rows === 1) {
+                if ($user_result->num_rows == 1) {
                     $user = $user_result->fetch_assoc();
                     $_SESSION['dlsu_id_number'] = intval($user['dlsu_id_number']);
                     $_SESSION['dlsu_email'] = $user['dlsu_email'];
@@ -113,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     $current_pic = $user['profile_picture'];
                 }
 
-                $success_message = "Edited profile successfully!";
+                $success_message = 'Edited profile successfully!';
             }
         }
     }
@@ -139,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 <hr>
                 <div class="profile-top">
                     <div class="profile-img-wrapper">
-                        <img src="profile_pictures/<?php echo htmlspecialchars($current_pic); ?>" class="profile-image" id="profilePreview" alt="Profile Picture">
+                        <img src="profile_pictures/<?= $current_pic; ?>" class="profile-image" id="profilePreview" alt="Profile Picture">
                         <label for="profile_picture" class="upload-btn">Change Picture</label>
                         <input type="file" name="profile_picture" id="profile_picture" accept="image/*" class="file-input" onchange="previewImage(event)">
                     </div>
@@ -147,19 +147,19 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     <div class="profile-info">
                         <div class="id-container">
                             <label for="id_number">ID Number</label>
-                            <input type="text" name="dlsu_id_number" value="<?php echo htmlspecialchars($dlsu_id_number) ?>" class="input-field" minlength="8" maxlength="8" pattern="[0-9]{8}" placeholder="e.g. 12345678">
+                            <input type="text" name="dlsu_id_number" value="<?= $dlsu_id_number; ?>" class="input-field" minlength="8" maxlength="8" pattern="[0-9]{8}" placeholder="e.g. 12345678">
                         </div>
                         <div class="email-display">
-                            Email: <?php echo $dlsu_email; ?>
+                            Email: <?= htmlspecialchars($dlsu_email); ?>
                         </div>
                     </div>
                 </div>
 
                 <?php if (!empty($error_message)): ?>
-                    <div class="error-msg"><?php echo htmlspecialchars($error_message); ?></div>
+                    <div class="error-msg"><?= htmlspecialchars($error_message); ?></div>
                 <?php endif; ?>
                 <?php if (!empty($success_message)): ?>
-                    <div class="success-msg"><?php echo htmlspecialchars($success_message); ?></div>
+                    <div class="success-msg"><?= htmlspecialchars($success_message); ?></div>
                     <script>
                         setTimeout(() => {
                             window.location.href = 'editprofile.php?test=success';
@@ -171,16 +171,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     <div class="form-column">
                         <div class="section-header">Personal Information</div>
                         <label for="first_name">First Name</label>
-                        <input type="text" name="first_name" value="<?php echo htmlspecialchars($first_name); ?>" class="input-field" placeholder="e.g. Juan">
+                        <input type="text" name="first_name" value="<?= htmlspecialchars($first_name); ?>" class="input-field" placeholder="e.g. Juan">
                         <label for="last_name">Last Name</label>
-                        <input type="text" name="last_name" value="<?php echo htmlspecialchars($last_name); ?>" class="input-field" placeholder="e.g. Dela Cruz">
+                        <input type="text" name="last_name" value="<?= htmlspecialchars($last_name); ?>" class="input-field" placeholder="e.g. Dela Cruz">
                         <label for="course_code">Course Code</label>
-                        <input type="text" name="course_code" value="<?php echo htmlspecialchars($course_code); ?>" class="input-field" placeholder="e.g. BS-IT">
+                        <input type="text" name="course_code" value="<?= htmlspecialchars($course_code); ?>" class="input-field" placeholder="e.g. BS-IT">
                         <?php if ($email_type == "student/staff"): ?>
                             <div class="role-group">
                                 <div class="section-header">Role</div>
-                                <label><input type="radio" name="role" value="Student" <?php echo $role == "Student" ? "checked" : ""; ?>> Student</label>
-                                <label><input type="radio" name="role" value="Staff" <?php echo $role == "Staff" ? "checked" : ""; ?>> Staff</label>
+                                <label><input type="radio" name="role" value="Student" <?= $role == "Student" ? "checked" : ""; ?>> Student</label>
+                                <label><input type="radio" name="role" value="Staff" <?= $role == "Staff" ? "checked" : ""; ?>> Staff</label>
                             </div>
                         <?php elseif ($email_type == "faculty"): ?>
                             <div class="role-group">
@@ -194,7 +194,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         <label for="phone_number">Phone Number</label>
                         <input type="text"
                             name="phone_number"
-                            value="<?php echo htmlspecialchars($phone_number); ?>"
+                            value="<?= htmlspecialchars($phone_number); ?>"
                             class="input-field"
                             pattern="09[0-9]{9}"
                             minlength="11"

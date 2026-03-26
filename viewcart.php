@@ -4,7 +4,7 @@ require 'db.php';
 
 // check if user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header("Location: loginpage.php");
+    header('Location: loginpage.php');
     exit();
 }
 
@@ -13,18 +13,18 @@ $user_id = $_SESSION['user_id'];
 $dlsu_id_number = $_SESSION['dlsu_id_number'];
 $first_name = $_SESSION['first_name'];
 $last_name = $_SESSION['last_name'];
-$full_name = trim($first_name . " " . $last_name);
+$full_name = trim($first_name . ' ' . $last_name);
 $role = $_SESSION['role'];
-$profile_pic = "profile_pictures/" . $_SESSION['profile_picture'];
+$profile_pic = 'profile_pictures/' . $_SESSION['profile_picture'];
 $admin_role_id = intval($_SESSION['admin_role_id']);
 
 // handle top nav bar actions
-if ($_SERVER['REQUEST_METHOD'] === "POST") {
-    if (isset($_POST['action']) && $_POST['action'] == "createlisting") {
-        header("Location: createlisting.php");
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['action']) && $_POST['action'] == 'createlisting') {
+        header('Location: createlisting.php');
         exit();
-    } else if (isset($_POST['action']) && $_POST['action'] == "viewcart") {
-        header("Location: viewcart.php");
+    } else if (isset($_POST['action']) && $_POST['action'] == 'viewcart') {
+        header('Location: viewcart.php');
         exit();
     }
 }
@@ -45,8 +45,8 @@ $cart_query = "SELECT c.cart_id, c.quantity AS cart_qty,
 
 $stmt = $conn->prepare($cart_query);
 
-if (!$stmt) die("Prepare failed: " . $conn->error);
-$stmt->bind_param("i", $user_id);
+if (!$stmt) die('Prepare failed: ' . $conn->error);
+$stmt->bind_param('i', $user_id);
 $stmt->execute();
 $cart_result = $stmt->get_result();
 
@@ -72,10 +72,10 @@ if ($cart_result->num_rows > 0) {
     <div class="dashboard-container">
         <aside class="sidebar">
             <div class="user-profile-section">
-                <img src="<?php echo $profile_pic; ?>" alt="Profile" class="nav-logo">
+                <img src="<?= $profile_pic; ?>" alt="Profile" class="nav-logo">
                 <div class="user-info-display">
-                    <h2 class="user-name"><?php echo $full_name; ?></h2>
-                    <p class="user-id"><?php echo "$role, ID: $dlsu_id_number"; ?></p>
+                    <h2 class="user-name"><?= htmlspecialchars($full_name); ?></h2>
+                    <p class="user-id"><?= htmlspecialchars("$role, ID: $dlsu_id_number"); ?></p>
                 </div>
             </div>
             <nav class="nav-menu">
@@ -83,10 +83,10 @@ if ($cart_result->num_rows > 0) {
                 <a href="mylistings.php">My Listings</a>
                 <a href="myclaims.php">My Claims</a>
                 <a href="editprofile.php">Edit Profile</a>
-                <?php if ($admin_role_id === 1 || $admin_role_id === 2): ?>
+                <?php if ($admin_role_id == 1 || $admin_role_id == 2): ?>
                     <a href="#">Admin Dashboard</a>
                 <?php endif; ?>
-                <?php if ($admin_role_id === 1): ?>
+                <?php if ($admin_role_id == 1): ?>
                     <a href="#">Assign Admins</a>
                 <?php endif; ?>
                 <hr class="nav-divider">
@@ -100,7 +100,7 @@ if ($cart_result->num_rows > 0) {
                         <input type="text" placeholder="Search for items...">
                     </div>
                     <div class="header-actions">
-                        <button type="submit" class="cart-btn" name="action" value="viewcart">Cart (<?php echo count($cart_items); ?>)</button>
+                        <button type="submit" class="cart-btn" name="action" value="viewcart">Cart (<?= htmlspecialchars(count($cart_items)); ?>)</button>
                         <button type="submit" class="create-listing-btn" name="action" value="createlisting">+ Create Listing</button>
                     </div>
                 </form>
@@ -119,44 +119,44 @@ if ($cart_result->num_rows > 0) {
                         </div>
                     <?php else: ?>
                         <?php foreach ($cart_items as $item): ?>
-                            <div href="<?php echo "viewitem.php?listing_id=" . $item['listing_id']; ?>" class="cart-item-link">
-                                <div class="cart-item-card clickable-card" data-link="<?php echo "viewitem.php?listing_id=" . $item['listing_id']; ?>">
+                            <div href="<?= "viewitem.php?listing_id=" . $item['listing_id']; ?>" class="cart-item-link">
+                                <div class="cart-item-card clickable-card" data-link="<?= "viewitem.php?listing_id=" . $item['listing_id']; ?>">
                                     <div class="item-img-box">
                                         <?php if (!empty($item['main_image_path'])): ?>
-                                            <img src="<?php echo $item['main_image_path']; ?>" alt="Product">
+                                            <img src="<?= $item['main_image_path']; ?>" alt="Product">
                                         <?php else: ?>
                                             <div class="no-img">No Image</div>
                                         <?php endif; ?>
                                     </div>
                                     <div class="item-details">
-                                        <h3 class="item-title"><?php echo $item['product_name']; ?></h3>
+                                        <h3 class="item-title"><?= htmlspecialchars($item['product_name']); ?></h3>
                                         <p class="item-seller">
-                                            Sold by: <?php echo $item['seller_name']; ?>
+                                            Sold by: <?= htmlspecialchars($item['seller_name']); ?>
                                             <span class="seller-rating">
                                                 <?php if ($item['avg_rating'] > 0): ?>
-                                                    ★ <?php echo $item['avg_rating']; ?>
+                                                    ★ <?= htmlspecialchars($item['avg_rating']); ?>
                                                 <?php else: ?>
                                                     <span class="no-rating">★ N/A</span>
                                                 <?php endif; ?>
                                             </span>
                                         </p>
-                                        <p class="item-price">₱<?php echo number_format($item['price'], 2); ?></p>
-                                        <p class="item-subtotal">Subtotal: ₱<?php echo number_format($item['price'] * $item['cart_qty'], 2); ?></p>
+                                        <p class="item-price">₱<?= htmlspecialchars(number_format($item['price'], 2)); ?></p>
+                                        <p class="item-subtotal">Subtotal: ₱<?= htmlspecialchars(number_format($item['price'] * $item['cart_qty'], 2)); ?></p>
                                     </div>
                                     <div class="item-actions-panel">
                                         <form action="cart_action.php" method="POST" class="action-form">
-                                            <input type="hidden" name="cart_id" value="<?php echo $item['cart_id']; ?>">
+                                            <input type="hidden" name="cart_id" value="<?= $item['cart_id']; ?>">
                                             <div class="qty-control">
-                                                <input type="number" name="new_qty" min="1" max="<?php echo $item['quantity']; ?>" value="<?php echo $item['cart_qty']; ?>" class="qty-input">
+                                                <input type="number" name="new_qty" min="1" max="<?= $item['quantity']; ?>" value="<?= $item['cart_qty']; ?>" class="qty-input">
                                                 <button type="submit" name="action" value="updatecart" class="btn update-btn">Update</button>
                                             </div>
                                         </form>
                                         <form action="contact_seller.php" method="POST" class="action-form">
-                                            <input type="hidden" name="listing_id" value="<?php echo $item['listing_id']; ?>">
+                                            <input type="hidden" name="listing_id" value="<?= $item['listing_id']; ?>">
                                             <button type="submit" class="btn contact-btn">Contact Seller</button>
                                         </form>
                                         <form action="cart_action.php" method="POST" class="action-form">
-                                            <input type="hidden" name="cart_id" value="<?php echo $item['cart_id']; ?>">
+                                            <input type="hidden" name="cart_id" value="<?= $item['cart_id']; ?>">
                                             <button type="submit" name="action" value="removefromcart" class="btn remove-btn">Remove</button>
                                         </form>
                                     </div>

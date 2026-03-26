@@ -9,16 +9,16 @@ require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 
-$error_message = "";
-$success_message = "";
+$error_message = '';
+$success_message = '';
 
-if ($_SERVER['REQUEST_METHOD'] === "POST") {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // send the code via email
     if (isset($_POST['send_code'])) {
         $email = trim($_POST['email']);
 
         if (!preg_match('/^[a-z._]+@dlsu\.edu\.ph$/', $email)) {
-            $error_message = "Invalid DLSU email format.";
+            $error_message = 'Invalid DLSU email format.';
         } else {
             $verify_query = "SELECT dlsu_email
                              FROM users
@@ -26,13 +26,13 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
             $stmt = $conn->prepare($verify_query);
 
-            if (!$stmt) die("Prepare failed: " . $conn->error);
-            $stmt->bind_param("s", $email);
+            if (!$stmt) die('Prepare failed: ' . $conn->error);
+            $stmt->bind_param('s', $email);
             $stmt->execute();
             $verify_result = $stmt->get_result();
 
             if ($verify_result->num_rows > 0) {
-                $error_message = "This email is already registered. Please log in.";
+                $error_message = 'This email is already registered. Please log in.';
             } else {
                 $verification_code = rand(100000, 999999);
                 $_SESSION['verification_code'] = $verification_code;
@@ -53,12 +53,12 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                     $mail->addAddress($email);
 
                     $mail->Subject = 'DLSU Marketplace Authentication Code';
-                    $mail->Body = "Your verification code is: $verification_code\n\nIf you did not request this, please ignore this email.";
+                    $mail->Body = 'Your verification code is: $verification_code\n\nIf you did not request this, please ignore this email.';
 
                     $mail->send();
-                    $success_message = "Verification code sent! Please check your email.";
+                    $success_message = 'Verification code sent! Please check your email.';
                 } catch (Exception $e) {
-                    die("Email failed to send: {$mail->ErrorInfo}");
+                    die('Email failed to send: {$mail->ErrorInfo}');
                 }
             }
         }
@@ -70,14 +70,14 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
         // check if the code is inputted
         if (!isset($_SESSION['verification_code'])) {
-            $error_message = "Please request a verification code first.";
+            $error_message = 'Please request a verification code first.';
             // check if the code expired
         } else if (time() - $_SESSION['verification_time'] > 120) {
             unset($_SESSION['verification_code'], $_SESSION['verification_time']);
-            $error_message = "Verification code expired. Please send a new code.";
+            $error_message = 'Verification code expired. Please send a new code.';
             // check if the code doesn't match
         } else if ($code != $_SESSION['verification_code']) {
-            $error_message = "Incorrect verification code.";
+            $error_message = 'Incorrect verification code.';
             // check if the code matches and is a student/staff account
         } else if ($code == $_SESSION['verification_code'] && preg_match('/^[a-z]+(_[a-z]+)*@dlsu\.edu\.ph$/', $email)) {
             unset(
@@ -85,8 +85,8 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                 $_SESSION['verification_time']
             );
             $_SESSION['email_verified'] = true;
-            $_SESSION['email_type'] = "student/staff";
-            header("Location: createuserprofile.php");
+            $_SESSION['email_type'] = 'student/staff';
+            header('Location: createuserprofile.php');
             exit();
             // check if the code matches and is a faculty account
         } else if ($code == $_SESSION['verification_code'] && preg_match('/^[a-z]+(\.[a-z]+)*@dlsu\.edu\.ph$/', $email)) {
@@ -95,8 +95,8 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                 $_SESSION['verification_time']
             );
             $_SESSION['email_verified'] = true;
-            $_SESSION['email_type'] = "faculty";
-            header("Location: createuserprofile.php");
+            $_SESSION['email_type'] = 'faculty';
+            header('Location: createuserprofile.php');
             exit();
         }
     }
@@ -118,10 +118,10 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         <div class="container">
             <img src="images/login-icon.png" alt="login-icon" class="login-icon">
             <?php if (!empty($error_message)): ?>
-                <div class="error-msg"><?php echo htmlspecialchars($error_message); ?></div>
+                <div class="error-msg"><?= htmlspecialchars($error_message); ?></div>
             <?php endif; ?>
             <?php if (!empty($success_message)): ?>
-                <div class="success-msg"><?php echo htmlspecialchars($success_message); ?></div>
+                <div class="success-msg"><?= htmlspecialchars($success_message); ?></div>
             <?php endif; ?>
             <div class="input-container">
                 <label for="email">Email:</label>
@@ -134,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                         pattern="^[a-z._]+@dlsu\.edu\.ph$"
                         placeholder="email@dlsu.edu.ph"
                         title="Use your DLSU email (name_name@dlsu.edu.ph)"
-                        value="<?php echo isset($_POST['email']) ? $_POST['email'] : ""; ?>"
+                        value="<?= isset($_POST['email']) ? $_POST['email'] : ""; ?>"
                         required />
                     <input
                         type="submit"

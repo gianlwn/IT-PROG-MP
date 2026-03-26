@@ -4,7 +4,7 @@ require 'db.php';
 
 // check if user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header("Location: loginpage.php");
+    header('Location: loginpage.php');
     exit();
 }
 
@@ -13,9 +13,9 @@ $user_id = $_SESSION['user_id'];
 $dlsu_id_number = $_SESSION['dlsu_id_number'];
 $first_name = $_SESSION['first_name'];
 $last_name = $_SESSION['last_name'];
-$full_name = trim($first_name . " " . $last_name);
+$full_name = trim($first_name . ' ' . $last_name);
 $role = $_SESSION['role'];
-$profile_pic = "profile_pictures/" . $_SESSION['profile_picture'];
+$profile_pic = 'profile_pictures/' . $_SESSION['profile_picture'];
 $admin_role_id = intval($_SESSION['admin_role_id']);
 
 // get all listings
@@ -35,7 +35,7 @@ $listing_query = "SELECT l.listing_id, c1.category_name AS cat1, c2.category_nam
 
 $stmt = $conn->prepare($listing_query);
 
-if (!$stmt) die("Prepare failed: " . $conn->error);
+if (!$stmt) die('Prepare failed: ' . $conn->error);
 $stmt->execute();
 $listing_result = $stmt->get_result();
 
@@ -52,8 +52,8 @@ $cart_query = "SELECT COUNT(*) AS cart_total
 
 $stmt = $conn->prepare($cart_query);
 
-if (!$stmt) die("Prepare failed: " . $conn->error);
-$stmt->bind_param("i", $user_id);
+if (!$stmt) die('Prepare failed: ' . $conn->error);
+$stmt->bind_param('i', $user_id);
 $stmt->execute();
 $cart_result = $stmt->get_result();
 
@@ -62,15 +62,15 @@ if ($cart_result->num_rows > 0) {
 }
 
 // handle action for createlisting.php, viewcart.php, and viewitem.php
-if ($_SERVER['REQUEST_METHOD'] === "POST") {
-    if (isset($_POST['action']) && $_POST['action'] == "createlisting") {
-        header("Location: createlisting.php");
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['action']) && $_POST['action'] == 'createlisting') {
+        header('Location: createlisting.php');
         exit();
-    } else if (isset($_POST['action']) && $_POST['action'] == "viewcart") {
-        header("Location: viewcart.php");
+    } else if (isset($_POST['action']) && $_POST['action'] == 'viewcart') {
+        header('Location: viewcart.php');
         exit();
     } else if (isset($_POST['viewitem'])) {
-        header("Location: viewitem.php?listing_id=" . $_POST['viewitem']);
+        header('Location: viewitem.php?listing_id=' . $_POST['viewitem']);
         exit();
     }
 }
@@ -91,10 +91,10 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         <div class="dashboard-container">
             <aside class="sidebar">
                 <div class="user-profile-section">
-                    <img src="<?php echo $profile_pic; ?>" alt="Profile" class="nav-logo">
+                    <img src="<?= $profile_pic; ?>" alt="Profile" class="nav-logo">
                     <div class="user-info-display">
-                        <h2 class="user-name"><?php echo $full_name; ?></h2>
-                        <p class="user-id"><?php echo "$role, ID: $dlsu_id_number"; ?></p>
+                        <h2 class="user-name"><?= htmlspecialchars($full_name); ?></h2>
+                        <p class="user-id"><?= htmlspecialchars("$role, ID: $dlsu_id_number"); ?></p>
                     </div>
                 </div>
                 <nav class="nav-menu">
@@ -102,10 +102,10 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                     <a href="mylistings.php">My Listings</a>
                     <a href="myclaims.php">My Claims</a>
                     <a href="editprofile.php">Edit Profile</a>
-                    <?php if ($admin_role_id === 1 || $admin_role_id === 2): ?>
+                    <?php if ($admin_role_id == 1 || $admin_role_id == 2): ?>
                         <a href="#">Admin Dashboard</a>
                     <?php endif; ?>
-                    <?php if ($admin_role_id === 1): ?>
+                    <?php if ($admin_role_id == 1): ?>
                         <a href="#">Assign Admins</a>
                     <?php endif; ?>
                     <hr class="nav-divider">
@@ -118,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                         <input type="text" placeholder="Search for items...">
                     </div>
                     <div class="header-actions">
-                        <button class="cart-btn" name="action" value="viewcart">Cart (<?php echo !empty($cart_row['cart_total']) ? $cart_row['cart_total'] : 0; ?>)</button>
+                        <button class="cart-btn" name="action" value="viewcart">Cart (<?= !empty($cart_row['cart_total']) ? htmlspecialchars($cart_row['cart_total']) : ('0'); ?>)</button>
                         <button class="create-listing-btn" name="action" value="createlisting">+ Create Listing</button>
                     </div>
                 </header>
@@ -139,10 +139,10 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                         <h3 class="section-title">All Items</h3>
                         <div class="product-grid">
                             <?php foreach ($listings as $l): ?>
-                                <a href="<?php echo "viewitem.php?listing_id=" . $l['listing_id']; ?>" class="cart-item-link">
+                                <a href="<?= "viewitem.php?listing_id=" . $l['listing_id']; ?>" class="cart-item-link">
                                     <div class="product-card">
                                         <?php if (!empty($l['image_path'])): ?>
-                                            <img src="<?php echo $l['image_path']; ?>" alt="Product Image" class="product-image">
+                                            <img src="<?= $l['image_path']; ?>" alt="Product Image" class="product-image">
                                         <?php else: ?>
                                             <div class="product-image-placeholder">No Image</div>
                                         <?php endif; ?>
@@ -154,21 +154,21 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                                             if (!empty($l['cat3'])) $categories[] = $l['cat3'];
                                             $category_display = implode(', ', $categories);
                                             ?>
-                                            <span class="category-tag"><?php echo $category_display; ?></span>
-                                            <h4 class="item-name"><?php echo $l['product_name']; ?></h4>
+                                            <span class="category-tag"><?= htmlspecialchars($category_display); ?></span>
+                                            <h4 class="item-name"><?= htmlspecialchars($l['product_name']); ?></h4>
                                             <div class="seller-row">
-                                                <span class="seller-name"><?php echo $l['full_name']; ?></span>
+                                                <span class="seller-name"><?= htmlspecialchars($l['full_name']); ?></span>
                                                 <?php if ($l['avg_rating'] > 0): ?>
-                                                    <span class="seller-rating">★ <?php echo $l['avg_rating']; ?></span>
+                                                    <span class="seller-rating">★ <?= htmlspecialchars($l['avg_rating']); ?></span>
                                                 <?php else: ?>
                                                     <span class="seller-rating">★ N/A</span>
                                                 <?php endif; ?>
                                             </div>
                                             <div class="price-qty-row">
-                                                <p class="item-price">₱<?php echo $l['price']; ?></p>
-                                                <span class="item-quantity">Qty: <?php echo $l['quantity']; ?></span>
+                                                <p class="item-price">₱<?= htmlspecialchars($l['price']); ?></p>
+                                                <span class="item-quantity">Qty: <?= htmlspecialchars($l['quantity']); ?></span>
                                             </div>
-                                            <button class="view-item-btn" name="viewitem" value="<?php echo $l['listing_id']; ?>">View Details</button>
+                                            <button class="view-item-btn" name="viewitem" value="<?= $l['listing_id']; ?>">View Details</button>
                                         </div>
                                     </div>
                                 </a>

@@ -4,7 +4,7 @@ require 'db.php';
 
 // check if user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header("Location: loginpage.php");
+    header('Location: loginpage.php');
     exit();
 }
 
@@ -13,18 +13,18 @@ $user_id = $_SESSION['user_id'];
 $dlsu_id_number = $_SESSION['dlsu_id_number'];
 $first_name = $_SESSION['first_name'];
 $last_name = $_SESSION['last_name'];
-$full_name = trim($first_name . " " . $last_name);
+$full_name = trim($first_name . ' ' . $last_name);
 $role = $_SESSION['role'];
-$profile_pic = "profile_pictures/" . $_SESSION['profile_picture'];
+$profile_pic = 'profile_pictures/' . $_SESSION['profile_picture'];
 $admin_role_id = intval($_SESSION['admin_role_id']);
 
 // handle top nav bar actions
-if ($_SERVER['REQUEST_METHOD'] === "POST") {
-    if (isset($_POST['action']) && $_POST['action'] == "createlisting") {
-        header("Location: createlisting.php");
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['action']) && $_POST['action'] == 'createlisting') {
+        header('Location: createlisting.php');
         exit();
-    } else if (isset($_POST['action']) && $_POST['action'] == "viewcart") {
-        header("Location: viewcart.php");
+    } else if (isset($_POST['action']) && $_POST['action'] == 'viewcart') {
+        header('Location: viewcart.php');
         exit();
     }
 }
@@ -36,16 +36,16 @@ $cart_query = "SELECT COUNT(*) as cart_count
 
 $stmt = $conn->prepare($cart_query);
 
-if (!$stmt) die("Prepare failed: " . $conn->error);
-$stmt->bind_param("i", $user_id);
+if (!$stmt) die('Prepare failed: ' . $conn->error);
+$stmt->bind_param('i', $user_id);
 $stmt->execute();
 $cart_result = $stmt->get_result();
 
-if ($cart_result->num_rows === 1) {
+if ($cart_result->num_rows == 1) {
     $cart_row = $cart_result->fetch_assoc();
 }
 
-// get all "my listings"
+// get all 'my listings'
 $my_listings = [];
 
 $ml_query = "SELECT l.listing_id, l.product_name, l.price, l.status, l.quantity, li.image_path,
@@ -62,8 +62,8 @@ $ml_query = "SELECT l.listing_id, l.product_name, l.price, l.status, l.quantity,
 
 $stmt = $conn->prepare($ml_query);
 
-if (!$stmt) die("Prepare failed: " . $conn->error);
-$stmt->bind_param("i", $user_id);
+if (!$stmt) die('Prepare failed: ' . $conn->error);
+$stmt->bind_param('i', $user_id);
 $stmt->execute();
 $ml_result = $stmt->get_result();
 
@@ -90,10 +90,10 @@ if ($ml_result->num_rows > 0) {
     <div class="dashboard-container">
         <aside class="sidebar">
             <div class="user-profile-section">
-                <img src="<?php echo $profile_pic; ?>" alt="Profile" class="nav-logo">
+                <img src="<?= $profile_pic; ?>" alt="Profile" class="nav-logo">
                 <div class="user-info-display">
-                    <h2 class="user-name"><?php echo $full_name; ?></h2>
-                    <p class="user-id"><?php echo "$role, ID: $dlsu_id_number"; ?></p>
+                    <h2 class="user-name"><?= htmlspecialchars($full_name); ?></h2>
+                    <p class="user-id"><?= htmlspecialchars("$role, ID: $dlsu_id_number"); ?></p>
                 </div>
             </div>
             <nav class="nav-menu">
@@ -101,10 +101,10 @@ if ($ml_result->num_rows > 0) {
                 <a href="mylistings.php">My Listings</a>
                 <a href="myclaims.php">My Claims</a>
                 <a href="editprofile.php">Edit Profile</a>
-                <?php if ($admin_role_id === 1 || $admin_role_id === 2): ?>
+                <?php if ($admin_role_id == 1 || $admin_role_id == 2): ?>
                     <a href="#">Admin Dashboard</a>
                 <?php endif; ?>
-                <?php if ($admin_role_id === 1): ?>
+                <?php if ($admin_role_id == 1): ?>
                     <a href="#">Assign Admins</a>
                 <?php endif; ?>
                 <hr class="nav-divider">
@@ -118,7 +118,7 @@ if ($ml_result->num_rows > 0) {
                         <input type="text" placeholder="Search for items...">
                     </div>
                     <div class="header-actions">
-                        <button type="submit" class="cart-btn" name="action" value="viewcart">Cart (<?php echo $cart_row['cart_count']; ?>)</button>
+                        <button type="submit" class="cart-btn" name="action" value="viewcart">Cart (<?= htmlspecialchars($cart_row['cart_count']); ?>)</button>
                         <button type="submit" class="create-listing-btn" name="action" value="createlisting">+ Create Listing</button>
                     </div>
                 </form>
@@ -138,47 +138,47 @@ if ($ml_result->num_rows > 0) {
                         </div>
                     <?php else: ?>
                         <?php foreach ($my_listings as $l): ?>
-                            <div href="<?php echo "viewitem.php?listing_id=" . $l['listing_id']; ?>" class="cart-item-link">
-                                <div class="cart-item-card clickable-card" data-link="<?php echo "viewitem.php?listing_id=" . $l['listing_id']; ?>">
+                            <div href="<?= "viewitem.php?listing_id=" . $l['listing_id']; ?>" class="cart-item-link">
+                                <div class="cart-item-card clickable-card" data-link="<?= "viewitem.php?listing_id=" . $l['listing_id']; ?>">
                                     <div class="item-img-box">
                                         <?php if (!empty($l['image_path'])): ?>
-                                            <img src="<?php echo $l['image_path']; ?>" alt="Product">
+                                            <img src="<?= $l['image_path']; ?>" alt="Product">
                                         <?php else: ?>
                                             <div class="no-img">No Image</div>
                                         <?php endif; ?>
                                     </div>
                                     <div class="item-details">
-                                        <h3 class="item-title"><?php echo $l['product_name']; ?></h3>
+                                        <h3 class="item-title"><?= htmlspecialchars($l['product_name']); ?></h3>
                                         <p class="item-seller">
-                                            Sold by: <?php echo $l['seller_name']; ?>
+                                            Sold by: <?= htmlspecialchars($l['seller_name']); ?>
                                             <span class="seller-rating">
                                                 <?php if ($l['avg_rating'] > 0): ?>
-                                                    ★ <?php echo $l['avg_rating']; ?>
+                                                    ★ <?= htmlspecialchars($l['avg_rating']); ?>
                                                 <?php else: ?>
                                                     <span class="no-rating">★ N/A</span>
                                                 <?php endif; ?>
                                             </span>
-                                            <?php if ($l['status'] === 'Pending'): ?>
+                                            <?php if ($l['status'] == 'Pending'): ?>
                                                 <span class="listing-status" id="pending">Pending</span>
-                                            <?php elseif ($l['status'] === 'Available'): ?>
+                                            <?php elseif ($l['status'] == 'Available'): ?>
                                                 <span class="listing-status" id="live">Live</span>
-                                            <?php elseif ($l['status'] === 'Rejected'): ?>
+                                            <?php elseif ($l['status'] == 'Rejected'): ?>
                                                 <span class="listing-status" id="rejected">Rejected</span>
                                             <?php else: ?>
-                                                <span class="listing-status" id="status"><?php echo $l['status']; ?></span>
+                                                <span class="listing-status" id="status"><?= htmlspecialchars($l['status']); ?></span>
                                             <?php endif; ?>
                                         </p>
-                                        <p class="item-price">₱<?php echo number_format($l['price'], 2); ?></p>
+                                        <p class="item-price">₱<?= htmlspecialchars(number_format($l['price'], 2)); ?></p>
                                     </div>
                                     <div class="item-actions-panel">
                                         <form action="mylistings_action.php" method="POST" class="action-form">
-                                            <input type="hidden" name="listing_id" value="<?php echo $l['listing_id']; ?>">
+                                            <input type="hidden" name="listing_id" value="<?= $l['listing_id']; ?>">
                                             <div class="qty-control">
                                                 <button name="action" value="updatelisting" class="btn update-btn">Update</button>
                                             </div>
                                         </form>
                                         <form action="mylistings_action.php" method="POST" class="action-form">
-                                            <input type="hidden" name="listing_id" value="<?php echo $l['listing_id']; ?>">
+                                            <input type="hidden" name="listing_id" value="<?= $l['listing_id']; ?>">
                                             <button name="action" value="removefromlisting" class="btn remove-btn">Remove</button>
                                         </form>
                                     </div>

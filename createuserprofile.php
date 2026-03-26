@@ -4,14 +4,14 @@ require 'db.php';
 
 // prevent people from accessing this without getting verified
 if (!isset($_SESSION['email_verified']) || $_SESSION['email_verified'] !== true) {
-    header("Location: verifypage.php");
+    header('Location: verifypage.php');
     exit();
 }
 
-$error_message = "";
-$success_message = "";
+$error_message = '';
+$success_message = '';
 
-if ($_SERVER['REQUEST_METHOD'] === "POST") {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $dlsu_id_number = intval(trim($_POST['dlsu_id_number']));
     $dlsu_email = $_SESSION['verification_email'];
     $password = $_POST['password'];
@@ -24,9 +24,9 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $password_hash = password_hash($password, PASSWORD_BCRYPT);
 
     if (empty($dlsu_id_number) || empty($first_name) || empty($last_name) || empty($course_code) || empty($role) || empty($phone_number) || empty($password) || empty($confirm_password)) {
-        $error_message = "Please fill in all required fields.";
+        $error_message = 'Please fill in all required fields.';
     } else if ($password !== $confirm_password) {
-        $error_message = "Passwords do not match!";
+        $error_message = 'Passwords do not match!';
     } else {
         $create_query = "INSERT INTO users (dlsu_id_number, dlsu_email, password_hash, first_name, last_name, course_code, role, phone_number)
                          VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -34,21 +34,21 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         try {
             $stmt = $conn->prepare($create_query);
 
-            if (!$stmt) die("Prepare failed: " . $conn->error);
-            $stmt->bind_param("isssssss", $dlsu_id_number, $dlsu_email, $password_hash, $first_name, $last_name, $course_code, $role, $phone_number);
+            if (!$stmt) die('Prepare failed: ' . $conn->error);
+            $stmt->bind_param('isssssss', $dlsu_id_number, $dlsu_email, $password_hash, $first_name, $last_name, $course_code, $role, $phone_number);
 
             if ($stmt->execute()) {
                 // ask user to login again
-                $success_message = "Profile created successfully! Redirecting to login...";
+                $success_message = 'Profile created successfully! Redirecting to login...';
 
                 // unset email_verified
                 unset($_SESSION['email_verified']);
             }
         } catch (mysqli_sql_exception $e) {
             if ($conn->errno == 1062) {
-                $error_message = "This ID Number or Email is already registered.";
+                $error_message = 'This ID Number or Email is already registered.';
             } else {
-                $error_message = "Database Error: " . $conn->error;
+                $error_message = 'Database Error: ' . $conn->error;
             }
         }
     }
@@ -79,15 +79,15 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                             <input type="text" name="dlsu_id_number" class="input-field" minlength="8" maxlength="8" pattern="[0-9]{8}" placeholder="e.g. 12345678" required>
                         </div>
                         <div class="email-display">
-                            Email: <?php echo $_SESSION['verification_email']; ?>
+                            Email: <?= htmlspecialchars($_SESSION['verification_email']); ?>
                         </div>
                     </div>
                 </div>
                 <?php if (!empty($error_message)): ?>
-                    <div class="error-msg"><?php echo htmlspecialchars($error_message); ?></div>
+                    <div class="error-msg"><?= htmlspecialchars(htmlspecialchars($error_message)); ?></div>
                 <?php endif; ?>
                 <?php if (!empty($success_message)): ?>
-                    <div class="success-msg"><?php echo htmlspecialchars($success_message); ?></div>
+                    <div class="success-msg"><?= htmlspecialchars(htmlspecialchars($success_message)); ?></div>
                     <script>
                         setTimeout(() => {
                             window.location.href = 'loginpage.php?create=success';

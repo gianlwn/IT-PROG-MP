@@ -4,12 +4,12 @@ require 'db.php';
 
 // check if user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header("Location: loginpage.php");
+    header('Location: loginpage.php');
     exit();
 }
 
-$success_msg = "";
-$error_msg = "";
+$success_msg = '';
+$error_msg = '';
 
 // get all categories
 $categories = [];
@@ -19,7 +19,7 @@ $cat_query = "SELECT category_id, category_name
 
 $stmt = $conn->prepare($cat_query);
 
-if (!$stmt) die("Prepare failed: " . $conn->error);
+if (!$stmt) die('Prepare failed: ' . $conn->error);
 $stmt->execute();
 $cat_result = $stmt->get_result();
 
@@ -29,11 +29,11 @@ if ($cat_result->num_rows > 0) {
     }
 }
 
-if ($_SERVER['REQUEST_METHOD'] === "POST") {
-    if (isset($_POST['action']) && $_POST['action'] == "discard") {
-        header("Location: home.php");
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['action']) && $_POST['action'] == 'discard') {
+        header('Location: home.php');
         exit();
-    } else if (isset($_POST['action']) && $_POST['action'] == "add" && !empty($_POST['product_name']) && !empty($_POST['description']) && !empty($_POST['category1_id']) && !empty($_POST['quantity']) && !empty($_POST['price'])) {
+    } else if (isset($_POST['action']) && $_POST['action'] == 'add' && !empty($_POST['product_name']) && !empty($_POST['description']) && !empty($_POST['category1_id']) && !empty($_POST['quantity']) && !empty($_POST['price'])) {
         $seller_id = $_SESSION['user_id'];
         $product_name = $_POST['product_name'];
         $description = $_POST['description'];
@@ -49,33 +49,33 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $cats = array_filter($cats);
 
         if (count($cats) !== count(array_unique($cats))) {
-            $error_msg = "Duplicate categories selected.";
+            $error_msg = 'Duplicate categories selected.';
         } else {
             $insert_query = "INSERT INTO listings (seller_id, product_name, description, price, quantity, category1_id, category2_id, category3_id) 
                              VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
             $stmt = $conn->prepare($insert_query);
 
-            if (!$stmt) die("Prepare failed: " . $conn->error);
-            $stmt->bind_param("issdiiii", $seller_id, $product_name, $description, $price, $quantity, $category1_id, $category2_id, $category3_id);
+            if (!$stmt) die('Prepare failed: ' . $conn->error);
+            $stmt->bind_param('issdiiii', $seller_id, $product_name, $description, $price, $quantity, $category1_id, $category2_id, $category3_id);
 
             if ($stmt->execute()) {
                 $new_listing_id = $stmt->insert_id;
-                $upload_dir = "uploads/";
+                $upload_dir = 'uploads/';
 
                 // creates the folder if it doesnt exist
                 if (!is_dir($upload_dir)) {
                     mkdir($upload_dir, 0777, true);
                 }
 
-                $images = ["image1", "image2", "image3"];
+                $images = ['image1', 'image2', 'image3'];
 
                 foreach ($images as $img_field) {
                     if (isset($_FILES[$img_field]) && $_FILES[$img_field]['error'] == 0) {
                         $file_extension = pathinfo($_FILES[$img_field]['name'], PATHINFO_EXTENSION);
                         
                         // create a unique file name in this format: listing_ID_randomstring.jpg
-                        $new_file_name = "listing_" . $new_listing_id . "_" . uniqid() . "." . $file_extension;
+                        $new_file_name = 'listing_' . $new_listing_id . '_' . uniqid() . '.' . $file_extension;
                         $target_path = $upload_dir . $new_file_name;
 
                         // move from temporary storage to the uploads folder
@@ -86,16 +86,16 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
                             $stmt = $conn->prepare($insert_img_query);
 
-                            if (!$stmt) die("Prepare failed: " . $conn->error);
-                            $stmt->bind_param("is", $new_listing_id, $target_path);
+                            if (!$stmt) die('Prepare failed: ' . $conn->error);
+                            $stmt->bind_param('is', $new_listing_id, $target_path);
                             $stmt->execute();
                         }
                     }
                 }
 
-                $success_msg = "Product listed successfully!";
+                $success_msg = 'Product listed successfully!';
             } else {
-                $error_msg = "Error creating listing: " . $conn->error;
+                $error_msg = 'Error creating listing: ' . $conn->error;
             }
         }
     }
@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             <hr>
         </div>
         <?php if ($success_msg): ?>
-            <div class="alert success"><?php echo htmlspecialchars($success_msg); ?></div>
+            <div class="alert success"><?= htmlspecialchars($success_msg); ?></div>
             <script>
                 setTimeout(() => {
                     window.location.href = 'home.php?createlisting=success';
@@ -127,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             </script>
         <?php endif; ?>
         <?php if ($error_msg): ?>
-            <div class="alert error"><?php echo htmlspecialchars($error_msg); ?></div>
+            <div class="alert error"><?= htmlspecialchars($error_msg); ?></div>
         <?php endif; ?>
         <form action="createlisting.php" method="POST" enctype="multipart/form-data">
             <div class="form-box">
@@ -140,19 +140,19 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                     <select name="category1_id" required>
                         <option value="">Choose Category (required)</option>
                         <?php foreach ($categories as $c): ?>
-                            <option value="<?php echo $c['category_id']; ?>"><?php echo $c['category_name']; ?></option>
+                            <option value="<?= $c['category_id']; ?>"><?= htmlspecialchars($c['category_name']); ?></option>
                         <?php endforeach; ?>
                     </select>
                     <select name="category2_id">
                         <option value="">Choose Category (optional)</option>
                         <?php foreach ($categories as $c): ?>
-                            <option value="<?php echo $c['category_id']; ?>"><?php echo $c['category_name']; ?></option>
+                            <option value="<?= $c['category_id']; ?>"><?= htmlspecialchars($c['category_name']); ?></option>
                         <?php endforeach; ?>
                     </select>
                     <select name="category3_id">
                         <option value="">Choose Category (optional)</option>
                         <?php foreach ($categories as $c): ?>
-                            <option value="<?php echo $c['category_id']; ?>"><?php echo $c['category_name']; ?></option>
+                            <option value="<?= $c['category_id']; ?>"><?= htmlspecialchars($c['category_name']); ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>

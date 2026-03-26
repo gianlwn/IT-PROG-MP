@@ -2,9 +2,9 @@
 session_start();
 require 'db.php';
 
-$error_message = "";
+$error_message = '';
 
-if ($_SERVER['REQUEST_METHOD'] === "POST") {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $email = trim($_POST['email']);
   $password = $_POST['password'];
 
@@ -16,12 +16,12 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
   $stmt = $conn->prepare($login_query);
 
-  if (!$stmt) die("Prepare failed: " . $conn->error);
-  $stmt->bind_param("s", $email);
+  if (!$stmt) die('Prepare failed: ' . $conn->error);
+  $stmt->bind_param('s', $email);
   $stmt->execute();
   $login_result = $stmt->get_result();
 
-  if ($login_result->num_rows === 1) {
+  if ($login_result->num_rows == 1) {
     $user = $login_result->fetch_assoc();
 
     if (password_verify($password, $user['password_hash'])) {
@@ -34,14 +34,14 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
       $_SESSION['role'] = $user['role'];
       $_SESSION['phone_number'] = $user['phone_number'];
       $_SESSION['profile_picture'] = $user['profile_picture'];
-      $_SESSION['admin_role_id'] = !empty($user['admin_role_id']) ? $user['admin_role_id'] : "";
-      header("Location: home.php");
+      $_SESSION['admin_role_id'] = !empty($user['admin_role_id']) ? $user['admin_role_id'] : '';
+      header('Location: home.php');
       exit();
     } else {
-      $error_message = "Invalid email or password.";
+      $error_message = 'Invalid email or password.';
     }
   } else {
-    $error_message = "Invalid email or password.";
+    $error_message = 'Invalid email or password.';
   }
 }
 ?>
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
       <img src="images/login-icon.png" alt="login-icon" class="login-icon">
 
       <?php if (!empty($error_message)): ?>
-        <div class="error-msg"><?php echo htmlspecialchars($error_message); ?></div>
+        <div class="error-msg"><?= htmlspecialchars($error_message); ?></div>
       <?php endif; ?>
       <div class="input-container">
         <label for="email">Email:</label>

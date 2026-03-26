@@ -9,18 +9,18 @@ require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 
-$error_message = "";
-$success_message = "";
-$success_message_reset = "";
+$error_message = '';
+$success_message = '';
+$success_message_reset = '';
 $flag = true;
 
-if ($_SERVER['REQUEST_METHOD'] === "POST") {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // send the code
     if (isset($_POST['send_code'])) {
         $email = trim($_POST['email']);
 
         if (!preg_match('/^[a-z._]+@dlsu\.edu\.ph$/', $email)) {
-            $error_message = "Invalid DLSU email format.";
+            $error_message = 'Invalid DLSU email format.';
         } else {
             $forgot_query = "SELECT dlsu_email
                              FROM users
@@ -28,14 +28,14 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
             $stmt = $conn->prepare($forgot_query);
 
-            if (!$stmt) die("Prepare failed: " . $conn->error);
-            $stmt->bind_param("s", $email);
+            if (!$stmt) die('Prepare failed: ' . $conn->error);
+            $stmt->bind_param('s', $email);
             $stmt->execute();
             $forgot_result = $stmt->get_result();
 
             // check if the email is already registered
-            if ($forgot_result->num_rows === 0) {
-                $error_message = "This email is not registered. Please create an account.";
+            if ($forgot_result->num_rows == 0) {
+                $error_message = 'This email is not registered. Please create an account.';
             } else {
                 $forgot_code = rand(100000, 999999);
                 $_SESSION['forgot_code'] = $forgot_code;
@@ -57,12 +57,12 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                     $mail->addAddress($email);
 
                     $mail->Subject = 'DLSU Marketplace Password Reset Code';
-                    $mail->Body = "Your password reset code is: $forgot_code\n\nIf you did not request this, please ignore this email.";
+                    $mail->Body = 'Your password reset code is: $forgot_code\n\nIf you did not request this, please ignore this email.';
 
                     $mail->send();
-                    $success_message = "Reset code sent! Please check your email.";
+                    $success_message = 'Reset code sent! Please check your email.';
                 } catch (Exception $e) {
-                    die("Email failed to send: {$mail->ErrorInfo}");
+                    die('Email failed to send: {$mail->ErrorInfo}');
                 }
             }
         }
@@ -72,33 +72,33 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
         // check if the code is inputted
         if (!isset($_POST['code']) || !isset($_SESSION['forgot_time'])) {
-            $error_message = "Please request a reset code first.";
+            $error_message = 'Please request a reset code first.';
             // check if the code expired
         } else if (time() - $_SESSION['forgot_time'] > 120) {
             unset($_SESSION['forgot_code'], $_SESSION['forgot_time']);
-            $error_message = "Reset code expired. Please send a new code.";
+            $error_message = 'Reset code expired. Please send a new code.';
             // check if the code doesn't match
         } else if ($code != $_SESSION['forgot_code']) {
-            $error_message = "Incorrect reset code.";
+            $error_message = 'Incorrect reset code.';
             // code is correct
         } else {
             unset($_SESSION['forgot_code'], $_SESSION['forgot_time'], $_POST['send_code']);
             $_SESSION['forgot_verified'] = true;
             $flag = false;
-            $success_message = "Code verified! You may now reset your password.";
+            $success_message = 'Code verified! You may now reset your password.';
         }
         // reset the password
     } else if (isset($_POST['reset_password'])) {
         if (!isset($_SESSION['forgot_verified']) || $_SESSION['forgot_verified'] !== true) {
-            $error_message = "Please verify your email first.";
+            $error_message = 'Please verify your email first.';
         } else {
             $new_password = $_POST['new_password'];
             $confirm_password = $_POST['confirm_password'];
 
             if (empty($new_password) || empty($confirm_password)) {
-                $error_message = "Please fill in all fields.";
+                $error_message = 'Please fill in all fields.';
             } else if ($new_password !== $confirm_password) {
-                $error_message = "Passwords do not match!";
+                $error_message = 'Passwords do not match!';
             } else {
                 $password_hash = password_hash($new_password, PASSWORD_BCRYPT);
                 $forgot_email = $_SESSION['forgot_email'];
@@ -109,15 +109,15 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
                 $stmt = $conn->prepare($reset_query);
 
-                if (!$stmt) die("Prepare failed: " . $conn->error);
-                $stmt->bind_param("ss", $password_hash, $forgot_email);
+                if (!$stmt) die('Prepare failed: ' . $conn->error);
+                $stmt->bind_param('ss', $password_hash, $forgot_email);
                 $stmt->execute();
 
                 if ($stmt->affected_rows > 0) {
-                    $success_message_reset = "Password resetted successfully! Redirecting to login...";
+                    $success_message_reset = 'Password resetted successfully! Redirecting to login...';
                     unset($_SESSION['forgot_email'], $_SESSION['forgot_verified'], $_POST['verify_code']);
                 } else {
-                    $error_message = "Database Error: " . $conn->error;
+                    $error_message = 'Database Error: ' . $conn->error;
                 }
             }
         }
@@ -145,13 +145,13 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             <img src="images/login-icon.png" alt="login-icon" class="login-icon">
 
             <?php if (!empty($error_message)): ?>
-                <div class="error-msg"><?php echo htmlspecialchars($error_message); ?></div>
+                <div class="error-msg"><?= htmlspecialchars($error_message); ?></div>
             <?php endif; ?>
             <?php if (!empty($success_message)): ?>
-                <div class="success-msg"><?php echo htmlspecialchars($success_message); ?></div>
+                <div class="success-msg"><?= htmlspecialchars($success_message); ?></div>
             <?php endif; ?>
             <?php if (!empty($success_message_reset)): ?>
-                <div class="success-msg"><?php echo htmlspecialchars($success_message_reset); ?></div>
+                <div class="success-msg"><?= htmlspecialchars($success_message_reset); ?></div>
                 <script>
                     setTimeout(() => {
                         window.location.href = 'loginpage.php?create=success';
@@ -165,7 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                     <label for="email">Registered Email:</label>
                     <div class="email-group">
                         <input type="email" name="email" id="email-input-field" class="input-field" pattern="^[a-z._]+@dlsu\.edu\.ph$" title="Use your DLSU email (name_name@dlsu.edu.ph)" placeholder="email@dlsu.edu.ph" value="
-                        <?php echo isset($_SESSION['forgot_email']) ? $_SESSION['forgot_email'] : (isset($_POST['email']) ? $_POST['email'] : ""); ?>" required />
+                        <?= isset($_SESSION['forgot_email']) ? $_SESSION['forgot_email'] : (isset($_POST['email']) ? $_POST['email'] : ""); ?>" required />
                         <input type="submit" value="Send Code" name="send_code" id="send-code-btn" formnovalidate onclick="disableSend()" />
                     </div>
 
