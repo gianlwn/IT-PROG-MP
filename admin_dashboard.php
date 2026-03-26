@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// STRICT ADMIN CHECK: Kick out anyone who is not an admin (Role 1 or 2)
+// kick out anyone who is not an admin (Role 1 or 2)
 $admin_role_id = isset($_SESSION['admin_role_id']) ? intval($_SESSION['admin_role_id']) : 0;
 if ($admin_role_id !== 1 && $admin_role_id !== 2) {
     header('Location: home.php');
@@ -36,10 +36,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // get cart items count for top bar
-$cart_query = "SELECT COUNT(*) as cart_count FROM cart WHERE buyer_id = ?";
+$cart_query = "SELECT COUNT(*) AS cart_count
+               FROM cart
+               WHERE buyer_id = ?";
+
 $stmt = $conn->prepare($cart_query);
+
 if ($stmt) {
-    $stmt->bind_param("i", $user_id);
+    $stmt->bind_param('i', $user_id);
     $stmt->execute();
     $cart_result = $stmt->get_result();
     $cart_row = $cart_result->fetch_assoc();
@@ -48,18 +52,25 @@ if ($stmt) {
     $cart_count = 0;
 }
 
-// Get a count of how many listings are currently "Pending"
+// Get a count of how many listings are currently 'Pending'
 $pending_count = 0;
-$pending_query = "SELECT COUNT(*) as count FROM listings WHERE status = 'Pending'";
+$pending_query = "SELECT COUNT(*) AS count
+                  FROM listings
+                  WHERE status = 'Pending'";
+
 $result = $conn->query($pending_query);
+
 if ($result && $row = $result->fetch_assoc()) {
     $pending_count = $row['count'];
 }
 
-// Get a count of how many reports are pending review
+// get a count of how many reports are pending review
 $pending_reports = 0;
-// Note: Assumes your reports table has a 'status' column. Adjust if needed!
-$reports_query = "SELECT COUNT(*) as count FROM reports WHERE status = 'Pending'"; 
+
+$reports_query = "SELECT COUNT(*) AS count
+                  FROM reports
+                  WHERE status = 'Pending'"; 
+
 $r_result = $conn->query($reports_query);
 if ($r_result && $row = $r_result->fetch_assoc()) {
     $pending_reports = $row['count'];
