@@ -52,7 +52,7 @@ if ($stmt) {
     $cart_count = 0;
 }
 
-// Get a count of how many listings are currently 'Pending'
+// get a count of how many listings are currently 'Pending'
 $pending_count = 0;
 $pending_query = "SELECT COUNT(*) AS count
                   FROM listings
