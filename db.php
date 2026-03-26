@@ -1,7 +1,7 @@
 <?php
 $host     = "localhost";
 $username = "root"; // CHANGE TO YOUR CREDENTIALS 
-$password = "1234"; // CHANGE TO YOUR CREDENTIALS 
+$password = ""; // CHANGE TO YOUR CREDENTIALS 
 $database = "dlsu_marketplace_db";
 
 $conn = new mysqli($host, $username, $password, $database);
