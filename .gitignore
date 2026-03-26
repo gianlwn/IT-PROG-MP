@@ -1,2 +1,5 @@
 # ignore TODO.txt
 TODO.txt
+
+#ignore the database
+db.php
