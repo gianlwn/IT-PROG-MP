@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// kick out anyone who is not an admin (Role 1 or 2)
+// kick out anyone who is not an admin
 $admin_role_id = isset($_SESSION['admin_role_id']) ? intval($_SESSION['admin_role_id']) : 0;
 if ($admin_role_id !== 1 && $admin_role_id !== 2) {
     header('Location: home.php');
@@ -69,7 +69,7 @@ $pending_reports = 0;
 
 $reports_query = "SELECT COUNT(*) AS count
                   FROM reports
-                  WHERE status = 'Pending'"; 
+                  WHERE status = 'Pending'";
 
 $r_result = $conn->query($reports_query);
 if ($r_result && $row = $r_result->fetch_assoc()) {
@@ -79,6 +79,7 @@ if ($r_result && $row = $r_result->fetch_assoc()) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -86,6 +87,7 @@ if ($r_result && $row = $r_result->fetch_assoc()) {
     <link rel="stylesheet" href="stylesheets/admin.css" />
     <title>DLSU Marketplace | Admin Dashboard</title>
 </head>
+
 <body>
     <div class="dashboard-container">
         <aside class="sidebar">
@@ -102,14 +104,14 @@ if ($r_result && $row = $r_result->fetch_assoc()) {
                 <a href="myclaims.php">My Claims</a>
                 <a href="editprofile.php">Edit Profile</a>
                 <a href="admin_dashboard.php" class="active">Admin Dashboard</a>
-                
+
                 <hr class="nav-divider">
                 <a href="logout.php" class="logout-link">Logout</a>
             </nav>
         </aside>
         <main class="main-content">
-            <header class="top-bar" style="margin-bottom: 30px;">
-                <form action="admin_dashboard.php" method="POST" class="top-bar-form" style="display: flex; width: 100%; justify-content: space-between;">
+            <header class="top-bar admin-top-bar">
+                <form action="admin_dashboard.php" method="POST" class="top-bar-form admin-top-bar-form">
                     <div class="search-wrapper">
                         <input type="text" placeholder="Search marketplace...">
                     </div>
@@ -121,7 +123,7 @@ if ($r_result && $row = $r_result->fetch_assoc()) {
             </header>
             <div class="admin-header">
                 <h1>Admin Control Center</h1>
-                <p>Welcome back, <?= htmlspecialchars($first_name); ?>. Here is an overview of the marketplace.</p>
+                <p>Welcome back, <?= htmlspecialchars($first_name); ?>. Here is an overview of your marketplace.</p>
             </div>
             <div class="admin-grid">
                 <div class="admin-card">
@@ -143,7 +145,7 @@ if ($r_result && $row = $r_result->fetch_assoc()) {
                     <h2>
                         User Reports
                         <?php if ($pending_reports > 0): ?>
-                            <span class="badge" style="background: #f0ad4e;"><?= $pending_reports; ?> New</span>
+                            <span class="badge badge-warning"><?= $pending_reports; ?> New</span>
                         <?php endif; ?>
                     </h2>
                     <p>Review and resolve marketplace reports regarding inappropriate items, disputes, or suspicious behavior.</p>
@@ -158,16 +160,17 @@ if ($r_result && $row = $r_result->fetch_assoc()) {
                     <h2>Manage Users</h2>
                     <p>View registered accounts, handle reports, and suspend users who violate marketplace rules.</p>
                     <a href="#" class="admin-btn btn-disabled">Coming Soon</a>
-                </div>   
-                <?php if ($admin_role_id == 1): ?>
-                <div class="admin-card">
-                    <h2>Admin Management</h2>
-                    <p>Elevate trusted users to administrative roles or revoke existing admin privileges.</p>
-                    <a href="assign_admins.php" class="admin-btn">Manage Admins</a>
                 </div>
+                <?php if ($admin_role_id == 1): ?>
+                    <div class="admin-card">
+                        <h2>Admin Management</h2>
+                        <p>Elevate trusted users to administrative roles or revoke existing admin privileges.</p>
+                        <a href="assign_admins.php" class="admin-btn">Manage Admins</a>
+                    </div>
                 <?php endif; ?>
             </div>
         </main>
     </div>
 </body>
+
 </html>

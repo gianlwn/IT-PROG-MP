@@ -67,6 +67,10 @@
     margin-left: auto;
 }
 
+.badge-warning {
+    background: #f0ad4e;
+}
+
 .admin-btn {
     background: #4a543e;
     color: #eeece0;
@@ -93,18 +97,17 @@
 }
 
 .btn-disabled:hover {
-    background: #e0dfd5;
+    background: #e0dfd5; 
 }
 
-/* Responsive designs for medium and small screens */
-@media (max-width: 1200px) {
-    .admin-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+/* --- ADMIN SPECIFIC TOP BAR --- */
+
+.admin-top-bar {
+    margin-bottom: 30px;
 }
 
-@media (max-width: 768px) {
-    .admin-grid {
-        grid-template-columns: 1fr;
-    }
+.admin-top-bar-form {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
 }
