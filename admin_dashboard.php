@@ -123,7 +123,7 @@ if ($r_result && $row = $r_result->fetch_assoc()) {
             </header>
             <div class="admin-header">
                 <h1>Admin Control Center</h1>
-                <p>Welcome back, <?= htmlspecialchars($first_name); ?>. Here is an overview of your marketplace.</p>
+                <p>Welcome back, <?= htmlspecialchars($first_name); ?>. Here is an overview of the marketplace.</p>
             </div>
             <div class="admin-grid">
                 <div class="admin-card">
