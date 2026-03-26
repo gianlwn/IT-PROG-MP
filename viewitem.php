@@ -166,11 +166,8 @@ $category_display = implode(', ', $categories);
                 <a href="mylistings.php">My Listings</a>
                 <a href="myclaims.php">My Claims</a>
                 <a href="editprofile.php">Edit Profile</a>
-                <?php if ($admin_role_id == 1 || $admin_role_id == 2): ?>
-                    <a href="#">Admin Dashboard</a>
-                <?php endif; ?>
-                <?php if ($admin_role_id == 1): ?>
-                    <a href="#">Assign Admins</a>
+                <?php if (!empty($admin_role_id)): ?>
+                    <a href="admin_dashboard.php">Admin Dashboard</a>
                 <?php endif; ?>
                 <hr class="nav-divider">
                 <a href="logout.php" class="logout-link">Logout</a>

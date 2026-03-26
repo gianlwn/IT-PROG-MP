@@ -1,0 +1,110 @@
+/* --- ADMIN DASHBOARD LAYOUT --- */
+
+.admin-header {
+    margin-bottom: 30px;
+}
+
+.admin-header h1 {
+    color: #4a543e;
+    font-size: 2.2rem;
+    margin-bottom: 5px;
+}
+
+.admin-header p {
+    color: #798367;
+    font-size: 1.05rem;
+}
+
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.admin-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+}
+
+.admin-card h2 {
+    color: #4a543e;
+    font-size: 1.4rem;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.admin-card p {
+    color: #555;
+    margin-bottom: 25px;
+    flex-grow: 1;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+/* --- BADGES & BUTTONS --- */
+
+.badge {
+    background: #d9534f;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin-left: auto;
+}
+
+.admin-btn {
+    background: #4a543e;
+    color: #eeece0;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.2s;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 0.95rem;
+}
+
+.admin-btn:hover {
+    background: #798367;
+}
+
+/* Styling for placeholder buttons */
+.btn-disabled {
+    background: #e0dfd5;
+    color: #798367;
+    cursor: not-allowed;
+}
+
+.btn-disabled:hover {
+    background: #e0dfd5;
+}
+
+/* Responsive designs for medium and small screens */
+@media (max-width: 1200px) {
+    .admin-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-grid {
+        grid-template-columns: 1fr;
+    }
+}
