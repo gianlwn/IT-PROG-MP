@@ -98,7 +98,7 @@ if ($ml_result->num_rows > 0) {
             </div>
             <nav class="nav-menu">
                 <a href="home.php">Home</a>
-                <a href="mylistings.php">My Listings</a>
+                <a href="mylistings.php" class="active">My Listings</a>
                 <a href="myclaims.php">My Claims</a>
                 <a href="editprofile.php">Edit Profile</a>
                 <?php if (!empty($admin_role_id)): ?>

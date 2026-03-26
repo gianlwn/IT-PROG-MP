@@ -175,8 +175,12 @@ body {
     transition: 0.2s ease;
 }
 
-.filter-chip:hover,
-.filter-chip.active {
+.filter-chip:hover {
+    background-color: #798367;
+    color: #eeece0;
+}
+
+.filter-chip.active-chip {
     background-color: #798367;
     color: #eeece0;
 }
@@ -186,6 +190,24 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 25px;
+}
+
+.no-listings {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px dashed #ccc;
+}
+
+.no-listings h3 {
+    color: #4a543e;
+    margin-bottom: 10px;
+}
+
+.no-listings p {
+    color: #798367;
 }
 
 .cart-item-link {

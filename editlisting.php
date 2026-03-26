@@ -37,7 +37,7 @@ if ($result->num_rows == 0) {
 
     // get all categories
     $categories = [];
-    $cat_query = "SELECT category_id, category_name
+    $cat_query = "SELECT *
                   FROM categories
                   ORDER BY category_id ASC";
 
