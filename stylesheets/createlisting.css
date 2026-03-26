@@ -1,184 +1,241 @@
-/* --- 1. Base Reset & Body --- */
 * {
     box-sizing: border-box;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    margin: 0;
-    padding: 40px;
     background-color: #f4f1de;
     color: #333;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    padding: 40px 20px;
 }
 
-/* --- 2. Main Container --- */
+/*Main Container */
 .card-container {
     background-color: #eeece0;
     width: 100%;
-    max-width: 900px;
+    max-width: 800px;
     padding: 40px;
-    border-radius: 24px;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
 .header h1 {
-    margin: 0;
-    font-size: 26px;
+    font-size: 28px;
     font-weight: 700;
     color: #4a543e;
+    margin-bottom: 5px;
+}
+
+.header .subtitle {
+    color: #798367;
+    font-size: 0.95rem;
+    margin-bottom: 15px;
 }
 
 .header hr {
     border: none;
     height: 1px;
-    background: linear-gradient(to right, transparent, #aaa, transparent);
-    margin: 20px 0 30px 0;
+    background: #dcdabf;
+    margin-bottom: 30px;
 }
 
-/* --- 3. Inner Form Layout --- */
-.form-box {
-    background-color: #a4ad95;
-    padding: 40px;
-    border-radius: 24px;
-    border: 2px solid rgba(0, 0, 0, 0.15);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
+/* Form Sections & Inputs */
+.form-section {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #e0dfd5;
 }
 
-.form-box h3, .form-box label {
-    font-size: 14px;
-    font-weight: 600;
+.form-section h3 {
     color: #4a543e;
-    margin-bottom: 8px;
-    display: block;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    border-bottom: 2px solid #f4f1de;
+    padding-bottom: 8px;
 }
 
-/* --- 4. Inputs & Controls --- */
-input[type="text"], 
-textarea, 
-select, 
-input[type="number"] {
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
     width: 100%;
-    padding: 12px 15px;
-    font-size: 16px;
-    border-radius: 10px;
-    border: 2px solid #798367;
-    background-color: #cec8b0;
-    color: #333;
+}
+
+.row-inputs {
+    display: flex;
+    gap: 20px;
+}
+
+label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 6px;
+}
+
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background-color: #faf9f5;
+    transition: border-color 0.2s, box-shadow 0.2s;
     outline: none;
-    margin-bottom: 25px;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
 input:focus, textarea:focus, select:focus {
-    background-color: #eeece0;
     border-color: #4a543e;
-    box-shadow: 0 0 0 3px rgba(74, 84, 62, 0.2);
+    box-shadow: 0 0 0 3px rgba(74, 84, 62, 0.1);
+    background-color: #fff;
 }
 
-textarea {
-    resize: vertical;
-    height: 120px;
-}
-
-/* Quantity Input Group */
-.quantity-group {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 25px;
-}
-
-.quantity-group label {
-    margin-bottom: 0;
-}
-
-.quantity-group input {
-    width: 100px;
-    margin-bottom: 0;
-}
-
-/* Pricing Input Group */
+/* Pricing Input*/
 .pricing-input {
     display: flex;
     align-items: center;
-    margin-bottom: 25px;
+    position: relative;
 }
 
 .pricing-input .currency {
-    background-color: #798367;
-    color: #eeece0;
-    border: 2px solid #798367;
-    border-right: none;
-    padding: 12px 18px;
-    border-radius: 10px 0 0 10px;
+    position: absolute;
+    left: 12px;
     font-weight: bold;
-    font-size: 16px;
+    color: #555;
 }
 
 .pricing-input input {
-    border-radius: 0 10px 10px 0;
-    margin-bottom: 0;
+    padding-left: 30px;
 }
 
-/* --- 5. Image Upload Squares --- */
+/* Image Upload Logic */
 .image-upload-group {
     display: flex;
-    gap: 15px;
-    margin-bottom: 25px;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
-.image-upload-box {
-    width: 90px;
-    height: 90px;
-    background-color: #cec8b0;
-    border: 2px dashed #798367;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    text-align: center;
-    font-size: 12px;
-    color: #4a543e;
-    font-weight: 600;
-    transition: background-color 0.2s ease, transform 0.15s ease;
+.upload-wrapper {
+    position: relative;
+    width: 140px;
+    height: 140px;
 }
 
-.image-upload-box:hover {
-    background-color: #eeece0;
-    transform: translateY(-2px);
-}
-
-.image-upload-box input[type="file"] {
+.upload-wrapper input[type="file"] {
     display: none; 
 }
 
-/* --- 6. Buttons --- */
+.image-upload-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    border: 2px dashed #aaa;
+    border-radius: 12px;
+    background-color: #faf9f5;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+    transition: 0.2s ease;
+    text-align: center;
+}
+
+.image-upload-box:hover {
+    background-color: #f0eedb;
+    border-color: #798367;
+}
+
+.upload-text {
+    font-size: 0.85rem;
+    color: #798367;
+    font-weight: 600;
+    line-height: 1.4;
+    padding: 10px;
+}
+
+.img-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+}
+
+/* remove button (Red X) */
+.remove-img-btn {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    z-index: 10;
+    padding: 0;
+}
+
+.remove-img-btn:hover {
+    background-color: #c9302c;
+    transform: scale(1.1);
+}
+
+/* Alerts */
+.alert {
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.alert.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Buttons */
 .button-group {
     display: flex;
     justify-content: flex-end;
     gap: 15px;
-    margin-top: 10px;
+    margin-top: 30px;
 }
 
-button {
-    padding: 14px 24px;
-    font-size: 16px;
-    border-radius: 12px;
+.button-group button {
+    padding: 14px 28px;
+    font-size: 1rem;
+    border-radius: 8px;
     cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.2s ease, transform 0.15s ease, color 0.2s ease;
-}
-
-button:active {
-    transform: translateY(1px);
+    font-weight: bold;
+    transition: 0.2s ease;
 }
 
 .btn-cancel {
@@ -188,53 +245,24 @@ button:active {
 }
 
 .btn-cancel:hover {
-    background-color: #4a543e;
-    color: #eeece0;
+    background-color: #e0dfd5;
 }
 
 .btn-add {
     background-color: #4a543e;
-    border: none;
+    border: 2px solid #4a543e;
     color: #eeece0;
 }
 
 .btn-add:hover {
     background-color: #798367;
-    transform: translateY(-1px);
+    border-color: #798367;
 }
 
-.for-edit-container {
-    background-color: #f8f9fa;
-    padding: 15px;
-    border-radius: 8px;
-    border: 1px dashed #ccc;
-    margin-top: 20px;
-    color: #666;
-    font-size: 0.9em;
-}
-
-.alert {
-    padding: 12px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    text-align: center;
-    font-weight: bold;
-}
-.alert.success { 
-    color: #3c763d;
-    background-color: #dff0d8;
-    border: 1px solid #d6e9c6;
-}
-.alert.error { 
-    color: #d9534f;
-    background-color: #f2dede;
-    border: 1px solid #ebccd1;
-}
-
-/* --- 7. Responsive Design --- */
-@media (max-width: 900px) {
-    .form-box {
-        grid-template-columns: 1fr; 
-        gap: 20px;
+/* Responsive */
+@media (max-width: 600px) {
+    .row-inputs {
+        flex-direction: column;
+        gap: 0;
     }
 }

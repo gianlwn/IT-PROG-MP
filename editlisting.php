@@ -98,6 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="card-container">
         <div class="header">
             <h1>Edit Product Details</h1>
+            <p class="subtitle">Update the information for your marketplace listing.</p>
             <hr>
         </div>
         <?php if ($success_msg): ?>
@@ -107,57 +108,80 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="alert error"><?= htmlspecialchars($error_msg); ?></div>
         <?php endif; ?>
         <form action="editlisting.php?listing_id=<?= $listing_id; ?>" method="POST">
-            <div class="form-box">
-                <div class="left-col">
+            <div class="form-section">
+                <h3>Basic Information</h3>
+                <div class="input-group">
                     <label for="product_name">Product Name</label>
                     <input type="text" id="product_name" name="product_name" value="<?= htmlspecialchars($listing['product_name']); ?>" required>
-                    <label for="description">Product Description</label>
-                    <textarea id="description" name="description" required><?= htmlspecialchars($listing['description']); ?></textarea>
-                    <label>Product Categories:</label>
-                    <select name="category1_id" required>
-                        <option value="">Choose Category (required)</option>
-                        <?php foreach ($categories as $c): ?>
-                            <option value="<?= $c['category_id']; ?>" <?= ($listing['category1_id'] == $c['category_id']) ? 'selected' : ''; ?>>
-                                <?= htmlspecialchars($c['category_name']); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                    <select name="category2_id">
-                        <option value="">Choose Category (optional)</option>
-                        <?php foreach ($categories as $c): ?>
-                            <option value="<?= $c['category_id']; ?>" <?= ($listing['category2_id'] == $c['category_id']) ? 'selected' : ''; ?>>
-                                <?= htmlspecialchars($c['category_name']); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                    <select name="category3_id">
-                        <option value="">Choose Category (optional)</option>
-                        <?php foreach ($categories as $c): ?>
-                            <option value="<?= $c['category_id']; ?>" <?= ($listing['category3_id'] == $c['category_id']) ? 'selected' : ''; ?>>
-                                <?= htmlspecialchars($c['category_name']); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
                 </div>
-                <div class="right-col">
-                    <h3>Inventory & Pricing</h3>
-                    <div class="quantity-group">
-                        <label for="quantity">Quantity Available:</label>
+                <div class="input-group">
+                    <label for="description">Product Description</label>
+                    <textarea id="description" name="description" rows="4" required><?= htmlspecialchars($listing['description']); ?></textarea>
+                </div>
+            </div>
+            <div class="form-section">
+                <h3>Categories</h3>
+                <div class="row-inputs">
+                    <div class="input-group">
+                        <label>Primary Category</label>
+                        <select name="category1_id" required>
+                            <option value="">Choose Category (required)</option>
+                            <?php foreach ($categories as $c): ?>
+                                <option value="<?= $c['category_id']; ?>" <?= ($listing['category1_id'] == $c['category_id']) ? 'selected' : ''; ?>>
+                                    <?= htmlspecialchars($c['category_name']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Secondary Category</label>
+                        <select name="category2_id">
+                            <option value="">Choose Category (optional)</option>
+                            <?php foreach ($categories as $c): ?>
+                                <option value="<?= $c['category_id']; ?>" <?= ($listing['category2_id'] == $c['category_id']) ? 'selected' : ''; ?>>
+                                    <?= htmlspecialchars($c['category_name']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Tertiary Category</label>
+                        <select name="category3_id">
+                            <option value="">Choose Category (optional)</option>
+                            <?php foreach ($categories as $c): ?>
+                                <option value="<?= $c['category_id']; ?>" <?= ($listing['category3_id'] == $c['category_id']) ? 'selected' : ''; ?>>
+                                    <?= htmlspecialchars($c['category_name']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-section">
+                <h3>Inventory & Pricing</h3>
+                <div class="row-inputs">
+                    <div class="input-group">
+                        <label for="quantity">Quantity Available</label>
                         <input type="number" id="quantity" name="quantity" value="<?= intval($listing['quantity']); ?>" min="1" required>
                     </div>
-                    <label for="price">Pricing</label>
-                    <div class="pricing-input">
-                        <span class="currency">₱</span>
-                        <input type="number" id="price" name="price" step="0.01" value="<?= number_format($listing['price'], 2, '.', ''); ?>" min="0" required>
-                    </div>
-                    <div class="for-edit-container">
-                        <i>Note: Product images cannot be changed after the listing is created. If you need to update images, please create a new listing.</i>
-                    </div>
-                    <div class="button-group" style="margin-top: 30px;">
-                        <button name="action" value="cancel" class="btn-cancel" formnovalidate>Cancel</button>
-                        <button name="action" value="update" class="btn-add">Update Product</button>
+                    <div class="input-group">
+                        <label for="price">Price</label>
+                        <div class="pricing-input">
+                            <span class="currency">₱</span>
+                            <input type="number" id="price" name="price" step="0.01" value="<?= number_format($listing['price'], 2, '.', ''); ?>" min="0" required>
+                        </div>
                     </div>
                 </div>
+            </div>
+            <div class="form-section">
+                <h3>Product Images</h3>
+                <div style="background-color: #faf9f5; padding: 25px; border-radius: 8px; border: 1px dashed #ccc; color: #666; font-size: 0.95em; text-align: center;">
+                    <i>Note: Product images cannot be changed after the listing is created. If you need to update your images, please remove this listing and create a new one.</i>
+                </div>
+            </div>
+            <div class="button-group">
+                <button name="action" value="cancel" class="btn-cancel" formnovalidate>Cancel</button>
+                <button name="action" value="update" class="btn-add">Update Product</button>
             </div>
         </form>
     </div>

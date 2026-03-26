@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 foreach ($images as $img_field) {
                     if (isset($_FILES[$img_field]) && $_FILES[$img_field]['error'] == 0) {
                         $file_extension = pathinfo($_FILES[$img_field]['name'], PATHINFO_EXTENSION);
-                        
+
                         // create a unique file name in this format: listing_ID_randomstring.jpg
                         $new_file_name = 'listing_' . $new_listing_id . '_' . uniqid() . '.' . $file_extension;
                         $target_path = $upload_dir . $new_file_name;
@@ -116,6 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="card-container">
         <div class="header">
             <h1>Add New Product</h1>
+            <p class="subtitle">Fill out the details below to list your item on the marketplace.</p>
             <hr>
         </div>
         <?php if ($success_msg): ?>
@@ -130,76 +131,148 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="alert error"><?= htmlspecialchars($error_msg); ?></div>
         <?php endif; ?>
         <form action="createlisting.php" method="POST" enctype="multipart/form-data">
-            <div class="form-box">
-                <div class="left-col">
+            <div class="form-section">
+                <h3>Basic Information</h3>
+                <div class="input-group">
                     <label for="product_name">Product Name</label>
-                    <input type="text" id="product_name" name="product_name" placeholder="Enter product name here..." required>
-                    <label for="description">Product Description</label>
-                    <textarea id="description" name="description" placeholder="Enter product description here..." required></textarea>
-                    <label>Product Categories:</label>
-                    <select name="category1_id" required>
-                        <option value="">Choose Category (required)</option>
-                        <?php foreach ($categories as $c): ?>
-                            <option value="<?= $c['category_id']; ?>"><?= htmlspecialchars($c['category_name']); ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                    <select name="category2_id">
-                        <option value="">Choose Category (optional)</option>
-                        <?php foreach ($categories as $c): ?>
-                            <option value="<?= $c['category_id']; ?>"><?= htmlspecialchars($c['category_name']); ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                    <select name="category3_id">
-                        <option value="">Choose Category (optional)</option>
-                        <?php foreach ($categories as $c): ?>
-                            <option value="<?= $c['category_id']; ?>"><?= htmlspecialchars($c['category_name']); ?></option>
-                        <?php endforeach; ?>
-                    </select>
+                    <input type="text" id="product_name" name="product_name" placeholder="Enter the name of the item here..." required>
                 </div>
-                <div class="right-col">
-                    <h3>Inventory</h3>
-                    <div class="quantity-group">
-                        <label for="quantity">Quantity:</label>
+                <div class="input-group">
+                    <label for="description">Product Description</label>
+                    <textarea id="description" name="description" placeholder="Describe the item's condition, features, and any other details..." rows="4" required></textarea>
+                </div>
+            </div>
+            <div class="form-section">
+                <h3>Categories</h3>
+                <div class="row-inputs">
+                    <div class="input-group">
+                        <label>Primary Category</label>
+                        <select name="category1_id" required>
+                            <option value="">Choose Category (required)</option>
+                            <?php foreach ($categories as $c): ?>
+                                <option value="<?= $c['category_id']; ?>"><?= htmlspecialchars($c['category_name']); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Secondary Category</label>
+                        <select name="category2_id">
+                            <option value="">Choose Category (optional)</option>
+                            <?php foreach ($categories as $c): ?>
+                                <option value="<?= $c['category_id']; ?>"><?= htmlspecialchars($c['category_name']); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Tertiary Category</label>
+                        <select name="category3_id">
+                            <option value="">Choose Category (optional)</option>
+                            <?php foreach ($categories as $c): ?>
+                                <option value="<?= $c['category_id']; ?>"><?= htmlspecialchars($c['category_name']); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-section">
+                <h3>Inventory & Pricing</h3>
+                <div class="row-inputs">
+                    <div class="input-group">
+                        <label for="quantity">Quantity Available</label>
                         <input type="number" id="quantity" name="quantity" value="1" min="1" required>
                     </div>
-                    <label>Add Image/s</label>
-                    <div class="image-upload-group">
-                        <label class="image-upload-box" id="box1">
-                            <span id="text1">Click to Upload (required)</span>
-                            <input type="file" name="image1" id="image1" accept="image/*" required onchange="updateBoxText(this, 'text1', 'box1')">
-                        </label>
-                        <label class="image-upload-box" id="box2">
-                            <span id="text2">Click to Upload (optional)</span>
-                            <input type="file" name="image2" id="image2" accept="image/*" onchange="updateBoxText(this, 'text2', 'box2')">
-                        </label>
-                        <label class="image-upload-box" id="box3">
-                            <span id="text3">Click to Upload (optional)</span>
-                            <input type="file" name="image3" id="image3" accept="image/*" onchange="updateBoxText(this, 'text3', 'box3')">
-                        </label>
-                    </div>
-                    <label for="price">Pricing</label>
-                    <div class="pricing-input">
-                        <span class="currency">₱</span>
-                        <input type="number" id="price" name="price" step="0.01" value="180.00" min="0" required>
-                    </div>
-                    <div class="button-group">
-                        <button name="action" value="cancel" class="btn-cancel" formnovalidate>Cancel</button>
-                        <button name="action" value="add" class="btn-add">Add Product</button>
+                    <div class="input-group">
+                        <label for="price">Price</label>
+                        <div class="pricing-input">
+                            <span class="currency">₱</span>
+                            <input type="number" id="price" name="price" step="0.01" value="180.00" min="0" required>
+                        </div>
                     </div>
                 </div>
+            </div>
+            <div class="form-section">
+                <h3>Product Images</h3>
+                <p style="font-size: 0.85rem; color: #666; margin-bottom: 15px;">Upload up to 3 images. The first image will be your cover photo.</p>
+                <div class="image-upload-group">
+                    <div class="upload-wrapper">
+                        <label class="image-upload-box" id="box1" for="image1">
+                            <span class="upload-text" id="text1">Upload<br>(Required)</span>
+                            <img src="" class="img-preview" id="preview1" alt="Preview">
+                        </label>
+                        <input type="file" name="image1" id="image1" accept="image/*" required onchange="handleImageUpload(this, 1)">
+                        <button type="button" class="remove-img-btn" id="remove1" onclick="removeImage(1)">✕</button>
+                    </div>
+                    <div class="upload-wrapper">
+                        <label class="image-upload-box" id="box2" for="image2">
+                            <span class="upload-text" id="text2">Upload<br>(Optional)</span>
+                            <img src="" class="img-preview" id="preview2" alt="Preview">
+                        </label>
+                        <input type="file" name="image2" id="image2" accept="image/*" onchange="handleImageUpload(this, 2)">
+                        <button type="button" class="remove-img-btn" id="remove2" onclick="removeImage(2)">✕</button>
+                    </div>
+                    <div class="upload-wrapper">
+                        <label class="image-upload-box" id="box3" for="image3">
+                            <span class="upload-text" id="text3">Upload<br>(Optional)</span>
+                            <img src="" class="img-preview" id="preview3" alt="Preview">
+                        </label>
+                        <input type="file" name="image3" id="image3" accept="image/*" onchange="handleImageUpload(this, 3)">
+                        <button type="button" class="remove-img-btn" id="remove3" onclick="removeImage(3)">✕</button>
+                    </div>
+                </div>
+            </div>
+            <div class="button-group">
+                <button name="action" value="cancel" class="btn-cancel" formnovalidate>Cancel</button>
+                <button name="action" value="add" class="btn-add">Submit Product</button>
             </div>
         </form>
     </div>
     <script>
-        function updateBoxText(inputElement, textId, boxId) {
-            const textSpan = document.getElementById(textId);
-            const box = document.getElementById(boxId);
+        function handleImageUpload(input, index) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
 
-            if (inputElement.files && inputElement.files.length > 0) {
-                textSpan.innerHTML = "Image Selected!<br>✓";
-                box.style.backgroundColor = "#eeece0";
-                box.style.borderColor = "#4a543e";
+                reader.onload = function(e) {
+                    // show the image
+                    const preview = document.getElementById('preview' + index);
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+
+                    // gide the text
+                    document.getElementById('text' + index).style.display = 'none';
+
+                    // show the remove button
+                    document.getElementById('remove' + index).style.display = 'flex';
+
+                    // change box style
+                    const box = document.getElementById('box' + index);
+                    box.style.borderStyle = 'solid';
+                    box.style.borderColor = '#4a543e';
+                }
+
+                reader.readAsDataURL(input.files[0]);
             }
+        }
+
+        function removeImage(index) {
+            // clear the file input
+            const input = document.getElementById('image' + index);
+            input.value = '';
+
+            // hide the image preview
+            const preview = document.getElementById('preview' + index);
+            preview.src = '';
+            preview.style.display = 'none';
+
+            // show the text again
+            document.getElementById('text' + index).style.display = 'block';
+
+            // hide the remove button
+            document.getElementById('remove' + index).style.display = 'none';
+
+            // revert box style
+            const box = document.getElementById('box' + index);
+            box.style.borderStyle = 'dashed';
+            box.style.borderColor = '#aaa';
         }
     </script>
 </body>
