@@ -122,7 +122,7 @@ if ($r_result && $row = $r_result->fetch_assoc()) {
                 </form>
             </header>
             <div class="admin-header">
-                <h1>Admin Control Center</h1>
+                <h1>Admin Dashboard</h1>
                 <p>Welcome back, <?= htmlspecialchars($first_name); ?>. Here is an overview of the marketplace.</p>
             </div>
             <div class="admin-grid">
@@ -130,7 +130,7 @@ if ($r_result && $row = $r_result->fetch_assoc()) {
                     <h2>
                         Listing Approvals
                         <?php if ($pending_count > 0): ?>
-                            <span class="badge"><?= $pending_count; ?> Pending</span>
+                            <span class="badge"><?= htmlspecialchars($pending_count); ?> Pending</span>
                         <?php endif; ?>
                     </h2>
                     <p>Review new marketplace items submitted by users. Ensure they follow community guidelines before making them live.</p>
@@ -145,7 +145,7 @@ if ($r_result && $row = $r_result->fetch_assoc()) {
                     <h2>
                         User Reports
                         <?php if ($pending_reports > 0): ?>
-                            <span class="badge badge-warning"><?= $pending_reports; ?> New</span>
+                            <span class="badge badge-warning"><?= htmlspecialchars($pending_reports); ?> New</span>
                         <?php endif; ?>
                     </h2>
                     <p>Review and resolve marketplace reports regarding inappropriate items, disputes, or suspicious behavior.</p>
@@ -163,7 +163,7 @@ if ($r_result && $row = $r_result->fetch_assoc()) {
                 </div>
                 <?php if ($admin_role_id == 1): ?>
                     <div class="admin-card">
-                        <h2>Admin Management</h2>
+                        <h2>Superadmin Management</h2>
                         <p>Elevate trusted users to administrative roles or revoke existing admin privileges.</p>
                         <a href="assign_admins.php" class="admin-btn">Manage Admins</a>
                     </div>
