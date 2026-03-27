@@ -91,7 +91,7 @@ if ($r_result && $row = $r_result->fetch_assoc()) {
                 <img src="<?= htmlspecialchars($profile_pic); ?>" alt="Profile" class="nav-logo">
                 <div class="user-info-display">
                     <h2 class="user-name"><?= htmlspecialchars($full_name); ?></h2>
-                    <p class="user-id">Admin, ID: <?= htmlspecialchars($dlsu_id_number); ?></p>
+                    <p class="user-id"><?= htmlspecialchars("$role, ID: $dlsu_id_number"); ?></p>
                 </div>
             </div>
             <nav class="nav-menu">
