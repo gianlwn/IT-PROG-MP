@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                              GROUP BY l.listing_id
                              ORDER BY l.created_at DESC";
 
-            $stmt = $conn->prepare($filter_query);  
+            $stmt = $conn->prepare($filter_query);
             $stmt->bind_param('iii', $category_id, $category_id, $category_id);
             $stmt->execute();
             $listing_result = $stmt->get_result();
