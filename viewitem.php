@@ -37,22 +37,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-# get cart count for the top nav bar
-$cart_count_query = "SELECT COUNT(*) AS count
-                     FROM cart
-                     WHERE buyer_id = ?";
+# get cart items count for top bar
+$cart_query = "SELECT COUNT(*) AS cart_count
+               FROM cart
+               WHERE buyer_id = ?";
 
-$stmt = $conn->prepare($cart_count_query);
+$stmt = $conn->prepare($cart_query);
 $stmt->bind_param('i', $user_id);
 $stmt->execute();
-$cart_count_result = $stmt->get_result();
-
-$cart_count = 0;
-
-if ($cart_count_result->num_rows > 0) {
-    $count_row = $cart_count_result->fetch_assoc();
-    $cart_count = $count_row['count'];
-}
+$cart_result = $stmt->get_result();
+$cart_row = $cart_result->fetch_assoc();
+$cart_count = $cart_row['cart_count'];
 
 $item_query = "SELECT c1.category_name AS cat1, c2.category_name AS cat2, c3.category_name AS cat3,
                       CONCAT(u.first_name, ' ', u.last_name) AS seller_name, IFNULL(ROUND(AVG(r.rating_value), 1), 0) AS avg_rating,

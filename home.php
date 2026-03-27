@@ -40,16 +40,11 @@ $cart_query = "SELECT COUNT(*) AS cart_count
                WHERE buyer_id = ?";
 
 $stmt = $conn->prepare($cart_query);
-
-if ($stmt) {
-    $stmt->bind_param('i', $user_id);
-    $stmt->execute();
-    $cart_result = $stmt->get_result();
-    $cart_row = $cart_result->fetch_assoc();
-    $cart_count = $cart_row['cart_count'];
-} else {
-    $cart_count = 0;
-}
+$stmt->bind_param('i', $user_id);
+$stmt->execute();
+$cart_result = $stmt->get_result();
+$cart_row = $cart_result->fetch_assoc();
+$cart_count = $cart_row['cart_count'];
 
 # handle action for createlisting.php, viewcart.php, and viewitem.php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

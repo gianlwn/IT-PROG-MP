@@ -41,16 +41,12 @@ $cart_query = "SELECT COUNT(*) AS cart_count
                WHERE buyer_id = ?";
 
 $stmt = $conn->prepare($cart_query);
+$stmt->bind_param('i', $user_id);
+$stmt->execute();
+$cart_result = $stmt->get_result();
+$cart_row = $cart_result->fetch_assoc();
+$cart_count = $cart_row['cart_count'];
 
-if ($stmt) {
-    $stmt->bind_param('i', $user_id);
-    $stmt->execute();
-    $cart_result = $stmt->get_result();
-    $cart_row = $cart_result->fetch_assoc();
-    $cart_count = $cart_row['cart_count'];
-} else {
-    $cart_count = 0;
-}
 
 # get a count of how many listings are currently 'Pending'
 $pending_count = 0;
