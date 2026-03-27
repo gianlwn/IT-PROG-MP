@@ -16,7 +16,7 @@ $last_name = $_SESSION['last_name'];
 $full_name = trim($first_name . ' ' . $last_name);
 $role = $_SESSION['role'];
 $profile_pic = 'profile_pictures/' . $_SESSION['profile_picture'];
-$admin_role_id = intval($_SESSION['admin_role_id']);
+$admin_role_id = $_SESSION['admin_role_id'];
 
 // get all listings
 $listings = [];
@@ -34,20 +34,21 @@ $listing_query = "SELECT l.listing_id, c1.category_name AS cat1, c2.category_nam
                   GROUP BY l.listing_id
                   ORDER BY l.created_at DESC";
 
-// get all items in the cart
-$cart_query = "SELECT COUNT(*) AS cart_total
+// get cart items count for top bar
+$cart_query = "SELECT COUNT(*) AS cart_count
                FROM cart
                WHERE buyer_id = ?";
 
 $stmt = $conn->prepare($cart_query);
 
-if (!$stmt) die('Prepare failed: ' . $conn->error);
-$stmt->bind_param('i', $user_id);
-$stmt->execute();
-$cart_result = $stmt->get_result();
-
-if ($cart_result->num_rows > 0) {
+if ($stmt) {
+    $stmt->bind_param('i', $user_id);
+    $stmt->execute();
+    $cart_result = $stmt->get_result();
     $cart_row = $cart_result->fetch_assoc();
+    $cart_count = $cart_row['cart_count'];
+} else {
+    $cart_count = 0;
 }
 
 // handle action for createlisting.php, viewcart.php, and viewitem.php
@@ -174,7 +175,7 @@ if ($cat_result->num_rows > 0) {
                         <input type="text" placeholder="Search for items...">
                     </div>
                     <div class="header-actions">
-                        <button class="cart-btn" name="action" value="viewcart">Cart (<?= !empty($cart_row['cart_total']) ? htmlspecialchars($cart_row['cart_total']) : ('0'); ?>)</button>
+                        <button class="cart-btn" name="action" value="viewcart">Cart (<?= htmlspecialchars($cart_count); ?>)</button>
                         <button class="create-listing-btn" name="action" value="createlisting">+ Create Listing</button>
                     </div>
                 </header>

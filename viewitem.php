@@ -180,7 +180,7 @@ $category_display = implode(', ', $categories);
                         <input type="text" placeholder="Search for items...">
                     </div>
                     <div class="header-actions">
-                        <button type="submit" class="cart-btn" name="action" value="viewcart">Cart (<?= $cart_count; ?>)</button>
+                        <button type="submit" class="cart-btn" name="action" value="viewcart">Cart (<?= htmlspecialchars($cart_count); ?>)</button>
                         <button type="submit" class="create-listing-btn" name="action" value="createlisting">+ Create Listing</button>
                     </div>
                 </form>

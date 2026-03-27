@@ -15,6 +15,18 @@
     font-size: 1.05rem;
 }
 
+.back-link {
+    color: #798367;
+    text-decoration: none;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
 .admin-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -97,7 +109,7 @@
 }
 
 .btn-disabled:hover {
-    background: #e0dfd5; 
+    background: #e0dfd5;
 }
 
 /* --- ADMIN SPECIFIC TOP BAR --- */
@@ -110,4 +122,113 @@
     display: flex;
     width: 100%;
     justify-content: space-between;
+}
+
+/* --- ADMIN PANELS, FORMS, AND TABLES --- */
+
+.admin-panel {
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.admin-panel h3 {
+    color: #4a543e;
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #f4f1de;
+    padding-bottom: 10px;
+}
+
+.admin-inline-form {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.admin-input {
+    flex-grow: 1;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #faf9f5;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+}
+
+.admin-input:focus {
+    border-color: #4a543e;
+    box-shadow: 0 0 0 3px rgba(74, 84, 62, 0.1);
+    background-color: #fff;
+}
+
+/* --- DELETE BUTTON --- */
+.btn-delete {
+    background-color: #d9534f;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: bold;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-delete:hover {
+    background-color: #c9302c;
+    transform: translateY(-1px);
+}
+
+.btn-delete:active {
+    transform: translateY(1px);
+}
+
+/* Tables for displaying Admin Data */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0dfd5;
+}
+
+.admin-table th {
+    background-color: #f4f1de;
+    color: #4a543e;
+    font-weight: bold;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.admin-table tr:hover td {
+    background-color: #faf9f5;
+}
+
+/* Admin Alert Messages */
+.alert {
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.alert.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
 }

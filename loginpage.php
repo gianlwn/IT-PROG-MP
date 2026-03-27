@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $email = trim($_POST['email']);
   $password = $_POST['password'];
 
-  $login_query = "SELECT u.*, a.admin_role_id, ar.role_name
+  $login_query = "SELECT u.*, a.*, ar.role_name
                   FROM users u
                   LEFT JOIN admin_accounts a ON a.user_id = u.user_id
                   LEFT JOIN admin_roles ar ON ar.admin_role_id = a.admin_role_id
@@ -34,7 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $_SESSION['role'] = $user['role'];
       $_SESSION['phone_number'] = $user['phone_number'];
       $_SESSION['profile_picture'] = $user['profile_picture'];
-      $_SESSION['admin_role_id'] = !empty($user['admin_role_id']) ? $user['admin_role_id'] : '';
+      $_SESSION['admin_id'] = !empty($user['admin_id']) ? intval($user['admin_id']) : '';
+      $_SESSION['admin_role_id'] = !empty($user['admin_role_id']) ? intval($user['admin_role_id']) : '';
       header('Location: home.php');
       exit();
     } else {
