@@ -154,7 +154,7 @@ CREATE TABLE `listings` (
   `category2_id` int DEFAULT NULL,
   `category3_id` int DEFAULT NULL,
   `status` enum('Pending','Available','Reserved','Sold','Rejected') COLLATE utf8mb4_general_ci DEFAULT 'Pending',
-  `approved_by` int NOT NULL,
+  `approved_by` int DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -533,7 +533,7 @@ ALTER TABLE `claims`
 -- Constraints for table `listings`
 --
 ALTER TABLE `listings`
-  ADD CONSTRAINT `fk_listing_approved_by` FOREIGN KEY (`approved_by`) REFERENCES `admin_accounts` (`admin_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_listing_approved_by` FOREIGN KEY (`approved_by`) REFERENCES `admin_accounts` (`admin_id`) ON DELETE SET NULL,
   ADD CONSTRAINT `listings_ibfk_1` FOREIGN KEY (`seller_id`) REFERENCES `users` (`user_id`),
   ADD CONSTRAINT `listings_ibfk_2` FOREIGN KEY (`category1_id`) REFERENCES `categories` (`category_id`),
   ADD CONSTRAINT `listings_ibfk_3` FOREIGN KEY (`category2_id`) REFERENCES `categories` (`category_id`),

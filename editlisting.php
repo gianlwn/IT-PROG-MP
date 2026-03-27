@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         # update the listing and automatically set it back to 'Pending' for admin re-approval
         $update_query = "UPDATE listings 
-                         SET product_name = ?, description = ?, category1_id = ?, category2_id = ?, category3_id = ?, quantity = ?, price = ?, status = 'Pending', approved_by = NULL 
+                         SET product_name = ?, description = ?, category1_id = ?, category2_id = ?, category3_id = ?, quantity = ?, price = ?, status = 'Pending'
                          WHERE listing_id = ? AND seller_id = ?";
 
         $stmt = $conn->prepare($update_query);

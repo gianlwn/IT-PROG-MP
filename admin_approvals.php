@@ -85,25 +85,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 # get cart items count for top bar
-$cart_query = "SELECT COUNT(*) as cart_count FROM cart WHERE buyer_id = ?";
-$stmt = $conn->prepare($cart_query);
-if ($stmt) {
-    $stmt->bind_param('i', $user_id);
-    $stmt->execute();
-    $cart_result = $stmt->get_result();
-    $cart_row = $cart_result->fetch_assoc();
-    $cart_count = $cart_row['cart_count'];
-} else {
-    $cart_count = 0;
-}
+$cart_query = "SELECT COUNT(*) AS cart_count
+               FROM cart
+               WHERE buyer_id = ?";
 
-# Fetch all pending listings
+$stmt = $conn->prepare($cart_query);
+$stmt->bind_param('i', $user_id);
+$stmt->execute();
+$cart_result = $stmt->get_result();
+$cart_row = $cart_result->fetch_assoc();
+$cart_count = $cart_row['cart_count'];
+
+# fetch all pending listings
 $pending_listings = [];
 $pending_query = "SELECT l.*, CONCAT(u.first_name, ' ', u.last_name) AS seller_name 
                   FROM listings l 
                   JOIN users u ON l.seller_id = u.user_id 
                   WHERE l.status = 'Pending' 
                   ORDER BY l.updated_at DESC";
+
 $pending_res = $conn->query($pending_query);
 
 if ($pending_res && $pending_res->num_rows > 0) {
@@ -184,7 +184,7 @@ if ($pending_res && $pending_res->num_rows > 0) {
                             <th>Item Details</th>
                             <th>Seller</th>
                             <th>Price</th>
-                            <th>Date Submitted</th>
+                            <th>Last Activity</th>
                             <th style="text-align: right;">Actions</th>
                         </tr>
                         <?php foreach ($pending_listings as $listing): ?>
@@ -195,7 +195,7 @@ if ($pending_res && $pending_res->num_rows > 0) {
                                 </td>
                                 <td><?= htmlspecialchars($listing['seller_name']); ?></td>
                                 <td style="font-weight: bold; color: #4a543e;">₱<?= number_format($listing['price'], 2); ?></td>
-                                <td><?= date('M d, Y h:i A', strtotime($listing['created_at'])); ?></td>
+                                <td><?= date('M d, Y h:i A', strtotime($listing['updated_at'])); ?></td>
                                 <td>
                                     <form action="admin_approvals.php" method="POST" style="margin: 0; display: flex; gap: 8px; justify-content: flex-end;">
                                         <input type="hidden" name="target_listing_id" value="<?= $listing['listing_id']; ?>">

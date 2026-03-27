@@ -164,16 +164,23 @@ if ($ml_result->num_rows > 0) {
                                         <p class="item-price">₱<?= htmlspecialchars(number_format($l['price'], 2)); ?></p>
                                     </div>
                                     <div class="item-actions-panel">
-                                        <form action="mylistings_action.php" method="POST" class="action-form">
-                                            <input type="hidden" name="listing_id" value="<?= $l['listing_id']; ?>">
-                                            <div class="qty-control">
-                                                <button name="action" value="updatelisting" class="btn update-btn">Update</button>
-                                            </div>
-                                        </form>
-                                        <form action="mylistings_action.php" method="POST" class="action-form">
-                                            <input type="hidden" name="listing_id" value="<?= $l['listing_id']; ?>">
-                                            <button name="action" value="removefromlisting" class="btn remove-btn">Remove</button>
-                                        </form>
+                                        <?php if ($l['status'] != 'Rejected'): ?>
+                                            <form action="mylistings_action.php" method="POST" class="action-form">
+                                                <input type="hidden" name="listing_id" value="<?= $l['listing_id']; ?>">
+                                                <div class="qty-control">
+                                                    <button name="action" value="updatelisting" class="btn update-btn">Update</button>
+                                                </div>
+                                            </form>
+                                            <form action="mylistings_action.php" method="POST" class="action-form">
+                                                <input type="hidden" name="listing_id" value="<?= $l['listing_id']; ?>">
+                                                <button name="action" value="removefromlisting" class="btn remove-btn">Remove</button>
+                                            </form>
+                                        <?php else: ?>
+                                            <form action="mylistings_action.php" method="POST" class="action-form">
+                                                <input type="hidden" name="listing_id" value="<?= $l['listing_id']; ?>">
+                                                <button name="action" value="removefromlisting" class="btn remove-btn">Remove</button>
+                                            </form>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>

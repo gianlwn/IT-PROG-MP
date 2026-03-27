@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $email = trim($_POST['email']);
   $password = $_POST['password'];
 
-  $login_query = "SELECT u.*, a.*, ar.role_name
+  $login_query = "SELECT u.*, a.admin_id, a.admin_role_id, ar.role_name
                   FROM users u
                   LEFT JOIN admin_accounts a ON a.user_id = u.user_id
                   LEFT JOIN admin_roles ar ON ar.admin_role_id = a.admin_role_id

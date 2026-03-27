@@ -95,7 +95,7 @@ $query = "SELECT l.listing_id, c1.category_name AS cat1, c2.category_name AS cat
           LEFT JOIN categories c3 ON c3.category_id = l.category3_id
           WHERE $where_sql
           GROUP BY l.listing_id
-          ORDER BY l.created_at DESC";
+          ORDER BY l.updated_at ASC";
 
 $stmt = $conn->prepare($query);
 
