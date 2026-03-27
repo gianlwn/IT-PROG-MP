@@ -110,6 +110,10 @@ body {
     color: #333;
 }
 
+.title-header h2 {
+    color: #4a543e;
+}
+
 /* Header & Cart Button */
 .header-actions {
     display: flex;

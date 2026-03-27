@@ -165,8 +165,8 @@ $category_display = implode(', ', $categories);
         <main class="main-content">
             <header class="top-bar" style="margin-bottom: 20px;">
                 <form action="viewitem.php?listing_id=<?= $listing_id; ?>" method="POST" class="top-bar-form">
-                    <div class="search-wrapper">
-                        <input type="text" placeholder="Search for items...">
+                    <div class="title-header">
+                        <h2>DLSU Marketplace</h2>
                     </div>
                     <div class="header-actions">
                         <button type="submit" class="cart-btn" name="action" value="viewcart">Cart (<?= htmlspecialchars($cart_count); ?>)</button>

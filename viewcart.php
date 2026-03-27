@@ -91,8 +91,8 @@ if ($cart_result->num_rows > 0) {
         <main class="main-content cart-content">
             <header class="top-bar cart-top-bar">
                 <form action="viewcart.php" method="POST" class="top-bar-form">
-                    <div class="search-wrapper">
-                        <input type="text" placeholder="Search for items...">
+                    <div class="title-header">
+                        <h2>DLSU Marketplace</h2>
                     </div>
                     <div class="header-actions">
                         <button type="submit" class="cart-btn" name="action" value="viewcart">Cart (<?= htmlspecialchars(count($cart_items)); ?>)</button>

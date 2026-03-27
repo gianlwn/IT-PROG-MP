@@ -151,8 +151,8 @@ if ($cat_result->num_rows > 0) {
         <main class="main-content">
             <header class="top-bar" style="margin-bottom: 30px;">
                 <form action="admin_categories.php" method="POST" class="top-bar-form" style="display: flex; width: 100%; justify-content: space-between;">
-                    <div class="search-wrapper">
-                        <input type="text" placeholder="Search marketplace...">
+                    <div class="title-header">
+                        <h2 style="margin-top: 3px;">DLSU Marketplace</h2>
                     </div>
                     <div class="header-actions">
                         <button type="submit" class="cart-btn" name="action" value="viewcart">Cart (<?= htmlspecialchars($cart_count); ?>)</button>

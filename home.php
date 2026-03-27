@@ -18,22 +18,6 @@ $role = $_SESSION['role'];
 $profile_pic = 'profile_pictures/' . $_SESSION['profile_picture'];
 $admin_role_id = $_SESSION['admin_role_id'];
 
-# get all listings
-$listings = [];
-$active_filter = 'all';
-$listing_query = "SELECT l.listing_id, c1.category_name AS cat1, c2.category_name AS cat2, c3.category_name AS cat3,
-                         l.product_name, CONCAT(u.first_name, ' ', u.last_name) AS full_name, IFNULL(ROUND(AVG(r.rating_value), 1), 0) AS avg_rating,
-                         l.price, l.quantity, (SELECT image_path FROM listing_images WHERE listing_id = l.listing_id LIMIT 1) AS image_path
-                  FROM listings l
-                  LEFT JOIN users u ON u.user_id = l.seller_id
-                  LEFT JOIN ratings r ON r.rated_user_id = u.user_id
-                  LEFT JOIN categories c1 ON c1.category_id = l.category1_id
-                  LEFT JOIN categories c2 ON c2.category_id = l.category2_id
-                  LEFT JOIN categories c3 ON c3.category_id = l.category3_id
-                  WHERE l.status = 'Available' AND l.quantity > 0
-                  GROUP BY l.listing_id
-                  ORDER BY l.created_at DESC";
-
 # get cart items count for top bar
 $cart_query = "SELECT COUNT(*) AS cart_count
                FROM cart
@@ -46,7 +30,7 @@ $cart_result = $stmt->get_result();
 $cart_row = $cart_result->fetch_assoc();
 $cart_count = $cart_row['cart_count'];
 
-# handle action for createlisting.php, viewcart.php, and viewitem.php
+# handle redirects for createlisting.php, viewcart.php, and viewitem.php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action']) && $_POST['action'] == 'createlisting') {
         header('Location: createlisting.php');
@@ -57,60 +41,79 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else if (isset($_POST['viewitem'])) {
         header('Location: viewitem.php?listing_id=' . $_POST['viewitem']);
         exit();
-    } else if (isset($_POST['filter'])) {
-        $active_filter = $_POST['filter'];
-
-        if ($_POST['filter'] == 'all') {
-            # 'All' button clicked
-            $stmt = $conn->prepare($listing_query);
-            $stmt->execute();
-            $listing_result = $stmt->get_result();
-            if ($listing_result->num_rows > 0) {
-                while ($row = $listing_result->fetch_assoc()) {
-                    $listings[] = $row;
-                }
-            }
-        } else {
-            $category_id = intval($_POST['filter']);
-            $filter_query = "SELECT l.listing_id, c1.category_name AS cat1, c2.category_name AS cat2, c3.category_name AS cat3,
-                                    l.product_name, CONCAT(u.first_name, ' ', u.last_name) AS full_name, IFNULL(ROUND(AVG(r.rating_value), 1), 0) AS avg_rating,
-                                    l.price, l.quantity, (SELECT image_path FROM listing_images WHERE listing_id = l.listing_id LIMIT 1) AS image_path
-                             FROM listings l
-                             LEFT JOIN users u ON u.user_id = l.seller_id
-                             LEFT JOIN ratings r ON r.rated_user_id = u.user_id
-                             LEFT JOIN categories c1 ON c1.category_id = l.category1_id
-                             LEFT JOIN categories c2 ON c2.category_id = l.category2_id
-                             LEFT JOIN categories c3 ON c3.category_id = l.category3_id
-                             WHERE l.status = 'Available' AND l.quantity > 0 AND (c1.category_id = ? OR c2.category_id = ? OR c3.category_id = ?)
-                             GROUP BY l.listing_id
-                             ORDER BY l.created_at DESC";
-
-            $stmt = $conn->prepare($filter_query);
-            $stmt->bind_param('iii', $category_id, $category_id, $category_id);
-            $stmt->execute();
-            $listing_result = $stmt->get_result();
-
-            if ($listing_result->num_rows > 0) {
-                while ($listings_row = $listing_result->fetch_assoc()) {
-                    $listings[] = $listings_row;
-                }
-            }
-        }
-    }
-} else {
-    # fetch all items by default
-    $stmt = $conn->prepare($listing_query);
-    $stmt->execute();
-    $listing_result = $stmt->get_result();
-
-    if ($listing_result->num_rows > 0) {
-        while ($row = $listing_result->fetch_assoc()) {
-            $listings[] = $row;
-        }
     }
 }
 
-# get all categories
+# search and filter logic
+# determine the active filter
+$active_filter = 'all';
+if (isset($_POST['filter'])) {
+    $active_filter = $_POST['filter']; # user clicked a category chip
+} else if (isset($_POST['current_filter'])) {
+    $active_filter = $_POST['current_filter']; # preserved from hidden input during a text search
+}
+
+# determine the search query
+$search_query = $_POST['search_query'] ?? '';
+
+# build the query
+$listings = [];
+$where_clauses = ["l.status = 'Available'", "l.quantity > 0"];
+$params = [];
+$param_types = '';
+
+# if a specific category is selected, add it to the query
+if ($active_filter !== 'all') {
+    $category_id = intval($active_filter);
+    $where_clauses[] = '(c1.category_id = ? OR c2.category_id = ? OR c3.category_id = ?)';
+    $params[] = $category_id;
+    $params[] = $category_id;
+    $params[] = $category_id;
+    $param_types .= 'iii';
+}
+
+# if the user typed something in the search bar, add it to the query
+if (!empty($search_query)) {
+    #search both product name and description
+    $where_clauses[] = '(l.product_name LIKE ? OR l.description LIKE ?)';
+    $search_like = '%' . $search_query . '%';
+    $params[] = $search_like;
+    $params[] = $search_like;
+    $param_types .= 'ss';
+}
+
+$where_sql = implode(' AND ', $where_clauses);
+
+$query = "SELECT l.listing_id, c1.category_name AS cat1, c2.category_name AS cat2, c3.category_name AS cat3,
+                 l.product_name, CONCAT(u.first_name, ' ', u.last_name) AS full_name, IFNULL(ROUND(AVG(r.rating_value), 1), 0) AS avg_rating,
+                 l.price, l.quantity, (SELECT image_path FROM listing_images WHERE listing_id = l.listing_id LIMIT 1) AS image_path
+          FROM listings l
+          LEFT JOIN users u ON u.user_id = l.seller_id
+          LEFT JOIN ratings r ON r.rated_user_id = u.user_id
+          LEFT JOIN categories c1 ON c1.category_id = l.category1_id
+          LEFT JOIN categories c2 ON c2.category_id = l.category2_id
+          LEFT JOIN categories c3 ON c3.category_id = l.category3_id
+          WHERE $where_sql
+          GROUP BY l.listing_id
+          ORDER BY l.created_at DESC";
+
+$stmt = $conn->prepare($query);
+
+# bind parameters only if there are filters or searches applied
+if (!empty($params)) {
+    $stmt->bind_param($param_types, ...$params);
+}
+
+$stmt->execute();
+$listing_result = $stmt->get_result();
+
+if ($listing_result->num_rows > 0) {
+    while ($row = $listing_result->fetch_assoc()) {
+        $listings[] = $row;
+    }
+}
+
+# get all categories for the filter buttons
 $categories = [];
 $cat_query = "SELECT *
               FROM categories
@@ -129,20 +132,18 @@ if ($cat_result->num_rows > 0) {
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="stylesheets/home.css" />
     <title>DLSU Marketplace | Home</title>
 </head>
-
 <body>
     <form action="home.php" method="post">
         <div class="dashboard-container">
             <aside class="sidebar">
                 <div class="user-profile-section">
-                    <img src="<?= $profile_pic; ?>" alt="Profile" class="nav-logo">
+                    <img src="<?= htmlspecialchars($profile_pic); ?>" alt="Profile" class="nav-logo">
                     <div class="user-info-display">
                         <h2 class="user-name"><?= htmlspecialchars($full_name); ?></h2>
                         <p class="user-id"><?= htmlspecialchars("$role, ID: $dlsu_id_number"); ?></p>
@@ -163,7 +164,9 @@ if ($cat_result->num_rows > 0) {
             <main class="main-content">
                 <header class="top-bar">
                     <div class="search-wrapper">
-                        <input type="text" placeholder="Search for items...">
+                        <input type="text" name="search_query" placeholder="Search for items..." value="<?= htmlspecialchars($search_query); ?>">
+                        <button type="submit" name="action" value="search" style="display: none;"></button>
+                        <input type="hidden" name="current_filter" value="<?= htmlspecialchars($active_filter); ?>">
                     </div>
                     <div class="header-actions">
                         <button class="cart-btn" name="action" value="viewcart">Cart (<?= htmlspecialchars($cart_count); ?>)</button>
@@ -181,29 +184,35 @@ if ($cat_result->num_rows > 0) {
                         </div>
                     </div>
                     <div class="section-container">
-                        <h3 class="section-title">All Items</h3>
+                        <h3 class="section-title">
+                            <?php if (!empty($search_query)): ?>
+                                Search Results for "<?= htmlspecialchars($search_query); ?>"
+                            <?php else: ?>
+                                All Items
+                            <?php endif; ?>
+                        </h3>
                         <div class="product-grid">
                             <?php if (empty($listings)): ?>
                                 <div class="no-listings">
                                     <h3>No items found</h3>
-                                    <p>There are currently no available listings in this category.</p>
+                                    <p>We couldn't find any listings matching your search or filter criteria.</p>
                                 </div>
                             <?php else: ?>
                                 <?php foreach ($listings as $l): ?>
                                     <a href="<?= "viewitem.php?listing_id=" . $l['listing_id']; ?>" class="cart-item-link">
                                         <div class="product-card">
                                             <?php if (!empty($l['image_path'])): ?>
-                                                <img src="<?= $l['image_path']; ?>" alt="Product Image" class="product-image">
+                                                <img src="<?= htmlspecialchars($l['image_path']); ?>" alt="Product Image" class="product-image">
                                             <?php else: ?>
                                                 <div class="product-image-placeholder">No Image</div>
                                             <?php endif; ?>
                                             <div class="product-info">
                                                 <?php
-                                                $categories = [];
-                                                if (!empty($l['cat1'])) $categories[] = $l['cat1'];
-                                                if (!empty($l['cat2'])) $categories[] = $l['cat2'];
-                                                if (!empty($l['cat3'])) $categories[] = $l['cat3'];
-                                                $category_display = implode(', ', $categories);
+                                                $cat_array = [];
+                                                if (!empty($l['cat1'])) $cat_array[] = $l['cat1'];
+                                                if (!empty($l['cat2'])) $cat_array[] = $l['cat2'];
+                                                if (!empty($l['cat3'])) $cat_array[] = $l['cat3'];
+                                                $category_display = implode(', ', $cat_array);
                                                 ?>
                                                 <span class="category-tag"><?= htmlspecialchars($category_display); ?></span>
                                                 <h4 class="item-name"><?= htmlspecialchars($l['product_name']); ?></h4>
@@ -223,7 +232,6 @@ if ($cat_result->num_rows > 0) {
                                             </div>
                                         </div>
                                     </a>
-
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </div>
@@ -233,5 +241,4 @@ if ($cat_result->num_rows > 0) {
         </div>
     </form>
 </body>
-
 </html>

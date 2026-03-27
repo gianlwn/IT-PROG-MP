@@ -108,8 +108,8 @@ if ($r_result && $row = $r_result->fetch_assoc()) {
         <main class="main-content">
             <header class="top-bar admin-top-bar">
                 <form action="admin_dashboard.php" method="POST" class="top-bar-form admin-top-bar-form">
-                    <div class="search-wrapper">
-                        <input type="text" placeholder="Search marketplace...">
+                    <div class="title-header">
+                        <h2 style="margin-top: 3px;">DLSU Marketplace</h2>
                     </div>
                     <div class="header-actions">
                         <button type="submit" class="cart-btn" name="action" value="viewcart">Cart (<?= $cart_count; ?>)</button>
