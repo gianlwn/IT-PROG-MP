@@ -165,7 +165,6 @@
     background-color: #fff;
 }
 
-/* --- DELETE BUTTON --- */
 .btn-delete {
     background-color: #d9534f;
     color: white;
@@ -184,6 +183,27 @@
 }
 
 .btn-delete:active {
+    transform: translateY(1px);
+}
+
+.btn-approve {
+    background-color: #5cb85c;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: bold;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-approve:hover {
+    background-color: #4cae4c;
+    transform: translateY(-1px);
+}
+
+.btn-approve:active {
     transform: translateY(1px);
 }
 
