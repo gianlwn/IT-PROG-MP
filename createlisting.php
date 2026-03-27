@@ -2,7 +2,7 @@
 session_start();
 require 'db.php';
 
-// check if user is logged in
+# check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     header('Location: loginpage.php');
     exit();
@@ -11,15 +11,13 @@ if (!isset($_SESSION['user_id'])) {
 $success_msg = '';
 $error_msg = '';
 
-// get all categories
+# get all categories
 $categories = [];
 $cat_query = "SELECT *
               FROM categories
               ORDER BY category_id ASC";
 
 $stmt = $conn->prepare($cat_query);
-
-if (!$stmt) die('Prepare failed: ' . $conn->error);
 $stmt->execute();
 $cat_result = $stmt->get_result();
 
@@ -44,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $category2_id = !empty($_POST['category2_id']) ? intval($_POST['category2_id']) : NULL;
         $category3_id = !empty($_POST['category3_id']) ? intval($_POST['category3_id']) : NULL;
 
-        // prevent duplicate categories
+        # prevent duplicate categories
         $cats = [$category1_id, $category2_id, $category3_id];
         $cats = array_filter($cats);
 
@@ -55,15 +53,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                              VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
             $stmt = $conn->prepare($insert_query);
-
-            if (!$stmt) die('Prepare failed: ' . $conn->error);
             $stmt->bind_param('issdiiii', $seller_id, $product_name, $description, $price, $quantity, $category1_id, $category2_id, $category3_id);
 
             if ($stmt->execute()) {
                 $new_listing_id = $stmt->insert_id;
                 $upload_dir = 'uploads/';
 
-                // creates the folder if it doesnt exist
+                # creates the folder if it doesnt exist
                 if (!is_dir($upload_dir)) {
                     mkdir($upload_dir, 0777, true);
                 }
@@ -74,19 +70,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if (isset($_FILES[$img_field]) && $_FILES[$img_field]['error'] == 0) {
                         $file_extension = pathinfo($_FILES[$img_field]['name'], PATHINFO_EXTENSION);
 
-                        // create a unique file name in this format: listing_ID_randomstring.jpg
+                        # create a unique file name in this format: listing_ID_randomstring.jpg
                         $new_file_name = 'listing_' . $new_listing_id . '_' . uniqid() . '.' . $file_extension;
                         $target_path = $upload_dir . $new_file_name;
 
-                        // move from temporary storage to the uploads folder
+                        # move from temporary storage to the uploads folder
                         if (move_uploaded_file($_FILES[$img_field]['tmp_name'], $target_path)) {
-                            // insert the image path into the listing_images table
+                            # insert the image path into the listing_images table
                             $insert_img_query = "INSERT INTO listing_images (listing_id, image_path)
                                                  VALUES (?, ?)";
 
                             $stmt = $conn->prepare($insert_img_query);
-
-                            if (!$stmt) die('Prepare failed: ' . $conn->error);
                             $stmt->bind_param('is', $new_listing_id, $target_path);
                             $stmt->execute();
                         }

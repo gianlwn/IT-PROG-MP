@@ -2,7 +2,7 @@
 session_start();
 require 'db.php';
 
-// prevent people from accessing this without getting verified
+# prevent people from accessing this without getting verified
 if (!isset($_SESSION['email_verified']) || $_SESSION['email_verified'] !== true) {
     header('Location: verifypage.php');
     exit();
@@ -33,15 +33,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         try {
             $stmt = $conn->prepare($create_query);
-
-            if (!$stmt) die('Prepare failed: ' . $conn->error);
             $stmt->bind_param('isssssss', $dlsu_id_number, $dlsu_email, $password_hash, $first_name, $last_name, $course_code, $role, $phone_number);
 
             if ($stmt->execute()) {
-                // ask user to login again
+                # ask user to login again
                 $success_message = 'Profile created successfully! Redirecting to login...';
 
-                // unset email_verified
+                # unset email_verified
                 unset($_SESSION['email_verified']);
             }
         } catch (mysqli_sql_exception $e) {

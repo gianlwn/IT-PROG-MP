@@ -2,7 +2,7 @@
 session_start();
 require 'db.php';
 
-// check if user is logged in
+# check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     header('Location: loginpage.php');
     exit();
@@ -11,9 +11,9 @@ if (!isset($_SESSION['user_id'])) {
 $error_message = '';
 $success_message = '';
 
-// get current user_data
-$user_id = intval($_SESSION['user_id']);
-$dlsu_id_number = intval(trim($_SESSION['dlsu_id_number']));
+# get current user_data
+$user_id = $_SESSION['user_id'];
+$dlsu_id_number = trim($_SESSION['dlsu_id_number']);
 $dlsu_email = $_SESSION['dlsu_email'];
 $first_name = trim($_SESSION['first_name']);
 $last_name = trim($_SESSION['last_name']);
@@ -22,7 +22,7 @@ $role = $_SESSION['role'];
 $phone_number = trim($_SESSION['phone_number']);
 $current_pic = $_SESSION['profile_picture'];
 
-// check if the email matches and determine email type (faculty/student/staff)
+# check if the email matches and determine email type (faculty/student/staff)
 if (preg_match('/^[a-z]+(_[a-z]+)*@dlsu\.edu\.ph$/', $dlsu_email)) {
     $email_type = 'student/staff';
 } else if (preg_match('/^[a-z]+(\.[a-z]+)*@dlsu\.edu\.ph$/', $dlsu_email)) {
@@ -40,18 +40,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $phone_number = trim($_POST['phone_number']);
     $profile_picture_name = $current_pic;
 
-    // handle profile picture upload
+    # handle profile picture upload
     if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
         $upload_dir = 'profile_pictures/';
 
-        // automatically create the folder if it doesn't exist yet
+        # automatically create the folder if it doesn't exist yet
         if (!is_dir($upload_dir)) {
             mkdir($upload_dir, 0777, true);
         }
 
         $file_extension = strtolower(pathinfo($_FILES['profile_picture']['name'], PATHINFO_EXTENSION));
 
-        // create a unique file name to prevent overwriting
+        # create a unique file name to prevent overwriting
         $new_file_name = 'user_' . $user_id . '_' . time() . '.' . $file_extension;
         $dest_path = $upload_dir . $new_file_name;
 
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    // proceed with update if there were no upload errors
+    # proceed with update if there were no upload errors
     if (empty($error_message)) {
         if ((empty($password) && !empty($confirm_password)) || (!empty($password) && empty($confirm_password))) {
             $error_message = 'Please fill both password fields.';
@@ -76,7 +76,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                WHERE user_id = ?";
 
                 $stmt = $conn->prepare($edit_query);
-                if (!$stmt) die('Prepare failed: ' . $conn->error);
                 $stmt->bind_param('isssssssi', $dlsu_id_number, $password_hash, $first_name, $last_name, $course_code, $role, $phone_number, $profile_picture_name, $user_id);
             } else {
                 $edit_query = "UPDATE users
@@ -84,7 +83,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                WHERE user_id = ?";
 
                 $stmt = $conn->prepare($edit_query);
-                if (!$stmt) die('Prepare failed: ' . $conn->error);
                 $stmt->bind_param('issssssi', $dlsu_id_number, $first_name, $last_name, $course_code, $role, $phone_number, $profile_picture_name, $user_id);
             }
 
@@ -94,8 +92,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                WHERE user_id = ?";
 
                 $stmt = $conn->prepare($user_query);
-                if (!$stmt) die('Prepare failed: ' . $conn->error);
-
                 $stmt->bind_param('i', $user_id);
                 $stmt->execute();
                 $user_result = $stmt->get_result();

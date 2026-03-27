@@ -15,8 +15,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                   WHERE dlsu_email = ?";
 
   $stmt = $conn->prepare($login_query);
-
-  if (!$stmt) die('Prepare failed: ' . $conn->error);
   $stmt->bind_param('s', $email);
   $stmt->execute();
   $login_result = $stmt->get_result();

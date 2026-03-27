@@ -2,20 +2,20 @@
 session_start();
 require 'db.php';
 
-// check if user is logged in
+# check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     header('Location: loginpage.php');
     exit();
 }
 
-// kick out anyone who is not an admin
-$admin_role_id = isset($_SESSION['admin_role_id']) ? intval($_SESSION['admin_role_id']) : 0;
+# kick out anyone who is not an admin
+$admin_role_id = isset($_SESSION['admin_role_id']) ? $_SESSION['admin_role_id'] : 0;
 if ($admin_role_id !== 1 && $admin_role_id !== 2) {
     header('Location: home.php');
     exit();
 }
 
-// user data for display
+# user data for display
 $user_id = $_SESSION['user_id'];
 $dlsu_id_number = $_SESSION['dlsu_id_number'];
 $first_name = $_SESSION['first_name'];
@@ -28,7 +28,7 @@ $admin_role_id = $_SESSION['admin_role_id'];
 $success_msg = '';
 $error_msg = '';
 
-// handle top nav bar actions
+# handle top nav bar actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action']) && $_POST['action'] == 'createlisting') {
         header('Location: createlisting.php');
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $new_category = trim($_POST['category_name']);
 
         if (!empty($new_category)) {
-            // check if category already exists to prevent duplicates
+            # check if category already exists to prevent duplicates
             $check_query = "SELECT category_id
                             FROM categories
                             WHERE category_name = ?";
@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// get cart items count for top bar
+# get cart items count for top bar
 $cart_query = "SELECT COUNT(*) AS cart_count
                FROM cart
                WHERE buyer_id = ?";
@@ -101,7 +101,7 @@ if ($stmt) {
     $cart_count = 0;
 }
 
-// get all categories
+# get all categories
 $categories = [];
 $cat_query = "SELECT c.*, CONCAT(u.first_name, ' ', u.last_name) AS full_name
               FROM categories c

@@ -2,7 +2,7 @@
 session_start();
 require 'db.php';
 
-// check if user is logged in
+# check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     header('Location: loginpage.php');
     exit();
@@ -11,7 +11,7 @@ if (!isset($_SESSION['user_id'])) {
 $success_msg = '';
 $error_msg = '';
 
-// check if a listing ID was provided
+# check if a listing ID was provided
 if (!isset($_GET['listing_id'])) {
     header('Location: mylistings.php');
     exit();
@@ -35,7 +35,7 @@ if ($result->num_rows == 0) {
 } else {
     $listing = $result->fetch_assoc();
 
-    // get all categories
+    # get all categories
     $categories = [];
     $cat_query = "SELECT *
                   FROM categories
@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $quantity = intval($_POST['quantity']);
         $price = floatval($_POST['price']);
 
-        // update the listing and automatically set it back to 'Pending' for admin re-approval
+        # update the listing and automatically set it back to 'Pending' for admin re-approval
         $update_query = "UPDATE listings 
                          SET product_name = ?, description = ?, category1_id = ?, category2_id = ?, category3_id = ?, quantity = ?, price = ?, status = 'Pending', approved_by = NULL 
                          WHERE listing_id = ? AND seller_id = ?";

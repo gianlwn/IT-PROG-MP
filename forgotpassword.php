@@ -15,7 +15,7 @@ $success_message_reset = '';
 $flag = true;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // send the code
+    # send the code
     if (isset($_POST['send_code'])) {
         $email = trim($_POST['email']);
 
@@ -27,13 +27,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                              WHERE dlsu_email = ?";
 
             $stmt = $conn->prepare($forgot_query);
-
-            if (!$stmt) die('Prepare failed: ' . $conn->error);
             $stmt->bind_param('s', $email);
             $stmt->execute();
             $forgot_result = $stmt->get_result();
 
-            // check if the email is already registered
+            # check if the email is already registered
             if ($forgot_result->num_rows == 0) {
                 $error_message = 'This email is not registered. Please create an account.';
             } else {
@@ -66,28 +64,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
         }
-        // verify the code
+        # verify the code
     } else if (isset($_POST['verify_code'])) {
         $code = trim($_POST['code']);
 
-        // check if the code is inputted
+        # check if the code is inputted
         if (!isset($_POST['code']) || !isset($_SESSION['forgot_time'])) {
             $error_message = 'Please request a reset code first.';
-            // check if the code expired
+            # check if the code expired
         } else if (time() - $_SESSION['forgot_time'] > 120) {
             unset($_SESSION['forgot_code'], $_SESSION['forgot_time']);
             $error_message = 'Reset code expired. Please send a new code.';
-            // check if the code doesn't match
+            # check if the code doesn't match
         } else if ($code != $_SESSION['forgot_code']) {
             $error_message = 'Incorrect reset code.';
-            // code is correct
+            # code is correct
         } else {
             unset($_SESSION['forgot_code'], $_SESSION['forgot_time'], $_POST['send_code']);
             $_SESSION['forgot_verified'] = true;
             $flag = false;
             $success_message = 'Code verified! You may now reset your password.';
         }
-        // reset the password
+        # reset the password
     } else if (isset($_POST['reset_password'])) {
         if (!isset($_SESSION['forgot_verified']) || $_SESSION['forgot_verified'] !== true) {
             $error_message = 'Please verify your email first.';
@@ -108,8 +106,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 WHERE dlsu_email = ?";
 
                 $stmt = $conn->prepare($reset_query);
-
-                if (!$stmt) die('Prepare failed: ' . $conn->error);
                 $stmt->bind_param('ss', $password_hash, $forgot_email);
                 $stmt->execute();
 

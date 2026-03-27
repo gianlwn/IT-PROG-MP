@@ -2,20 +2,20 @@
 session_start();
 require 'db.php';
 
-// check if user is logged in
+# check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     header('Location: loginpage.php');
     exit();
 }
 
-// kick out anyone who is not an admin
-$admin_role_id = isset($_SESSION['admin_role_id']) ? intval($_SESSION['admin_role_id']) : 0;
+# kick out anyone who is not an admin
+$admin_role_id = isset($_SESSION['admin_role_id']) ? $_SESSION['admin_role_id'] : 0;
 if ($admin_role_id !== 1 && $admin_role_id !== 2) {
     header('Location: home.php');
     exit();
 }
 
-// user data for sidebar display
+# user data for sidebar display
 $user_id = $_SESSION['user_id'];
 $dlsu_id_number = $_SESSION['dlsu_id_number'];
 $first_name = $_SESSION['first_name'];
@@ -24,7 +24,7 @@ $full_name = trim($first_name . ' ' . $last_name);
 $role = $_SESSION['role'];
 $profile_pic = 'profile_pictures/' . $_SESSION['profile_picture'];
 
-// handle top nav bar actions
+# handle top nav bar actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action']) && $_POST['action'] == 'createlisting') {
         header('Location: createlisting.php');
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// get cart items count for top bar
+# get cart items count for top bar
 $cart_query = "SELECT COUNT(*) AS cart_count
                FROM cart
                WHERE buyer_id = ?";
@@ -52,7 +52,7 @@ if ($stmt) {
     $cart_count = 0;
 }
 
-// get a count of how many listings are currently 'Pending'
+# get a count of how many listings are currently 'Pending'
 $pending_count = 0;
 $pending_query = "SELECT COUNT(*) AS count
                   FROM listings
@@ -64,7 +64,7 @@ if ($result && $row = $result->fetch_assoc()) {
     $pending_count = $row['count'];
 }
 
-// get a count of how many reports are pending review
+# get a count of how many reports are pending review
 $pending_reports = 0;
 
 $reports_query = "SELECT COUNT(*) AS count

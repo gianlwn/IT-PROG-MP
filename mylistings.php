@@ -2,13 +2,13 @@
 session_start();
 require 'db.php';
 
-// check if user is logged in
+# check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     header('Location: loginpage.php');
     exit();
 }
 
-// user data for display
+# user data for display
 $user_id = $_SESSION['user_id'];
 $dlsu_id_number = $_SESSION['dlsu_id_number'];
 $first_name = $_SESSION['first_name'];
@@ -18,7 +18,7 @@ $role = $_SESSION['role'];
 $profile_pic = 'profile_pictures/' . $_SESSION['profile_picture'];
 $admin_role_id = intval($_SESSION['admin_role_id']);
 
-// handle top nav bar actions
+# handle top nav bar actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action']) && $_POST['action'] == 'createlisting') {
         header('Location: createlisting.php');
@@ -29,14 +29,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// get all cart items
+# get all cart items
 $cart_query = "SELECT COUNT(*) as cart_count
                FROM cart
                WHERE buyer_id = ?";
 
 $stmt = $conn->prepare($cart_query);
-
-if (!$stmt) die('Prepare failed: ' . $conn->error);
 $stmt->bind_param('i', $user_id);
 $stmt->execute();
 $cart_result = $stmt->get_result();
@@ -45,7 +43,7 @@ if ($cart_result->num_rows == 1) {
     $cart_row = $cart_result->fetch_assoc();
 }
 
-// get all 'my listings'
+# get all 'my listings'
 $my_listings = [];
 
 $ml_query = "SELECT l.listing_id, l.product_name, l.price, l.status, l.quantity, li.image_path,
@@ -61,8 +59,6 @@ $ml_query = "SELECT l.listing_id, l.product_name, l.price, l.status, l.quantity,
              WHERE l.seller_id = ?";
 
 $stmt = $conn->prepare($ml_query);
-
-if (!$stmt) die('Prepare failed: ' . $conn->error);
 $stmt->bind_param('i', $user_id);
 $stmt->execute();
 $ml_result = $stmt->get_result();

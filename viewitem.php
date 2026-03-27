@@ -2,19 +2,19 @@
 session_start();
 require 'db.php';
 
-// check if user is logged in
+# check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     header('Location: loginpage.php');
     exit();
 }
 
-// check if a listing ID was provided in the URL
+# check if a listing ID was provided in the URL
 if (!isset($_GET['listing_id']) || empty($_GET['listing_id'])) {
     header('Location: home.php');
     exit();
 }
 
-// user data for display
+# user data for display
 $user_id = $_SESSION['user_id'];
 $dlsu_id_number = $_SESSION['dlsu_id_number'];
 $first_name = $_SESSION['first_name'];
@@ -22,11 +22,11 @@ $last_name = $_SESSION['last_name'];
 $full_name = trim($first_name . ' ' . $last_name);
 $role = $_SESSION['role'];
 $profile_pic = 'profile_pictures/' . $_SESSION['profile_picture'];
-$admin_role_id = intval($_SESSION['admin_role_id']);
+$admin_role_id = $_SESSION['admin_role_id'];
 
 $listing_id = intval($_GET['listing_id']);
 
-// handle top nav bar actions
+# handle top nav bar actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action']) && $_POST['action'] == 'createlisting') {
         header('Location: createlisting.php');
@@ -37,14 +37,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// get cart count for the top nav bar
+# get cart count for the top nav bar
 $cart_count_query = "SELECT COUNT(*) AS count
                      FROM cart
                      WHERE buyer_id = ?";
 
 $stmt = $conn->prepare($cart_count_query);
-
-if (!$stmt) die('Prepare failed: ' . $conn->error);
 $stmt->bind_param('i', $user_id);
 $stmt->execute();
 $cart_count_result = $stmt->get_result();
@@ -69,13 +67,11 @@ $item_query = "SELECT c1.category_name AS cat1, c2.category_name AS cat2, c3.cat
                 GROUP BY l.listing_id";
 
 $stmt = $conn->prepare($item_query);
-
-if (!$stmt) die('Prepare failed: ' . $conn->error);
 $stmt->bind_param('i', $listing_id);
 $stmt->execute();
 $item_result = $stmt->get_result();
 
-// if the item doesnt exist, go back to home
+# if the item doesnt exist, go back to home
 if ($item_result->num_rows == 0) {
     header('Location: home.php');
     exit();
@@ -83,7 +79,7 @@ if ($item_result->num_rows == 0) {
 
 $item = $item_result->fetch_assoc();
 
-// get all profile_pictures for this listing
+# get all profile_pictures for this listing
 $profile_pictures = [];
 
 $image_query = "SELECT image_path
@@ -91,8 +87,6 @@ $image_query = "SELECT image_path
                 WHERE listing_id = ?";
 
 $stmt = $conn->prepare($image_query);
-
-if (!$stmt) die('Prepare failed: ' . $conn->error);
 $stmt->bind_param('i', $listing_id);
 $stmt->execute();
 $image_result = $stmt->get_result();
@@ -103,10 +97,10 @@ if ($image_result->num_rows > 0) {
     }
 }
 
-// get the first image
+# get the first image
 $main_image = !empty($profile_pictures) ? $profile_pictures[0] : null;
 
-// get all the categories for this listng
+# get all the categories for this listng
 $categories = [];
 if (!empty($item['cat1'])) $categories[] = $item['cat1'];
 if (!empty($item['cat2'])) $categories[] = $item['cat2'];

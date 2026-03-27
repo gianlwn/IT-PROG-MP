@@ -2,13 +2,13 @@
 session_start();
 require 'db.php';
 
-// check if user is logged in
+# check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     header('Location: loginpage.php');
     exit();
 }
 
-// user data for display
+# user data for display
 $user_id = $_SESSION['user_id'];
 $dlsu_id_number = $_SESSION['dlsu_id_number'];
 $first_name = $_SESSION['first_name'];
@@ -18,7 +18,7 @@ $role = $_SESSION['role'];
 $profile_pic = 'profile_pictures/' . $_SESSION['profile_picture'];
 $admin_role_id = $_SESSION['admin_role_id'];
 
-// get all listings
+# get all listings
 $listings = [];
 $active_filter = 'all';
 $listing_query = "SELECT l.listing_id, c1.category_name AS cat1, c2.category_name AS cat2, c3.category_name AS cat3,
@@ -34,7 +34,7 @@ $listing_query = "SELECT l.listing_id, c1.category_name AS cat1, c2.category_nam
                   GROUP BY l.listing_id
                   ORDER BY l.created_at DESC";
 
-// get cart items count for top bar
+# get cart items count for top bar
 $cart_query = "SELECT COUNT(*) AS cart_count
                FROM cart
                WHERE buyer_id = ?";
@@ -51,7 +51,7 @@ if ($stmt) {
     $cart_count = 0;
 }
 
-// handle action for createlisting.php, viewcart.php, and viewitem.php
+# handle action for createlisting.php, viewcart.php, and viewitem.php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action']) && $_POST['action'] == 'createlisting') {
         header('Location: createlisting.php');
@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $active_filter = $_POST['filter'];
 
         if ($_POST['filter'] == 'all') {
-            // 'All' button clicked
+            # 'All' button clicked
             $stmt = $conn->prepare($listing_query);
             $stmt->execute();
             $listing_result = $stmt->get_result();
@@ -90,9 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                              GROUP BY l.listing_id
                              ORDER BY l.created_at DESC";
 
-            $stmt = $conn->prepare($filter_query);
-
-            if (!$stmt) die('Prepare failed: ' . $conn->error);
+            $stmt = $conn->prepare($filter_query);  
             $stmt->bind_param('iii', $category_id, $category_id, $category_id);
             $stmt->execute();
             $listing_result = $stmt->get_result();
@@ -105,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 } else {
-    // fetch all items by default
+    # fetch all items by default
     $stmt = $conn->prepare($listing_query);
     $stmt->execute();
     $listing_result = $stmt->get_result();
@@ -117,15 +115,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// get all categories
+# get all categories
 $categories = [];
 $cat_query = "SELECT *
               FROM categories
               ORDER BY category_id ASC";
 
 $stmt = $conn->prepare($cat_query);
-
-if (!$stmt) die('Prepare failed: ' . $conn->error);
 $stmt->execute();
 $cat_result = $stmt->get_result();
 

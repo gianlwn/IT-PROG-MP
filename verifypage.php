@@ -13,7 +13,7 @@ $error_message = '';
 $success_message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // send the code via email
+    # send the code via email
     if (isset($_POST['send_code'])) {
         $email = trim($_POST['email']);
 
@@ -24,9 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                              FROM users
                              WHERE dlsu_email = ?";
 
-            $stmt = $conn->prepare($verify_query);
-
-            if (!$stmt) die('Prepare failed: ' . $conn->error);
+            $stmt = $conn->prepare($verify_query); 
             $stmt->bind_param('s', $email);
             $stmt->execute();
             $verify_result = $stmt->get_result();
@@ -63,22 +61,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     }
-    // verify the code
+    # verify the code
     else if (isset($_POST['verify_code'])) {
         $email = trim($_POST['email']);
         $code = trim($_POST['code']);
 
-        // check if the code is inputted
+        # check if the code is inputted
         if (!isset($_SESSION['verification_code'])) {
             $error_message = 'Please request a verification code first.';
-            // check if the code expired
+            # check if the code expired
         } else if (time() - $_SESSION['verification_time'] > 120) {
             unset($_SESSION['verification_code'], $_SESSION['verification_time']);
             $error_message = 'Verification code expired. Please send a new code.';
-            // check if the code doesn't match
+            # check if the code doesn't match
         } else if ($code != $_SESSION['verification_code']) {
             $error_message = 'Incorrect verification code.';
-            // check if the code matches and is a student/staff account
+            # check if the code matches and is a student/staff account
         } else if ($code == $_SESSION['verification_code'] && preg_match('/^[a-z]+(_[a-z]+)*@dlsu\.edu\.ph$/', $email)) {
             unset(
                 $_SESSION['verification_code'],
@@ -88,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['email_type'] = 'student/staff';
             header('Location: createuserprofile.php');
             exit();
-            // check if the code matches and is a faculty account
+            # check if the code matches and is a faculty account
         } else if ($code == $_SESSION['verification_code'] && preg_match('/^[a-z]+(\.[a-z]+)*@dlsu\.edu\.ph$/', $email)) {
             unset(
                 $_SESSION['verification_code'],
