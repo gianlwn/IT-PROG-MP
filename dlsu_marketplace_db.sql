@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 27, 2026 at 05:34 PM
+-- Generation Time: Mar 27, 2026 at 06:02 PM
 -- Server version: 8.0.43
 -- PHP Version: 8.2.12
 
@@ -153,7 +153,7 @@ CREATE TABLE `listings` (
   `category1_id` int NOT NULL,
   `category2_id` int DEFAULT NULL,
   `category3_id` int DEFAULT NULL,
-  `status` enum('Pending','Available','Reserved','Sold','Rejected') COLLATE utf8mb4_general_ci DEFAULT 'Pending',
+  `status` enum('Pending','Available','Reserved','Sold','Rejected') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'Pending',
   `approved_by` int DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -166,7 +166,7 @@ CREATE TABLE `listings` (
 INSERT INTO `listings` (`listing_id`, `seller_id`, `product_name`, `description`, `price`, `quantity`, `category1_id`, `category2_id`, `category3_id`, `status`, `approved_by`, `created_at`, `updated_at`) VALUES
 (1, 1, 'Ryzen 7 5700X Processor', 'Item number: VKE4U\r\n\r\nEAN: 730143314275\r\n\r\nE.A.N: 7 3 0 1 4 3 3 1 4 2 7 5\r\nAMD Ryzen 7 5700X Processor\r\nAMD Ryzen 7 5700X Retail - (AM4/8 Core/GHz/65MB/65W) - 100-100000926WOF\r\nDongle Required: N\r\nHeight: 13 CM', 20766.00, 1, 3, NULL, NULL, 'Available', 2, '2026-03-22 17:45:51', '2026-03-27 16:25:38'),
 (2, 4, 'Women Pleated Skirt A-Line Short Mini Basic Skirt School Uniform Cheerleader Skirts Skater Skirt', '🎈Size: 7 sizes from XS to 3XL. Please refer to our size chart. If your size is between two sizes, please choose a size up.\r\n🎈DRESS NICES mini skirt featured elastic waist, comfy stretchy band, pleated style, mini length and colors in solid and white striped, easy to match.\r\n🎈This pleated skirt for women can be paired with t shirt, blouses, crop top, ect. Suitable for many occasions: school, roleplay, dates, clubwear, parties and more.\r\n🎈Washing Care: Machine Wash and Hand Wash Acceptable, do not bleach, hang dry.\r\n🎈Our pleated skirt is made of high elastic fabric, very comfortable to wear, which is different from others.', 200.00, 6, 10, NULL, NULL, 'Available', 2, '2026-03-22 17:47:11', '2026-03-27 16:25:36'),
-(3, 5, 'Men Horse Head Embroidery Polo Shirt', 'Available Sizes:\r\n36 (S)\r\n38 (M)\r\n40 (L)\r\n42 (XL)\r\n44 (XXL)', 250.00, 3, 10, NULL, NULL, 'Available', 1, '2026-03-22 17:48:43', '2026-03-27 16:24:15'),
+(3, 5, 'Men Horse Head Embroidery Polo Shirt', 'Available Sizes:\r\n36 (S)\r\n38 (M)\r\n40 (L)\r\n42 (XL)\r\n44 (XXL)', 250.00, 4, 10, NULL, NULL, 'Available', 1, '2026-03-22 17:48:43', '2026-03-27 16:59:26'),
 (4, 3, 'European And American Ins Style Black Pleated Sexy Bodycon Spaghetti Strap Mini Dress For Women', 'RFS: declogging', 450.00, 2, 10, NULL, NULL, 'Available', 2, '2026-03-22 17:50:13', '2026-03-27 16:25:40');
 
 -- --------------------------------------------------------
@@ -238,9 +238,10 @@ CREATE TABLE `reports` (
 
 CREATE TABLE `system_logs` (
   `log_id` int NOT NULL,
-  `user_id` int DEFAULT NULL,
-  `action_type` enum('CREATE','UPDATE','DELETE') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+  `admin_id` int DEFAULT NULL,
+  `action_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -393,7 +394,7 @@ ALTER TABLE `reports`
 --
 ALTER TABLE `system_logs`
   ADD PRIMARY KEY (`log_id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `fk_log_admin` (`admin_id`);
 
 --
 -- Indexes for table `transaction_proofs`
@@ -458,13 +459,13 @@ ALTER TABLE `claims`
 -- AUTO_INCREMENT for table `listings`
 --
 ALTER TABLE `listings`
-  MODIFY `listing_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `listing_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `listing_images`
 --
 ALTER TABLE `listing_images`
-  MODIFY `image_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `image_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `ratings`
@@ -544,6 +545,12 @@ ALTER TABLE `listings`
 --
 ALTER TABLE `listing_images`
   ADD CONSTRAINT `listing_images_ibfk_1` FOREIGN KEY (`listing_id`) REFERENCES `listings` (`listing_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `system_logs`
+--
+ALTER TABLE `system_logs`
+  ADD CONSTRAINT `fk_log_admin` FOREIGN KEY (`admin_id`) REFERENCES `admin_accounts` (`admin_id`) ON DELETE SET NULL;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
